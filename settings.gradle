@@ -1,0 +1,16 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.kordamp.gradle:settings-gradle-plugin:0.21.0'
+    }
+}
+
+rootProject.name = 'groovy-data-science'
+
+apply plugin: 'org.kordamp.gradle.settings'
+
+projects {
+    directories = ['docs', 'subprojects']
+}

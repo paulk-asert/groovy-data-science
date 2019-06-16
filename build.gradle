@@ -1,0 +1,24 @@
+plugins {
+    id 'org.kordamp.gradle.project' version '0.20.0'
+}
+
+config {
+    info {
+        name = 'groovy-constraint-programming'
+        vendor = 'paulk-asert'
+        description = 'Examples of Constraint Programming using Groovy'
+        links {
+            website      = 'https://github.com/paulk-asert/groovy-constraint-programming'
+            issueTracker = 'https://github.com/paulk-asert/groovy-constraint-programming/issues'
+            scm          = 'https://github.com/paulk-asert/groovy-constraint-programming.git'
+        }
+    }
+
+    licensing {
+        licenses {
+            license {
+                id = 'Apache-2.0'
+            }
+        }
+    }
+}

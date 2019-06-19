@@ -1,4 +1,5 @@
-// download ignite and point project lib
+// download ignite 2.7.5 and point project to lib
+// but take 2.8.0-SNAPSHOT for ignite-ml which has changed
 import org.apache.ignite.Ignite
 import org.apache.ignite.Ignition
 import org.apache.ignite.ml.dataset.feature.extractor.Vectorizer

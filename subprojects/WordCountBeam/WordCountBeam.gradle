@@ -19,8 +19,3 @@ dependencies {
     compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
     compile "org.codehaus.groovy:groovy:$groovyVersion"
 }
-
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.8'
-}

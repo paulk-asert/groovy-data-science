@@ -1,6 +1,6 @@
 // need to point to ibex installation
 // JAVA_OPTS=-Djava.library.path=/usr/local/lib
-@Grab('org.choco-solver:choco-solver:4.10.0')
+//@Grab('org.choco-solver:choco-solver:4.10.0')
 import org.chocosolver.solver.Model
 import org.chocosolver.solver.variables.RealVar
 
@@ -44,7 +44,7 @@ def found = model.solver.findSolution()
 
 def pretty = { var ->
     def bounds = found.getRealBounds(var)
-    printf "%s: %.6f .. %.6f%n", var.name, * bounds
+    printf "%s: %.6f .. %.6f%n", var.name, *bounds
 }
 
 if (found) {

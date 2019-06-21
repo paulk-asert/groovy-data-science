@@ -10,9 +10,12 @@ Table records = Table.read().csv(file)
 println records.shape()
 
 println records.structure()
+
+println records.column("bedrooms").summary().print()
+
 println records.where(records.column("bedrooms").isGreaterThan(10))
 
 def cleaned = records.dropWhere(records.column("bedrooms").isGreaterThan(30))
 
 println cleaned.shape()
-println records.summarize("price", mean, min, max).by("bedrooms")
+println cleaned.summarize("price", mean, min, max).by("bedrooms")

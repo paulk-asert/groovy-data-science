@@ -1,18 +1,21 @@
 //@Grab('tech.tablesaw:tablesaw-core:0.34.1')
 //@Grab('tech.tablesaw:tablesaw-aggregate:0.34.1')
-import tech.tablesaw.api.DoubleColumn
-import tech.tablesaw.api.StringColumn
-import tech.tablesaw.api.Table
+import tech.tablesaw.api.*
+//import tech.tablesaw.api.DoubleColumn
+//import tech.tablesaw.api.StringColumn
+//import tech.tablesaw.api.Table
 import tech.tablesaw.plotly.Plot
-import tech.tablesaw.plotly.api.BubblePlot
-import tech.tablesaw.plotly.api.Scatter3DPlot
-import tech.tablesaw.plotly.api.ScatterPlot
+//import tech.tablesaw.plotly.api.BubblePlot
+//import tech.tablesaw.plotly.api.Scatter3DPlot
+//import tech.tablesaw.plotly.api.ScatterPlot
+import tech.tablesaw.plotly.api.*
 
 import static tech.tablesaw.aggregate.AggregateFunctions.*
 
 //def file = 'kc_house_data.csv' as File
 def file = getClass().classLoader.getResource('kc_house_data.csv').file
 Table records = Table.read().csv(file)
+//Table records = Table.read().csv('kc_house_data.csv')
 
 println records.shape()
 
@@ -32,13 +35,9 @@ cleaned.addColumns(scaledArea, waterfrontDesc, scaledGrade, scaledPrice)
 println cleaned.shape()
 println cleaned.summarize("price", mean, min, max).by("bedrooms")
 
-Plot.show(
-        ScatterPlot.create("Price vs number of bathrooms",
-                cleaned, "bathrooms", "price"))
-
 //Plot.show(
-//        ScatterPlot.create("Price vs number of bedrooms and waterfront",
-//                cleaned, "bathrooms", "price", "waterfrontDesc"))
+//        ScatterPlot.create("Price vs number of bathrooms",
+//                cleaned, "bathrooms", "price"))
 
 Plot.show(
         BubblePlot.create("Price vs living area and grade (bubble size)",

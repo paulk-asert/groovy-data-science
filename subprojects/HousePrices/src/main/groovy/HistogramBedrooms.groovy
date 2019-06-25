@@ -1,4 +1,6 @@
 //@Grab('org.groovyfx:groovyfx:8.0.0')
+//@Grab('org.apache.commons:commons-csv:1.7')
+//@Grab('org.apache.commons:commons-math3:3.6.1')
 import org.apache.commons.math3.random.EmpiricalDistribution
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics
 

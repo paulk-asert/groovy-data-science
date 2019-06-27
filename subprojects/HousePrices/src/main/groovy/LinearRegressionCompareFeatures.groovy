@@ -18,6 +18,7 @@ class Feature {
 def features = [
         new Feature('bedrooms'),
         new Feature('bathrooms'),
+        new Feature('grade'),
         new Feature('sqft_living')
 ]
 

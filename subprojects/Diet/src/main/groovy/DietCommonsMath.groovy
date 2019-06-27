@@ -22,9 +22,9 @@ def calories   = scalar([90, 120, 106, 97, 130, 180],       GEQ, 300)
 LinearConstraintSet constraints = [bread_min, milk_min, milk_max, fish_min, cheese_min,
                                    potato_min, yogurt_min, protein, fat, carbs, calories]
 
-def solution = new SimplexSolver().optimize(cost, constraints, GoalType.MAXIMIZE)
+def solution = new SimplexSolver().optimize(cost, constraints, GoalType.MINIMIZE)
 
 if (solution != null) {
-    println "Opt: $solution.value"
+    printf "Opt: %.2f%n", solution.value
     println solution.point.collect{ sprintf '%.2f', it }.join(', ')
 }

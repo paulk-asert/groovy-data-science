@@ -3,13 +3,11 @@ import static groovyx.javafx.GroovyFX.start
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
 def feature = 'bedrooms'
+def nonOutliers = feature == 'bedrooms' ? { it[0] < 30 } : { true }
 def file = getClass().classLoader.getResource('kc_house_data.csv').file
 def csv  = CSV.withFirstRecordAsHeader().parse(new FileReader(file))
-def all  = csv.collect { [it[feature].toDouble(), it.price.toDouble()] }//.findAll{ it[0] < 30 }
-
-def reg = new SimpleRegression()
-reg.addData(all as double[][])
-
+def all  = csv.collect { [it[feature].toDouble(), it.price.toDouble()] }.findAll(nonOutliers)
+def reg = new SimpleRegression().tap{ addData(all as double[][]) }
 def (min, max) = all.transpose().with{ [it[0].min(), it[0].max()] }
 def predicted = [[min, reg.predict(min)], [max, reg.predict(max)]]
 

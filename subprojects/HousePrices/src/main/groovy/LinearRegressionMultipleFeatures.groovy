@@ -6,7 +6,6 @@ import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression
 import static groovyx.javafx.GroovyFX.start
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
-
 def features = [
         'bedrooms', 'bathrooms', 'sqft_living', 'sqft_living15', 'lat',
         'sqft_above', 'grade', 'view', 'waterfront', 'floors'
@@ -28,11 +27,11 @@ println params
 def predicted = test.collect { data -> params[0] + (1..<params.size()).collect{ data[it-1] * params[it] }.sum() }
 def residuals = test.indexed().collect { i, data -> predicted[i] - data[priceIdx] }
 def rr = reg.calculateRSquared()
-def rmseTrain = Math.sqrt(reg.calculateResidualSumOfSquares())
+def rmseTrain = Math.sqrt(reg.calculateResidualSumOfSquares() / (train.size() - 1))
 def rmseTest = Math.sqrt(StatUtils.sumSq(residuals as double[]) / (test.size() - 1))
 def mean = StatUtils.mean(residuals as double[])
 println "$rr $rmseTrain $rmseTest $mean"
-def showError = false
+def showError = true
 if (showError) {
     def maxError = [residuals.min(), residuals.max()].max { Math.abs(it) }
     residuals << maxError * -1 // make graph even around origin

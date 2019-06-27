@@ -6,9 +6,7 @@ import static java.lang.Double.NaN
 
 class DietSolver {
     static LinkedHashMap input = [:]
-    static solution
-    static keys
-    static constraints = []
+    static solution, keys, constraints = []
 
     static scalar(coeffs, rel, val) { new LinearConstraint(coeffs as double[], rel, val) }
 
@@ -22,8 +20,7 @@ class DietSolver {
         def cost = new LinearObjectiveFunction(keys.collect { input[it][0] } as double[], 0)
         keys.each { k ->
             if (input[k][-1] != NaN) constraints << scalar(keys.collect { it == k ? 1 : 0 }, LEQ, input[k][-1])
-            if (input[k][-2] != NaN) constraints << scalar(keys.collect { it == k ? 1 : 0 },
-                    GEQ, input[k][-2])
+            if (input[k][-2] != NaN) constraints << scalar(keys.collect { it == k ? 1 : 0 }, GEQ, input[k][-2])
         }
         def vars = 1..<input.entrySet().iterator()[0].value.size() - 2
         vars.each { v ->

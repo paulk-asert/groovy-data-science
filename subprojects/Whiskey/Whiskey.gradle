@@ -1,0 +1,25 @@
+apply plugin: 'groovy'
+
+repositories {
+    jcenter()
+    mavenCentral()
+//    mavenLocal()
+}
+
+ext {
+    slf4jVersion = '1.7.26'
+    tablesawVersion = '0.34.1'
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+//    compile 'nz.ac.waikato.cms.weka:weka-stable:3.8.3'
+//    compile 'com.opencsv:opencsv:4.6'
+//    compile 'org.apache.commons:commons-csv:1.7'
+//    compile 'org.apache.commons:commons-math3:3.6.1'
+//    compile 'org.groovyfx:groovyfx:8.0.0'
+    compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
+    compile "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
+    compile "com.github.haifengl:smile-core:1.5.2"
+}

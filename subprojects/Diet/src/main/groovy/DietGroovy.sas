@@ -1,16 +1,18 @@
 filename acmjar temp;
 
-proc http url="http://central.maven.org/maven2/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar"
-		out=acmjar;
+%let base = http://central.maven.org/maven2;
+
+proc http url="&base./org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar"
+    out=acmjar;
 run;
 
 proc groovy;
-	add classpath=acmjar;
-	submit parseonly;
-	import org.apache.commons.math3.optim.linear.*
-	import org.apache.commons.math3.optim.nonlinear.scalar.GoalType
-	import static org.apache.commons.math3.optim.linear.Relationship.*
-	import static java.lang.Double.NaN
+    add classpath=acmjar;
+    submit parseonly;
+    import org.apache.commons.math3.optim.linear.*
+    import org.apache.commons.math3.optim.nonlinear.scalar.GoalType
+    import static org.apache.commons.math3.optim.linear.Relationship.*
+    import static java.lang.Double.NaN
 
     class DietSolver {
         static LinkedHashMap input = [:]
@@ -48,9 +50,9 @@ proc groovy;
 	quit;
 
 data fooddata;
-	infile datalines;
-	input name $  cost prot fat carb cal min max;
-	datalines;
+    infile datalines;
+    input name $ cost  prot  fat  carb  cal  min  max;
+    datalines;
          Bread   2     4     1    15    90   0    .
          Milk    3.5   8     5    11.7  120  0    1
          Cheese  8     7     9    0.4   106  0    .
@@ -62,20 +64,20 @@ data fooddata;
 ;
 
 data _null_;
-	dcl javaobj diet('DietSolver');
-	set fooddata;
-	diet.callVoidMethod("addFood", name, cost, prot, fat, carb, cal, min, max);
+    dcl javaobj diet('DietSolver');
+    set fooddata;
+    diet.callVoidMethod("addFood", name, cost, prot, fat, carb, cal, min, max);
 run;
 
 data result;
-	length cost bread milk cheese potato fish yogurt $ 10;
-	dcl javaobj diet('DietSolver');
-	diet.callStringMethod("solve", cost);
-	diet.callStringMethod("result", "Bread",  bread);
-	diet.callStringMethod("result", "Milk",   milk);
-	diet.callStringMethod("result", "Cheese", cheese);
-	diet.callStringMethod("result", "Potato", potato);
-	diet.callStringMethod("result", "Fish",   fish);
-	diet.callStringMethod("result", "Yogurt", yogurt);
-	output;
+    length cost bread milk cheese potato fish yogurt $ 10;
+    dcl javaobj diet('DietSolver');
+    diet.callStringMethod("solve", cost);
+    diet.callStringMethod("result", "Bread",  bread);
+    diet.callStringMethod("result", "Milk",   milk);
+    diet.callStringMethod("result", "Cheese", cheese);
+    diet.callStringMethod("result", "Potato", potato);
+    diet.callStringMethod("result", "Fish",   fish);
+    diet.callStringMethod("result", "Yogurt", yogurt);
+    output;
 run;

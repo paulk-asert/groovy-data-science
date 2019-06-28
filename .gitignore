@@ -3,6 +3,7 @@ user.gradle
 target/
 build/
 out/
+testoutput/
 
 *.DS_Store
 *.class

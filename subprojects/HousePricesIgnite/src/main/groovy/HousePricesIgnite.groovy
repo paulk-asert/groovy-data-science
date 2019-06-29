@@ -2,7 +2,7 @@ import org.apache.ignite.Ignition
 import org.apache.ignite.configuration.IgniteConfiguration
 import org.apache.ignite.ml.dataset.feature.extractor.Vectorizer
 import org.apache.ignite.ml.dataset.feature.extractor.impl.DoubleArrayVectorizer
-import org.apache.ignite.ml.regressions.linear.LinearRegressionLSQRTrainer as Trainer
+import org.apache.ignite.ml.regressions.linear.LinearRegressionLSQRTrainer as LSQRTrainer
 import org.apache.ignite.ml.selection.scoring.evaluator.Evaluator
 import org.apache.ignite.ml.selection.scoring.metric.regression.RegressionMetrics as RM
 import org.apache.ignite.ml.selection.split.TrainTestDatasetSplitter
@@ -47,7 +47,7 @@ Ignition.start(cfg).withCloseable { ignite ->
     println ">>> Ignite grid started for data: ${data.size()} rows X ${data[0].size()} cols"
 
     def dataCache = new SandboxMLCache(ignite).fillCacheWith(data)
-    def trainer = new Trainer().withEnvironmentBuilder(defaultBuilder().withRNGSeed(0))
+    def trainer = new LSQRTrainer().withEnvironmentBuilder(defaultBuilder().withRNGSeed(0))
     def vectorizer = new DoubleArrayVectorizer().labeled(Vectorizer.LabelCoordinate.FIRST)
     def split = new TrainTestDatasetSplitter().split(0.8)
     def mdl = trainer.fit(ignite, dataCache, split.trainFilter, vectorizer)

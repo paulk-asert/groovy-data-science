@@ -28,7 +28,7 @@ rows = rows.addColumns(
             adj[idx] * (projected[it][idx] + adj[idx])
         })
     },
-    StringColumn.create("Cluster", kMeans.clusterLabel.collect{ it.toString() })
+    StringColumn.create("Cluster", kMeans.clusterLabel.collect{ "Cluster" + (it+1) })
 )
 
 def title = "Clusters x Principal Components"

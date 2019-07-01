@@ -1,0 +1,24 @@
+apply plugin: 'groovy'
+
+repositories {
+    jcenter()
+    mavenCentral()
+    // snapshot installed in local maven repo
+    mavenLocal()
+//    maven {
+//        url 'file:/staging/'
+//    }
+}
+
+ext {
+    igniteVersion = '2.8.0.20190629'
+    tablesawVersion = '0.34.1'
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    compile "org.apache.ignite:ignite-core:$igniteVersion"
+    compile "org.apache.ignite:ignite-ml:$igniteVersion"
+    runtime "org.apache.ignite:ignite-spring:$igniteVersion"
+    compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
+}

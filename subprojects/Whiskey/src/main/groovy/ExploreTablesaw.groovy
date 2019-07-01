@@ -11,22 +11,26 @@ def file = getClass().classLoader.getResource('whiskey.csv').file
 def rows = Table.read().csv(file)
 //Table rows = Table.read().csv('whiskey.csv')
 
-def cols = ["Body", "Sweetness", "Smoky",
-            "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty",
-            "Malty", "Fruity", "Floral"]
+def cols = ["Body", "Sweetness", "Smoky", "Medicinal",
+            "Tobacco", "Honey", "Spicy", "Winey",
+            "Nutty", "Malty", "Fruity", "Floral"]
 def data = rows.as().doubleMatrix(*cols)
 
 def pca = new PCA(data)
-pca.projection = 2
+def dims = 4 // can be 2, 3 or 4
+pca.projection = dims
 def projected = pca.project(data)
-
+def adj = [1, 1, 1, 5]
 def kMeans = new KMeans(data, 5)
 rows = rows.addColumns(
-    DoubleColumn.create("PCA1", (0..<data.size()).collect{ projected[it][0] }),
-    DoubleColumn.create("PCA2", (0..<data.size()).collect{ projected[it][1] }),
+    *(0..<dims).collect { idx ->
+        DoubleColumn.create("PCA${idx+1}", (0..<data.size()).collect{
+            adj[idx] * (projected[it][idx] + adj[idx])
+        })
+    },
     StringColumn.create("Cluster", kMeans.clusterLabel.collect{ it.toString() })
 )
 
 def title = "Clusters x Principal Components"
-Plot.show(ScatterPlot.create(title, rows, "PCA1", "PCA2", "Cluster"))
+def type = dims == 2 ? ScatterPlot : Scatter3DPlot
+Plot.show(type.create(title, rows, *(1..dims).collect { "PCA$it" }, "Cluster"))

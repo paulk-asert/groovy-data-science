@@ -1,30 +1,31 @@
-// currently runs
+// Unfortunately the MXNet Java Inference API is an extension of the
+// Scala Infer API which isn't yet available on Windows
+// You'll see an error including: mxnet-scala.dll not found under Windows
 import org.apache.mxnet.infer.javaapi.ObjectDetector
 import org.apache.mxnet.javaapi.*
 
-static void downloadUrl(String url, String filePath) {
-    def destination = filePath as File
+static void downloadUrl(String srcDirUrl, String destDir, String filename) {
+    def destination = new File(destDir, filename)
+    if (!destination.parentFile.exists()) {
+        destination.parentFile.mkdirs()
+    }
     if (!destination.exists()) {
-        destination.bytes = new URL(url).bytes
+        destination.bytes = new URL(srcDirUrl + filename).bytes
     }
 }
 
 static downloadModelImage() {
-    String tempDirPath = System.getProperty('java.io.tmpdir')
-    println "tempDirPath: $tempDirPath"
-    def imagePath = tempDirPath + "/inputImages/resnetssd/dog-ssd.jpg"
-    String imgURL = "https://s3.amazonaws.com/model-server/inputs/dog-ssd.jpg"
-    downloadUrl(imgURL, imagePath)
-    def modelPath = tempDirPath + "/resnetssd/resnet50_ssd_model"
-    println "Download model files, this can take a while..."
+    String baseDir = "${System.getProperty('java.io.tmpdir')}/resnetssd/"
+    def imageName = 'dog-ssd.jpg'
+    String imgURL = "https://s3.amazonaws.com/model-server/inputs/"
+    downloadUrl(imgURL, baseDir, imageName)
+    def modelPath = baseDir + "model/"
+    println "Download model files to $modelPath\nThis can take a while..."
     String modelURL = "https://s3.amazonaws.com/model-server/models/resnet50_ssd/"
-    downloadUrl(modelURL + "resnet50_ssd_model-symbol.json",
-            tempDirPath + "/resnetssd/resnet50_ssd_model-symbol.json")
-    downloadUrl(modelURL + "resnet50_ssd_model-0000.params",
-            tempDirPath + "/resnetssd/resnet50_ssd_model-0000.params")
-    downloadUrl(modelURL + "synset.txt",
-            tempDirPath + "/resnetssd/synset.txt")
-    [imagePath, modelPath]
+    downloadUrl(modelURL, modelPath, 'resnet50_ssd_model-symbol.json')
+    downloadUrl(modelURL, modelPath, 'resnet50_ssd_model-0000.params')
+    downloadUrl(modelURL, modelPath, 'synset.txt')
+    [baseDir + imageName, modelPath]
 }
 
 static detectObjects(String modelPath, String imagePath, inputShape) {

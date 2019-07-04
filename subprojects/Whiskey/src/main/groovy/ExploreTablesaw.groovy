@@ -21,14 +21,14 @@ def dims = 4 // can be 2, 3 or 4
 pca.projection = dims
 def projected = pca.project(data)
 def adj = [1, 1, 1, 5]
-def kMeans = new KMeans(data, 5)
+def groups = new KMeans(data, 5)
 rows = rows.addColumns(
     *(0..<dims).collect { idx ->
         DoubleColumn.create("PCA${idx+1}", (0..<data.size()).collect{
             adj[idx] * (projected[it][idx] + adj[idx])
         })
     },
-    StringColumn.create("Cluster", kMeans.clusterLabel.collect{ "Cluster" + (it+1) })
+    StringColumn.create("Cluster", groups.clusterLabel.collect{ "Cluster" + (it+1) })
 )
 
 def title = "Clusters x Principal Components"

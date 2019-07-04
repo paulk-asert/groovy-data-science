@@ -21,17 +21,17 @@ def data = table.as().doubleMatrix(*cols)
 def pca = new PCA(data)
 pca.projection = 3
 def projected = pca.project(data)
-def kmeans = new KMeans(data, 5)
+def groups = new KMeans(data, 5)
 table = table.addColumns(
     *(0..<3).collect { idx ->
         DoubleColumn.create("PCA${idx+1}", (0..<data.size()).collect{
             projected[it][idx]
         })
     },
-    StringColumn.create("Cluster", kmeans.clusterLabel.collect{ "Cluster " + (it+1) }),
-    DoubleColumn.create("Centroid", kmeans.clusterLabel.collect{ 10 })
+    StringColumn.create("Cluster", groups.clusterLabel.collect{ "Cluster " + (it+1) }),
+    DoubleColumn.create("Centroid", groups.clusterLabel.collect{ 10 })
 )
-def centroids = pca.project(kmeans.centroids())
+def centroids = pca.project(groups.centroids())
 def toAdd = table.emptyCopy(1)
 (0..<centroids.size()).each { idx ->
     toAdd[0].setString("Cluster", "Cluster " + (idx+1))

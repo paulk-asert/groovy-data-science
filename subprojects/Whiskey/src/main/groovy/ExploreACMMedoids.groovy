@@ -4,7 +4,7 @@ import org.jfree.chart.*
 import org.jfree.chart.plot.SpiderWebPlot
 import org.jfree.data.category.DefaultCategoryDataset
 
-import static javax.swing.JFrame.EXIT_ON_CLOSE as CLOSE
+import static javax.swing.JFrame.DISPOSE_ON_CLOSE as DISPOSE
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
 
@@ -35,7 +35,7 @@ def chart = new JFreeChart('Whiskey clusters', plot)
 def panel = new ChartPanel(chart)
 
 new SwingBuilder().edt {
-    frame(title: 'Frame', size: [600, 600], show: true, defaultCloseOperation: CLOSE) {
+    frame(title: 'Frame', size: [600, 600], show: true, defaultCloseOperation: DISPOSE) {
         widget(panel)
     }
 }

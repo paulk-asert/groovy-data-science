@@ -43,8 +43,7 @@ def inputShape = new Shape([1, 3, width, height])
 def results = detectObjects(modelPath, imagePath, inputShape).sum()
 
 for (r in results) {
-    print "Class: $r.className"
-    printf " with probability: %.3f%n", r.probability
+    println "Class: $r.className with probability: ${ sprintf '%.3f', r.probability }"
     def coord = [r.XMin * width, r.XMax * height, r.YMin * width, r.YMax * height]
     println "Coord: ${coord.collect { sprintf '%.2f', it }.join(', ')}\n"
 }

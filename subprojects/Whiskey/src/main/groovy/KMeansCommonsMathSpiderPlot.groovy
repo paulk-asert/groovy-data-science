@@ -14,9 +14,9 @@ def cols = ["Body", "Sweetness", "Smoky", "Medicinal",
             "Tobacco", "Honey", "Spicy", "Winey",
             "Nutty", "Malty", "Fruity", "Floral"]
 
-def kmeans = new KMeansPlusPlusClusterer(5)
+def groups = new KMeansPlusPlusClusterer(5)
 def data = rows.collect{ row -> new DoublePoint(cols.collect{ col -> row[col] } as int[]) }
-def centroids = kmeans.cluster(data)
+def centroids = groups.cluster(data)
 println cols.join(', ')
 def dataset = new DefaultCategoryDataset()
 centroids.eachWithIndex{ ctrd, num ->

@@ -20,80 +20,25 @@ import static org.apache.beam.sdk.transforms.FlatMapElements.into
 import static org.apache.beam.sdk.values.TypeDescriptors.strings
 
 static PCollection applyTransform(PCollection input) {
-  ProcessFunction asWords = line -> line.split(" ").toList()
+    ProcessFunction asWords = line -> line.split(' ').toList()
 
-  def kv2out = new DoFn<KV, String>() {
-    @ProcessElement
-    void processElement(@Element KV element, OutputReceiver<String> out) {
-      out.output(element.key + ":" + element.value)
+    def kv2out = new DoFn<KV, String>() {
+        @ProcessElement
+        void processElement(@Element KV element, OutputReceiver<String> out) {
+            out.output(element.key + ':' + element.value)
+        }
     }
-  }
 
-  return input
-    .apply(into(strings()).via(asWords))
-    .apply(Count.perElement())
-    .apply(ParDo.of(kv2out))
+    input
+        .apply(into(strings()).via(asWords))
+        .apply(Count.perElement())
+        .apply(ParDo.of(kv2out))
 }
 
-def lines = ["apple orange grape banana apple banana",
-             "banana orange banana papaya"]
+def lines = ['apple orange grape banana apple banana',
+             'banana orange banana papaya']
 
 def pipeline = Pipeline.create()
-def counts   = pipeline.apply(Create.of(lines))
-def output   = applyTransform(counts)
-
-output.apply(Log.ofElements())
-
+def counts = pipeline.apply(Create.of(lines))
+applyTransform(counts).apply(Log.ofElements())
 pipeline.run()
-
-/*
-import org.apache.beam.sdk.transforms.PTransform;
-import org.apache.beam.sdk.values.PCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class Log {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
-
-  private Log() {
-  }
-
-  public static <T> PTransform<PCollection<T>, PCollection<T>> ofElements() {
-    return new LoggingTransform<>();
-  }
-
-  public static <T> PTransform<PCollection<T>, PCollection<T>> ofElements(String prefix) {
-    return new LoggingTransform<>(prefix);
-  }
-
-  private static class LoggingTransform<T> extends PTransform<PCollection<T>, PCollection<T>> {
-
-    private String prefix;
-
-    private LoggingTransform() {
-      prefix = "";
-    }
-
-    private LoggingTransform(String prefix) {
-      this.prefix = prefix;
-    }
-
-    @Override
-    public PCollection<T> expand(PCollection<T> input) {
-      return input.apply(ParDo.of(new DoFn<T, T>() {
-
-        @ProcessElement
-        public void processElement(@Element T element, OutputReceiver<T> out) {
-          LOGGER.info(prefix + element.toString());
-
-          out.output(element);
-        }
-
-      }));
-    }
-
-  }
-
-}
-*/

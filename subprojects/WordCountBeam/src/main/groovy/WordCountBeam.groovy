@@ -20,7 +20,8 @@ import static org.apache.beam.sdk.transforms.FlatMapElements.into
 import static org.apache.beam.sdk.values.TypeDescriptors.strings
 
 static applyTransform(PCollection input) {
-    ProcessFunction asWords = line -> line.split(' ').toList()
+    def PUNCT = ~"[ ,?.]"
+    ProcessFunction asWords = line -> PUNCT.split(line).toList()
 
     def kv2out = new DoFn<KV, String>() {
         @ProcessElement
@@ -35,8 +36,8 @@ static applyTransform(PCollection input) {
         .apply(ParDo.of(kv2out))
 }
 
-def lines = ['apple orange grape banana apple banana',
-             'banana orange banana papaya']
+def file = '/path/to/peppers.txt' as File
+def lines = file.readLines()
 
 def pipeline = Pipeline.create()
 def counts = pipeline.apply(Create.of(lines))

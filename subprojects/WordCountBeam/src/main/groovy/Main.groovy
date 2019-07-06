@@ -19,7 +19,7 @@ import util.Log
 import static org.apache.beam.sdk.transforms.FlatMapElements.into
 import static org.apache.beam.sdk.values.TypeDescriptors.strings
 
-static PCollection applyTransform(PCollection input) {
+static applyTransform(PCollection input) {
     ProcessFunction asWords = line -> line.split(' ').toList()
 
     def kv2out = new DoFn<KV, String>() {

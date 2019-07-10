@@ -24,13 +24,13 @@ def byName = { table.row(it.intValue()).getText('Distillery') }
 }
 
 def hexmap = Hexmap.plot(som.umatrix(), Palette.heat(256))
-
+/* */
 new SwingBuilder().edt {
     frame(title: 'Frame', size: [800, 600], show: true, defaultCloseOperation: DISPOSE) {
         widget(new PlotPanel(scatter, hexmap))
     }
 }
-
+/* */
 /*
 def pca = new PCA(data)
 pca.projection = 2
@@ -42,8 +42,9 @@ table = table.addColumns(
 )
 
 Color[] colors = [RED, BLUE, GREEN]
+char[] symbols = ['*', 'Q', '#']
 double[][] components = table.as().doubleMatrix('PCA1', 'PCA2')
-def scatter = ScatterPlot.plot(components, clusters, '#' as char, colors)
+def scatter = ScatterPlot.plot(components, clusters, symbols, colors)
 
 new SwingBuilder().edt {
     frame(title: 'Frame', size: [800, 600], show: true, defaultCloseOperation: DISPOSE) {

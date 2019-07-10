@@ -6,7 +6,6 @@ import smile.plot.PlotPanel
 import smile.plot.ScatterPlot
 import smile.projection.PCA
 import tech.tablesaw.api.DoubleColumn
-import tech.tablesaw.api.IntColumn
 import tech.tablesaw.api.Table
 
 import static java.awt.Color.*

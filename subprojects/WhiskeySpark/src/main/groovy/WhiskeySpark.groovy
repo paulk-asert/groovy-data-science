@@ -13,7 +13,8 @@ int k = 5
 Dataset<Row> rows = spark.read().format('com.databricks.spark.csv')
         .options('header': 'true', 'inferSchema': 'true').load(file)
 def extras = ['RowID', 'Distillery']
-def colNames = rows.columns().toList().minus(extras).parallelStream().toArray(String[]::new)
+//def colNames = rows.columns().toList().minus(extras).parallelStream().toArray(String[]::new)
+String[] colNames = rows.columns().toList().minus(extras)
 def assembler = new VectorAssembler(inputCols: colNames, outputCol: 'features')
 Dataset<Row> dataset = assembler.transform(rows)
 def clusterer = new KMeans(k: k, seed: 1L)

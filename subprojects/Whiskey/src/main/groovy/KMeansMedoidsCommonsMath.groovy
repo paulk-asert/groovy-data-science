@@ -8,7 +8,6 @@ import static javax.swing.JFrame.DISPOSE_ON_CLOSE as DISPOSE
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
 
-// source: https://www.niss.org/sites/default/files/ScotchWhisky01.txt
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def rows = CSV.withFirstRecordAsHeader().parse(new FileReader(file)).toList()
 

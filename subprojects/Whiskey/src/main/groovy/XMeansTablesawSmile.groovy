@@ -4,7 +4,6 @@ import tech.tablesaw.api.*
 import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.api.*
 
-// source: https://www.niss.org/sites/default/files/ScotchWhisky01.txt
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def rows = Table.read().csv(file)
 //Table rows = Table.read().csv('whiskey.csv')

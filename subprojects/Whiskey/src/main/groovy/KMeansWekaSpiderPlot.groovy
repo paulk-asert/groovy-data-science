@@ -9,7 +9,6 @@ import weka.core.converters.CSVLoader
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE as DISPOSE
 
-// source: https://www.niss.org/sites/default/files/ScotchWhisky01.txt
 def file = getClass().classLoader.getResource('whiskey.csv').file as File
 //def rows = CSV.withFirstRecordAsHeader().parse(new FileReader(file))
 

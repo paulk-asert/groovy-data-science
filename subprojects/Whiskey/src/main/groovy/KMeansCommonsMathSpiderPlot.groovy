@@ -6,7 +6,6 @@ import org.jfree.data.category.DefaultCategoryDataset
 
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
-// source: https://www.niss.org/sites/default/files/ScotchWhisky01.txt
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def rows = CSV.withFirstRecordAsHeader().parse(new FileReader(file))
 

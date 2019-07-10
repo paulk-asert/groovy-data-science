@@ -7,7 +7,6 @@ import tech.tablesaw.api.Table
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE as DISPOSE
 
-// source: https://www.niss.org/sites/default/files/ScotchWhisky01.txt
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def rows = Table.read().csv(file)
 //Table rows = Table.read().csv('whiskey.csv')
@@ -25,11 +24,11 @@ for (i in 0..<n) {
 def hac = new HierarchicalClustering(new WardLinkage(proximity))
 //println hac.tree
 //println hac.height
-plot = Dendrogram.plot(hac.tree, hac.height)
-plot.title = "Dendrogram"
+def canvas = Dendrogram.plot(hac.tree, hac.height)
+canvas.title = "Dendrogram"
 
 new SwingBuilder().edt {
     frame(title: 'Frame', size: [800, 600], show: true, defaultCloseOperation: DISPOSE) {
-        widget(plot)
+        widget(canvas)
     }
 }

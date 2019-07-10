@@ -6,9 +6,6 @@ import tech.tablesaw.api.*
 import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.api.*
 
-import java.util.function.Consumer
-
-// source: https://www.niss.org/sites/default/files/ScotchWhisky01.txt
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def table = Table.read().csv(file)
 //def table = Table.read().csv('whiskey.csv')

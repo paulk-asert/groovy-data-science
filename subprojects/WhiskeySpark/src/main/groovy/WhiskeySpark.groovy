@@ -1,7 +1,7 @@
 import org.apache.spark.ml.clustering.KMeans
+import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.Row
-import org.apache.spark.ml.feature.VectorAssembler
 import static org.apache.spark.sql.SparkSession.builder
 
 static method() {

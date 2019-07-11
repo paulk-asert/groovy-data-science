@@ -1,0 +1,4 @@
+source: https://www.kaggle.com/harlfoxem/housesalesprediction/data
+
+See also:
+https://nicolai92.github.io/posts/pentaho-weka-prediction

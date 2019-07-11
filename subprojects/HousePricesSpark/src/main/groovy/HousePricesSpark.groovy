@@ -20,6 +20,7 @@ def assembler = new VectorAssembler(inputCols: colNames, outputCol: 'features')
 Dataset<Row> dataset = assembler.transform(training)
 def lr = new LinearRegression(labelCol: 'price', maxIter: 10)
 def model = lr.fit(dataset)
+println 'Coefficients:'
 println model.coefficients().values()[1..-1].collect{ sprintf '%.2f', it }.join(', ')
 def testSummary = model.evaluate(assembler.transform(test))
 printf 'RMSE: %.2f%n', testSummary.rootMeanSquaredError

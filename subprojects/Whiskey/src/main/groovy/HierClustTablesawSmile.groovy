@@ -1,11 +1,8 @@
-import groovy.swing.SwingBuilder
 import smile.clustering.HierarchicalClustering
 import smile.clustering.linkage.WardLinkage
 import smile.math.Math
 import smile.plot.Dendrogram
 import tech.tablesaw.api.Table
-
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE as DISPOSE
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def rows = Table.read().csv(file)
@@ -21,14 +18,10 @@ for (i in 0..<n) {
     proximity[i] = new double[i + 1]
     for (j in 0..<i) proximity[i][j] = Math.distance(data[i], data[j])
 }
-def hac = new HierarchicalClustering(new WardLinkage(proximity))
-//println hac.tree
-//println hac.height
-def canvas = Dendrogram.plot(hac.tree, hac.height)
-canvas.title = "Dendrogram"
+def clusterer = new HierarchicalClustering(new WardLinkage(proximity))
+//println clusterer.tree
+//println clusterer.height
+def plot = Dendrogram.plot(clusterer.tree, clusterer.height)
+plot.title = "Dendrogram"
 
-new SwingBuilder().edt {
-    frame(title: 'Frame', size: [800, 600], show: true, defaultCloseOperation: DISPOSE) {
-        widget(canvas)
-    }
-}
+SwingUtil.show(plot)

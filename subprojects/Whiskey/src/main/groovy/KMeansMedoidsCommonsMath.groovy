@@ -1,10 +1,8 @@
-import groovy.swing.SwingBuilder
 import org.apache.commons.math3.ml.clustering.*
 import org.jfree.chart.*
 import org.jfree.chart.plot.SpiderWebPlot
 import org.jfree.data.category.DefaultCategoryDataset
 
-import static javax.swing.JFrame.DISPOSE_ON_CLOSE as DISPOSE
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
 
@@ -14,9 +12,9 @@ def rows = CSV.withFirstRecordAsHeader().parse(new FileReader(file)).toList()
 def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
             "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
 
-def kmeans = new KMeansPlusPlusClusterer(5)
+def clusterer = new KMeansPlusPlusClusterer(5)
 def data = rows.collect{ row -> new DoublePoint(cols.collect{ col -> row[col] } as int[]) }
-def centroids = kmeans.cluster(data)
+def centroids = clusterer.cluster(data)
 println cols.join(', ') + ', Medoid'
 def dataset = new DefaultCategoryDataset()
 centroids.eachWithIndex{ ctrd, num ->
@@ -31,10 +29,4 @@ centroids.eachWithIndex{ ctrd, num ->
 
 def plot = new SpiderWebPlot(dataset: dataset)
 def chart = new JFreeChart('Whiskey clusters', plot)
-def panel = new ChartPanel(chart)
-
-new SwingBuilder().edt {
-    frame(title: 'Frame', size: [600, 600], show: true, defaultCloseOperation: DISPOSE) {
-        widget(panel)
-    }
-}
+SwingUtil.show(new ChartPanel(chart))

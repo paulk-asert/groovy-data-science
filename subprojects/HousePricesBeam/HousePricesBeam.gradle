@@ -7,6 +7,8 @@ sourceCompatibility = 1.8
 ext {
     beamVersion = '2.13.0'
     slf4jVersion = '1.7.26'
+    tablesawVersion = '0.34.1'
+    smileVersion = '1.5.3'
 }
 
 repositories {
@@ -19,4 +21,7 @@ dependencies {
     compile "org.slf4j:slf4j-api:$slf4jVersion"
     compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
     compile "org.codehaus.groovy:groovy:$groovyVersion"
+    compile 'org.codehaus.gpars:gpars:1.2.1'
+    compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
+    compile "com.github.haifengl:smile-core:$smileVersion"
 }

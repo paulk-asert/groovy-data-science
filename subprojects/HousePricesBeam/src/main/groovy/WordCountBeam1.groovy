@@ -1,8 +1,3 @@
-//@Grab('org.apache.beam:beam-sdks-java-core:2.13.0')
-//@Grab('org.apache.beam:beam-runners-direct-java:2.13.0')
-//@Grab('org.slf4j:slf4j-api:1.7.26')
-//@Grab('org.slf4j:slf4j-jdk14:1.7.26')
-
 import org.apache.beam.sdk.Pipeline
 import org.apache.beam.sdk.io.TextIO
 import org.apache.beam.sdk.transforms.Count

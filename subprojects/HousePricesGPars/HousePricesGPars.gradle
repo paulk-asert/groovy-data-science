@@ -16,11 +16,8 @@ repositories {
 }
 
 dependencies {
-    compile "org.apache.beam:beam-sdks-java-core:$beamVersion"
-    runtime "org.apache.beam:beam-runners-direct-java:$beamVersion"
-    compile "org.slf4j:slf4j-api:$slf4jVersion"
-    compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
     compile "org.codehaus.groovy:groovy:$groovyVersion"
+    compile 'org.codehaus.gpars:gpars:1.2.1'
     compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
     compile "com.github.haifengl:smile-core:$smileVersion"
 }

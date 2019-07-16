@@ -57,8 +57,8 @@ def names = results.collect{ it.className + sprintf(' %.3f', it.probability) }
 
 Image.drawBoundingBox(image, boxes, names)
 new SwingBuilder().edt {
-    frame(title: "${results.size()} detected objects", size: [w, h], show: true,
-            defaultCloseOperation: DISPOSE_ON_CLOSE) {
+    frame(title: "${results.size()} detected objects", size: [w, h],
+            show: true, defaultCloseOperation: DISPOSE_ON_CLOSE) {
         label(icon: imageIcon(image: image))
     }
 }

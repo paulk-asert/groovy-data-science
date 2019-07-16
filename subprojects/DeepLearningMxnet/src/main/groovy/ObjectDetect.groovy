@@ -6,8 +6,6 @@ import groovy.swing.SwingBuilder
 import javax.imageio.ImageIO
 import org.apache.mxnet.infer.javaapi.ObjectDetector
 import org.apache.mxnet.javaapi.*
-
-import static javax.swing.SwingConstants.CENTER
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
 static void downloadUrl(String srcDirUrl, String destDir, String filename) {
@@ -64,6 +62,11 @@ Image.drawBoundingBox(image, boxes, info.name)
 new SwingBuilder().edt {
     frame(title: "${results.size()} detected objects", size: [w, h], show: true,
             defaultCloseOperation: DISPOSE_ON_CLOSE) {
-        label(icon: imageIcon(image: image), horizontalAlignment: CENTER, verticalAlignment: CENTER)
+        label(icon: imageIcon(image: image))
     }
 }
+/*
+Class: car, Probability: 0.998, Bounds: (468, 81) to (684, 169)
+Class: bicycle, Probability: 0.905, Bounds: (233, 168) to (575, 471)
+Class: dog, Probability: 0.823, Bounds: (125, 201) to (309, 536)
+ */

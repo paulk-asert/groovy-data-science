@@ -47,18 +47,14 @@ def results = detectObjects(modelPath, imagePath, inputShape).sum()
 
 def image = ImageIO.read(imagePath as File)
 def (w, h) = image.with{ [it.width, it.height] }
-def info = results.collect {[
-        xmin: w * it.XMin as int, xmax: w * it.XMax as int,
-        ymin: h * it.YMin as int, ymax: h * it.YMax as int,
-        name: it.className, prob: sprintf('%.3f', it.probability)
+def boxes = results.collect {[
+        xmin: w * it.XMin as int, ymin: h * it.YMin as int,
+        xmax: w * it.XMax as int, ymax: h * it.YMax as int
 ]}
+def names = results.collect{ it.className + sprintf(' %.3f', it.probability) }
+(0..<names.size()).each{ println "${names[it]} ${boxes[it]}" }
 
-for (r in info) {
-    println "Class: $r.name, Probability: $r.prob, Bounds: ($r.xmin, $r.ymin) to ($r.xmax, $r.ymax)"
-}
-
-def boxes = info.collect{[xmin: it.xmin, xmax: it.xmax, ymin: it.ymin, ymax: it.ymax]}
-Image.drawBoundingBox(image, boxes, info.name)
+Image.drawBoundingBox(image, boxes, names)
 new SwingBuilder().edt {
     frame(title: "${results.size()} detected objects", size: [w, h], show: true,
             defaultCloseOperation: DISPOSE_ON_CLOSE) {
@@ -66,7 +62,7 @@ new SwingBuilder().edt {
     }
 }
 /*
-Class: car, Probability: 0.998, Bounds: (468, 81) to (684, 169)
-Class: bicycle, Probability: 0.905, Bounds: (233, 168) to (575, 471)
-Class: dog, Probability: 0.823, Bounds: (125, 201) to (309, 536)
+car 0.998 [xmin:468, ymin:81, xmax:684, ymax:169]
+bicycle 0.905 [xmin:233, ymin:168, xmax:575, ymax:471]
+dog 0.823 [xmin:125, ymin:201, xmax:309, ymax:536]
  */

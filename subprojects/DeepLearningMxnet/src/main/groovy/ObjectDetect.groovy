@@ -41,12 +41,13 @@ static detectObjects(String modelPath, String imagePath, inputShape) {
 }
 
 def (imagePath, modelPath) = downloadModelImage()
-def (width, height) = [512, 512]
-def inputShape = new Shape([1, 3, width, height])
-def results = detectObjects(modelPath, imagePath, inputShape).sum()
-
 def image = ImageIO.read(imagePath as File)
 def (w, h) = image.with{ [it.width, it.height] }
+def count = 1 // batch size
+def channels = 3 // for RGB
+def inputShape = new Shape(count, channels, w * 0.8 as int, h)
+def results = detectObjects(modelPath, imagePath, inputShape).sum()
+
 def boxes = results.collect {[
         xmin: w * it.XMin as int, ymin: h * it.YMin as int,
         xmax: w * it.XMax as int, ymax: h * it.YMax as int
@@ -62,7 +63,7 @@ new SwingBuilder().edt {
     }
 }
 /*
-car 0.998 [xmin:468, ymin:81, xmax:684, ymax:169]
-bicycle 0.905 [xmin:233, ymin:168, xmax:575, ymax:471]
-dog 0.823 [xmin:125, ymin:201, xmax:309, ymax:536]
- */
+car 0.996 [xmin:439, ymin:62, xmax:715, ymax:173]
+bicycle 0.986 [xmin:144, ymin:128, xmax:547, ymax:453]
+dog 0.919 [xmin:102, ymin:184, xmax:344, ymax:541]
+*/

@@ -1,9 +1,14 @@
 // Unfortunately the MXNet Java Inference API is an extension of the
 // Scala Infer API which isn't yet available on Windows.
 // You'll see an error including: mxnet-scala.dll not found under Windows.
-// For now, use another OS in a VM if needed.
+// For now, use another OS (in a VM if needed).
+import groovy.swing.SwingBuilder
+import javax.imageio.ImageIO
 import org.apache.mxnet.infer.javaapi.ObjectDetector
 import org.apache.mxnet.javaapi.*
+
+import static javax.swing.SwingConstants.CENTER
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
 static void downloadUrl(String srcDirUrl, String destDir, String filename) {
     def destination = new File(destDir, filename)
@@ -42,8 +47,23 @@ def (width, height) = [512, 512]
 def inputShape = new Shape([1, 3, width, height])
 def results = detectObjects(modelPath, imagePath, inputShape).sum()
 
-for (r in results) {
-    println "Class: $r.className with probability: ${ sprintf '%.3f', r.probability }"
-    def coord = [r.XMin * width, r.XMax * height, r.YMin * width, r.YMax * height]
-    println "Coord: ${coord.collect { sprintf '%.2f', it }.join(', ')}\n"
+def image = ImageIO.read(imagePath as File)
+def (w, h) = image.with{ [it.width, it.height] }
+def info = results.collect {[
+        xmin: w * it.XMin as int, xmax: w * it.XMax as int,
+        ymin: h * it.YMin as int, ymax: h * it.YMax as int,
+        name: it.className, prob: sprintf('%.3f', it.probability)
+]}
+
+for (r in info) {
+    println "Class: $r.name, Probability: $r.prob, Bounds: ($r.xmin, $r.ymin) to ($r.xmax, $r.ymax)"
+}
+
+def boxes = info.collect{[xmin: it.xmin, xmax: it.xmax, ymin: it.ymin, ymax: it.ymax]}
+Image.drawBoundingBox(image, boxes, info.name)
+new SwingBuilder().edt {
+    frame(title: "${results.size()} detected objects", size: [w, h], show: true,
+            defaultCloseOperation: DISPOSE_ON_CLOSE) {
+        label(icon: imageIcon(image: image), horizontalAlignment: CENTER, verticalAlignment: CENTER)
+    }
 }

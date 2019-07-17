@@ -23,4 +23,5 @@ dependencies {
     compile "org.codehaus.groovy:groovy:$groovyVersion"
     compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
     compile "com.github.haifengl:smile-core:$smileVersion"
+    compile 'junit:junit:4.12'
 }

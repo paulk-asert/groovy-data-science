@@ -5,8 +5,10 @@ import org.apache.beam.sdk.transforms.DoFn
 import org.apache.beam.sdk.transforms.DoFn.Element
 import org.apache.beam.sdk.transforms.DoFn.OutputReceiver
 import org.apache.beam.sdk.transforms.DoFn.ProcessElement
+import org.apache.beam.sdk.transforms.PTransform
 import org.apache.beam.sdk.transforms.ParDo
 import org.apache.beam.sdk.transforms.View
+import org.apache.beam.sdk.values.PCollection
 import org.apache.commons.math3.stat.StatUtils
 import smile.math.Math
 import smile.regression.OLS
@@ -14,19 +16,6 @@ import tech.tablesaw.api.Table
 import util.Log
 
 import static java.lang.Math.sqrt
-
-
-//interface Options extends PipelineOptions {
-//    @Description("Input file path")
-//    @Default.String('/path/to/kc_house_data.csv')
-//    String getInputFile()
-//    void setInputFile(String value)
-//
-//    @Description("Output directory")
-//    @Required
-//    String getOutputDir()
-//    void setOutputDir(String value)
-//}
 
 static buildPipeline(Pipeline p) {
     def features = [
@@ -85,21 +74,29 @@ static buildPipeline(Pipeline p) {
     }
 
     var csvChunks = p
-            .apply(Create.of('/path/to/kc_house_data.csv'))
-            .apply('Create chunks', ParDo.of(readCsvChunks))
+            | Create.of('/path/to/kc_house_data.csv')
+            | 'Create chunks' >> ParDo.of(readCsvChunks)
+
     var model = csvChunks
-            .apply('Fit chunks', ParDo.of(fitModel))
-            .apply(Combine.globally(new MeanDoubleArrayCols()))
+            | 'Fit chunks' >> ParDo.of(fitModel)
+            | Combine.globally(new MeanDoubleArrayCols())
+
     var modelView = model
-            .apply(View.<double[]>asSingleton())
+            | View.<double[]>asSingleton()
+
     csvChunks
-            .apply(ParDo.of(new EvaluateModel(modelView, evalModel)).withSideInputs(modelView))
-            .apply(Combine.globally(new AggregateModelStats()))
-            .apply('Log stats', ParDo.of(stats2out)).apply(Log.ofElements())
+            | ParDo.of(new EvaluateModel(modelView, evalModel)).withSideInputs(modelView)
+            | Combine.globally(new AggregateModelStats())
+            | 'Log stats' >> ParDo.of(stats2out) | Log.ofElements()
+
     model
-            .apply('Log model', ParDo.of(model2out)).apply(Log.ofElements())
+            | 'Log model' >> ParDo.of(model2out) | Log.ofElements()
 }
 
+PCollection.metaClass.or = { List arg -> delegate.apply(*arg) }
+PCollection.metaClass.or = { PTransform arg -> delegate.apply(arg) }
+String.metaClass.rightShift = { PTransform arg -> [delegate, arg] }
+Pipeline.metaClass.or = { PTransform arg -> delegate.apply(arg) }
 def pipeline = Pipeline.create()
 buildPipeline(pipeline)
 pipeline.run().waitUntilFinish()

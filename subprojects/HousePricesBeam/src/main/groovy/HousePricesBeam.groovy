@@ -110,7 +110,7 @@ static buildPipeline(Pipeline p) {
     def model2out = new DoFn<double[], String>() {
         @ProcessElement
         void processElement(@Element double[] ds, OutputReceiver<String> out) {
-            sleep 8000
+            sleep 10000
             out.output("** intercept: ${ds[0]}, coeffs: ${ds[1..-1].join(', ')}".toString())
         }
     }
@@ -118,20 +118,25 @@ static buildPipeline(Pipeline p) {
     def stats2out = new DoFn<double[], String>() {
         @ProcessElement
         void processElement(@Element double[] ds, OutputReceiver<String> out) {
-            sleep 3000
+            sleep 5000
             out.output("** rmse: ${ds[0]}, mean: ${ds[1]}, count: ${ds[2]}".toString())
         }
     }
 
-    PCollection<double[][]> csvChunks = p.apply(Create.of('/path/to/kc_house_data.csv')).apply('Create chunks', ParDo.of(readCsvChunks))
-    PCollection<double[]> models = csvChunks.apply('Fit chunks', ParDo.of(fitModel))
-    PCollection<double[]> model = models.apply(Combine.globally(new MeanDoubleArrayCols()))
-    PCollectionView<double[]> modelView = model.apply(View.<double[]>asSingleton())
-    PCollection<double[]> evals = csvChunks.apply(ParDo.of(new EvaluateModel(modelView, evalModel)).withSideInputs(modelView))
-//    models.apply(ParDo.of(model2out)).apply(Log.ofElements())
-//    evals.apply(ParDo.of(stats2out)).apply(Log.ofElements())
-    evals.apply(Combine.globally(new AggregateModelStats())).apply(ParDo.of(stats2out)).apply(Log.ofElements())
-    model.apply(ParDo.of(model2out)).apply(Log.ofElements())
+    def csvChunks = p
+            .apply(Create.of('/path/to/kc_house_data.csv'))
+            .apply('Create chunks', ParDo.of(readCsvChunks))
+    def model = csvChunks
+            .apply('Fit chunks', ParDo.of(fitModel))
+            .apply(Combine.globally(new MeanDoubleArrayCols()))
+    def modelView = model
+            .apply(View.<double[]>asSingleton())
+    csvChunks
+            .apply(ParDo.of(new EvaluateModel(modelView, evalModel)).withSideInputs(modelView))
+            .apply(Combine.globally(new AggregateModelStats()))
+            .apply(ParDo.of(stats2out)).apply(Log.ofElements())
+    model
+            .apply(ParDo.of(model2out)).apply(Log.ofElements())
 }
 
 def pipeline = Pipeline.create()

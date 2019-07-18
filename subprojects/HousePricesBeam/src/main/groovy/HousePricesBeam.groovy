@@ -123,22 +123,19 @@ static buildPipeline(Pipeline p) {
         }
     }
 
-    def csvChunks = p
-            .apply(Create.of('/path/to/kc_house_data.csv'))
-            .apply('Create chunks', ParDo.of(readCsvChunks))
-    def model = csvChunks
-            .apply('Fit chunks', ParDo.of(fitModel))
-            .apply(Combine.globally(new MeanDoubleArrayCols()))
-    def modelView = model
-            .apply(View.<double[]>asSingleton())
-    csvChunks
-            .apply(ParDo.of(new EvaluateModel(modelView, evalModel)).withSideInputs(modelView))
-            .apply(Combine.globally(new AggregateModelStats()))
-            .apply(ParDo.of(stats2out)).apply(Log.ofElements())
-    model
-            .apply(ParDo.of(model2out)).apply(Log.ofElements())
+    def csvChunks = p | Create.of('/path/to/kc_house_data.csv')
+                      | ParDo.of(readCsvChunks)
+    def model = csvChunks | ParDo.of(fitModel)
+                          | Combine.globally(new MeanDoubleArrayCols())
+    def modelView = model | View.<double[]>asSingleton()
+    csvChunks | ParDo.of(new EvaluateModel(modelView, evalModel)).withSideInputs(modelView)
+              | Combine.globally(new AggregateModelStats())
+              | ParDo.of(stats2out) | Log.ofElements()
+    model | ParDo.of(model2out) | Log.ofElements()
 }
 
+PCollection.metaClass.or = { arg -> delegate.apply(arg) }
+Pipeline.metaClass.or = { arg -> delegate.apply(arg) }
 def pipeline = Pipeline.create()
 buildPipeline(pipeline)
 pipeline.run().waitUntilFinish()

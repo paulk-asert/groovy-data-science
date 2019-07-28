@@ -1,0 +1,17 @@
+apply plugin: 'groovy'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+ext {
+    nd4jVersion = '1.0.0-beta4'
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    compile "org.nd4j:nd4j-native-platform:$nd4jVersion"
+    compile "org.deeplearning4j:deeplearning4j-core:$nd4jVersion"
+    compile "org.slf4j:slf4j-simple:1.7.25"
+}

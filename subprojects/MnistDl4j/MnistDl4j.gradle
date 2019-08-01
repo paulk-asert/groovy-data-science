@@ -1,6 +1,7 @@
 apply plugin: 'groovy'
 
 repositories {
+    mavenLocal()
     jcenter()
     mavenCentral()
 }
@@ -14,4 +15,5 @@ dependencies {
     compile "org.nd4j:nd4j-native-platform:$nd4jVersion"
     compile "org.deeplearning4j:deeplearning4j-core:$nd4jVersion"
     compile "org.slf4j:slf4j-simple:1.7.25"
+    compile 'org.groovyfx:groovyfx:8.1.0-SNAPSHOT'
 }

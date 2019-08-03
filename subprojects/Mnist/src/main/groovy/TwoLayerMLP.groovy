@@ -55,6 +55,7 @@ model.init()
 log.info("Training model ...")
 model.listeners = new ScoreIterationListener(100)
 model.fit(trainSet, numEpochs)
+//model.save('mlp2_model.dat' as File)
 
 log.info("Evaluating model...")
 def eval = model.evaluate(testSet)

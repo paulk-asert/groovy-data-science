@@ -1,17 +1,11 @@
 import static Util.*
+import static MnistInfer.*
 import static groovyx.javafx.GroovyFX.start
 import static javafx.scene.paint.Color.WHITE
 
-static displayResult(List items, Integer predict) {
-    items.indexed().collect{ idx, val ->
-        def marker = (idx == predict && items[predict] > 0.5) ? ' **' : ''
-        "$idx ${val ? sprintf('%.4f', val) + marker : '?'}"
-    }.join('\n')
-}
-
 def size = 280
 def pen = 12
-Mnist.load(getClass())
+load(getClass())
 
 start {
     stage(title: 'MNIST', visible: true) {
@@ -24,20 +18,20 @@ start {
                     canvas.onMouseDragged { e -> g.fillOval e.x - pen, e.y - pen, pen * 2, pen * 2 }
                 }
                 center {
-                    buttonBar {
+                    hbox(alignment: 'Center') {
                         button('Clear', onAction: {
                             clear(canvas.graphicsContext2D, size)
                             out.text = displayResult([null] * 10, null)
                         })
                         button('Predict', onAction: {
-                            def result = Mnist.query(Mnist.scale(imageToArray(snapshot(canvas))))
-                            def predictLabel = Mnist.maxIndex(result)
+                            def result = query(normalize(imageToArray(snapshot(canvas))))
+                            def predictLabel = maxIndex(result)
                             out.text = displayResult(result.data.collect{ it[0] }, predictLabel)
                         })
                     }
                 }
                 bottom {
-                    textArea(displayResult([null] * 10, null), id: 'out', editable: false, prefColumnCount: 20)
+                    textArea(displayResult([null] * 10, null), id: 'out', editable: false, prefColumnCount: 16)
                 }
             }
         }

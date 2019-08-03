@@ -12,7 +12,6 @@ repositories {
 
 ext {
     igniteVersion = '2.8.0.20190712'
-    tablesawVersion = '0.34.1'
 }
 
 dependencies {

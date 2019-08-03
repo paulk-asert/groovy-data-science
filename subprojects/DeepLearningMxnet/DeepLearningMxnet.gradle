@@ -1,17 +1,16 @@
 apply plugin: 'groovy'
 
 ext {
-    mxnetVersion = '1.5.0-SNAPSHOT'
-    slf4jVersion = '1.7.26'
-    commonsIoVersion = '2.4'
+    mxnetVersion = '1.5.0'
+    commonsIoVersion = '2.6'
 }
 
 repositories {
     jcenter()
     mavenCentral()
-    maven {
-        url 'https://repository.apache.org/content/groups/snapshots'
-    }
+//    maven {
+//        url 'https://repository.apache.org/content/groups/snapshots'
+//    }
 //    mavenLocal()
 }
 

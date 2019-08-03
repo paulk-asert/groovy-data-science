@@ -7,8 +7,6 @@ repositories {
 }
 
 ext {
-    slf4jVersion = '1.7.26'
-    tablesawVersion = '0.34.1'
     smileVersion = '1.5.3'
 }
 

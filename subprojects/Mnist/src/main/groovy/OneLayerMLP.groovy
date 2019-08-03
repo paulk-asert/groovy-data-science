@@ -10,7 +10,8 @@ import org.nd4j.linalg.learning.config.Nesterovs
 import org.nd4j.linalg.lossfunctions.LossFunctions.LossFunction
 import org.slf4j.LoggerFactory
 
-/* A Multi Layered Perceptron (MLP) with one input layer and one hidden layer,
+/*
+ * A Multi Layered Perceptron (MLP) with one input layer and one hidden layer,
  * applied to the digit classification task of the MNIST Dataset
  *
  * Based on the corresponding example from DL4J:
@@ -54,7 +55,7 @@ model.init()
 log.info("Training model ...")
 model.listeners = new ScoreIterationListener(100)
 model.fit(trainSet, numEpochs)
-model.save('mlp_model.dat' as File)
+//model.save('mlp1_model.dat' as File)
 
 log.info("Evaluating model...")
 def eval = model.evaluate(testSet)

@@ -6,11 +6,6 @@ repositories {
 //    mavenLocal()
 }
 
-ext {
-    slf4jVersion = '1.7.26'
-    tablesawVersion = '0.34.1'
-}
-
 dependencies {
     compile "org.codehaus.groovy:groovy-all:$groovyVersion"
     compile 'nz.ac.waikato.cms.weka:weka-stable:3.8.3'

@@ -6,7 +6,7 @@ repositories {
 }
 
 ext {
-    opennlpVersion = '1.9.0'
+    opennlpVersion = '1.9.1'
 }
 
 dependencies {

@@ -1,4 +1,3 @@
-//@Grab('org.apache.commons:commons-csv:1.6')
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
 //def file = 'kc_house_data.csv' as File

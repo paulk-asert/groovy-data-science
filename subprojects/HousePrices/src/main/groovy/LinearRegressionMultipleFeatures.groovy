@@ -29,7 +29,7 @@ def residuals = test.indexed().collect { i, data -> predicted[i] - data[priceIdx
 def rr = reg.calculateRSquared()
 def rmseTrain = Math.sqrt(reg.calculateResidualSumOfSquares() / (train.size() - 1))
 def rmseTest = Math.sqrt(StatUtils.sumSq(residuals as double[]) / (test.size() - 1))
-def mean = StatUtils.mean(residuals as double[])
+def mean =  residuals.average()
 println "$rr $rmseTrain $rmseTest $mean"
 def showError = true
 if (showError) {

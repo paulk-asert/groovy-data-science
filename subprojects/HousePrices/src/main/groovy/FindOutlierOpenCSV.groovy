@@ -1,5 +1,3 @@
-//@Grab('com.opencsv:opencsv:4.6')
-
 import com.opencsv.bean.*
 import groovy.transform.ToString
 

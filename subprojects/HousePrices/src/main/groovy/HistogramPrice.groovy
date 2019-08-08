@@ -1,13 +1,11 @@
-//@Grab('org.groovyfx:groovyfx:8.0.0')
 import org.apache.commons.math3.random.EmpiricalDistribution
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics
 
 import static groovyx.javafx.GroovyFX.start
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
-//println( GroovySystem.version)
-//println System.getProperty('user.dir')
+
 def file = getClass().classLoader.getResource('kc_house_data.csv').file
-//def file = '../resources/kc_house_data.csv' as File
+//def file = '/path/to/kc_house_data.csv' as File
 def csv  = CSV.withFirstRecordAsHeader().parse(new FileReader(file))
 def all  = csv.findAll { it.bedrooms.toInteger() < 30 }.collect { it.price.toDouble() }
 def info = new SummaryStatistics(); all.each(info::addValue)

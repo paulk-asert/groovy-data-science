@@ -1,15 +1,13 @@
-//@Grab('tech.tablesaw:tablesaw-core:0.34.1')
-//@Grab('tech.tablesaw:tablesaw-aggregate:0.34.1')
 import tech.tablesaw.api.*
 import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.api.*
 
 import static tech.tablesaw.aggregate.AggregateFunctions.*
 
-//def file = 'kc_house_data.csv' as File
+//def file = '/path/to/kc_house_data.csv' as File
 def file = getClass().classLoader.getResource('kc_house_data.csv').file
 Table rows = Table.read().csv(file)
-//Table rows = Table.read().csv('kc_house_data.csv')
+//Table rows = Table.read().csv('/path/to/kc_house_data.csv')
 
 println rows.shape()
 

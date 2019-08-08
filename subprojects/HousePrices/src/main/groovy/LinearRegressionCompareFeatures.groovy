@@ -41,7 +41,7 @@ if (graphIdx == -1) {
         features[idx].rr = regs[idx].RSquare
         features[idx].rmseTrain = Math.sqrt(regs[idx].meanSquareError)
         features[idx].rmseTest = Math.sqrt(StatUtils.sumSq(residuals[idx] as double[]) / (test.size() - 1))
-        features[idx].mean = StatUtils.mean(residuals[idx] as double[])
+        features[idx].mean = residuals[idx].average()
     }
     start {
         stage(title: "Error statistics for feature", visible: true) {

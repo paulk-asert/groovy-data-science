@@ -30,8 +30,7 @@ static buildPipeline(Pipeline p) {
             def table = Table.read().csv(path)
             table = table.dropWhere(table.column("bedrooms").isGreaterThan(30))
             def idxs = 0..<table.rowCount()
-            Collections.shuffle(idxs.toList())
-            for (nextChunkIdxs in idxs.collate(chunkSize)) {
+            for (nextChunkIdxs in idxs.shuffled().collate(chunkSize)) {
                 def chunk = table.rows(*nextChunkIdxs)
                 receiver.output(chunk.as().doubleMatrix(*features))
             }
@@ -53,8 +52,7 @@ static buildPipeline(Pipeline p) {
         def predicted = chunk.collect { row -> intercept + Math.dot(row[1..-1] as double[], coefficients) }
         def residuals = chunk.toList().indexed().collect { idx, row -> predicted[idx] - row[0] }
         def rmse = sqrt(StatUtils.sumSq(residuals as double[]) / chunk.size())
-        def mean = Math.mean(residuals as double[])
-        [rmse, mean, chunk.size()] as double[]
+        [rmse, residuals.average(), chunk.size()] as double[]
     }
 
     def model2out = new DoFn<double[], String>() {

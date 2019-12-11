@@ -22,3 +22,4 @@ testoutput/
 .project
 bin/
 .jqwik-database
+.ipynb_checkpoints/

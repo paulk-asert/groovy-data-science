@@ -18,4 +18,4 @@ Apache Spark, Apache Ignite, Apache MXNet, GPars, Apache Beam.
 
 ### House price prediction
 
-https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2Fsrc%2Fmain%2Fnotebook%2FHousePrices.ipynb
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FHousePrices%2Fsrc%2Fmain%2Fnotebook%2FHousePrices.ipynb)

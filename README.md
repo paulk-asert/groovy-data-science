@@ -16,14 +16,18 @@ Weka, Smile, Apache Commons Math, beakerx notebooks, Deep Learning4J.
 Libraries for scaling/concurrency include:
 Apache Spark, Apache Ignite, Apache MXNet, GPars, Apache Beam.
 
-### House price prediction
+### House price prediction with regression
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FHousePrices%2Fsrc%2Fmain%2Fnotebook%2FHousePrices.ipynb)
+Alternatively, you can run the example online: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FHousePrices%2Fsrc%2Fmain%2Fnotebook%2FHousePrices.ipynb)
 
-### Whiskey classification
+### Whiskey classification with kmeans
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FWhiskey%2Fsrc%2Fmain%2Fnotebook%2FWhiskey.ipynb)
+Alternatively, you can run the example online: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FWhiskey%2Fsrc%2Fmain%2Fnotebook%2FWhiskey.ipynb)
 
-### Constraint programming puzzle
+### Cryptarithmetic puzzle with constraint programming
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FSendMoreMoney%2Fsrc%2Fmain%2Fnotebook%2FSendMoreMoney.ipynb)
+While not often spoken about as a classic data science technique,
+constraint programming can be a very useful tool in numerous scenarios.
+Code examples can be found in the [SendMoreMoney](subprojects/SendMoreMoney) subproject.
+
+Alternatively, you can run the example online: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FSendMoreMoney%2Fsrc%2Fmain%2Fnotebook%2FSendMoreMoney.ipynb)

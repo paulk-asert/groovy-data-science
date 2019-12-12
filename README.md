@@ -28,6 +28,6 @@ Alternatively, you can run the example online: [![Binder](https://mybinder.org/b
 
 While not often spoken about as a classic data science technique,
 constraint programming can be a very useful tool in numerous scenarios.
-Code examples can be found in the [SendMoreMoney](subprojects/SendMoreMoney) subproject.
+Groovy code examples can be found in the [SendMoreMoney](subprojects/SendMoreMoney/src/main/groovy) subproject.
 
 Alternatively, you can run the example online: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FSendMoreMoney%2Fsrc%2Fmain%2Fnotebook%2FSendMoreMoney.ipynb)

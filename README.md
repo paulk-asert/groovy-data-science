@@ -10,11 +10,20 @@ Groovy is a powerful multi-paradigm programming language for the JVM that offers
 
 This repo has examples of using Groovy with various Data Science libraries.
 
-Math/Data Science libraries covered include:
-[Weka](https://www.cs.waikato.ac.nz/ml/weka/), [Smile](http://haifengl.github.io/), [Apache Commons Math](https://commons.apache.org/proper/commons-math/), [Jupyter/Beakerx](http://beakerx.com/) notebooks, [Tablesaw](https://tablesaw.tech/), Deep Learning4J.
+Math/Data Science libraries covered include:<br>
+[Weka](https://www.cs.waikato.ac.nz/ml/weka/),
+[Smile](http://haifengl.github.io/),
+[Apache Commons Math](https://commons.apache.org/proper/commons-math/),
+[Jupyter/Beakerx](http://beakerx.com/) notebooks,
+[Tablesaw](https://tablesaw.tech/),
+[Deep Learning4J](https://deeplearning4j.org/).
 
-Libraries for scaling/concurrency include:
-Apache Spark, Apache Ignite, Apache MXNet, GPars, Apache Beam.
+Libraries for scaling/concurrency include:<br>
+[Apache Spark](https://spark.apache.org/),
+[Apache Ignite](https://ignite.apache.org/),
+[Apache MXNet](https://mxnet.apache.org/),
+[GPars](http://gpars.org/),
+[Apache Beam](https://beam.apache.org/).
 
 ### House price prediction with regression
 
@@ -36,6 +45,9 @@ The complete repo has additional examples using alternative dataframe, CVS handl
 * The [HousePricesSpark](subprojects/HousePricesSpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
 
 * The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars.
+In particular, this example illustrates how to tweak algorithms to improve how well they will work concurrently.
+Standard least squares linear regression isn't ideal for parallel training but can be made to work reasonably well with some assumptions.
+Other approaches like stochastic gradient descent should also be considered.
 
 ### Whiskey clustering with K-means
 
@@ -77,3 +89,11 @@ If you have opened the repo in IntelliJ (or your favourite IDE) you should be ab
 
 Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageDetect%2Fsrc%2Fmain%2Fnotebook%2FLanguageDetect.ipynb)
+
+### Diet optimization
+
+Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.
+If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
+
+Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FDiet%2Fsrc%2Fmain%2Fnotebook%2FDiet.ipynb)

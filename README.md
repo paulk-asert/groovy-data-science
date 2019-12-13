@@ -49,6 +49,8 @@ In particular, this example illustrates how to tweak algorithms to improve how w
 Standard least squares linear regression isn't ideal for parallel training but can be made to work reasonably well with some assumptions.
 Other approaches like stochastic gradient descent should also be considered.
 
+__Requirements__: Some examples run only on JDK 8, e.g. examples using GroovyFX. Most others run on JDK 8 or 11.
+
 ### Whiskey clustering with K-means
 
 K-means is the most common form of “centroid” clustering.
@@ -97,3 +99,14 @@ If you have opened the repo in IntelliJ (or your favourite IDE) you should be ab
 
 Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FDiet%2Fsrc%2Fmain%2Fnotebook%2FDiet.ipynb)
+
+### Digit recognition using neural networks
+
+More details can be found in the [Mnist](subprojects/Mnist/) subproject.
+It contains examples using hand-written neural networks with
+[Apache Commons Math](https://commons.apache.org/proper/commons-math/) used for matrix calculations
+and multilayer perceptron examples using
+[Deep Learning4J](https://deeplearning4j.org/).
+
+![Running Gui.groovy](images/mnist_gui.png)
+

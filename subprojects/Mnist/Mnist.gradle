@@ -1,13 +1,13 @@
 apply plugin: 'groovy'
 
 repositories {
-    mavenLocal()
+//    mavenLocal()
     jcenter()
     mavenCentral()
 }
 
 ext {
-    nd4jVersion = '1.0.0-beta4'
+    nd4jVersion = '1.0.0-beta5'
 }
 
 dependencies {
@@ -15,5 +15,6 @@ dependencies {
     compile "org.nd4j:nd4j-native-platform:$nd4jVersion"
     compile "org.deeplearning4j:deeplearning4j-core:$nd4jVersion"
     compile "org.slf4j:slf4j-simple:$slf4jVersion"
-    compile 'org.groovyfx:groovyfx:8.1.0-SNAPSHOT'
+//    compile 'org.groovyfx:groovyfx:8.1.0-SNAPSHOT'
+    compile 'org.groovyfx:groovyfx:8.0.0'
 }

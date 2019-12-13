@@ -92,6 +92,8 @@ If you have opened the repo in IntelliJ (or your favourite IDE) you should be ab
 Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageDetect%2Fsrc%2Fmain%2Fnotebook%2FLanguageDetect.ipynb)
 
+![Language detection notebook screenshot.groovy](images/lang_detect_notebook.png)
+
 ### Diet optimization
 
 Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.

@@ -34,7 +34,7 @@ __Data details__:
 The MNIST dataset is freely available from:<br>
 http://yann.lecun.com/exdb/mnist/
 
-The application requires all 4 files to be present:
+The application uses these 4 files:
 
 train-images-idx3-ubyte.gz<br>
 train-labels-idx1-ubyte.gz<br>
@@ -47,3 +47,9 @@ The `train*` files are the training dataset (60,000 images).<br>
 The `t10k*` files are the test dataset (10,000 images).<br>
 The `*images*` files contain the pixel data of the images.<br>
 The `*label*` files contain the label (number 0-9) for each image.
+
+Since the trainer script is primarily interested in training the mode,
+the `t10k` files aren't strictly necessary.
+However, currently the script outputs the model accuracy before saving.
+You could avoid downloading the `t10k` files if
+you delete the parts of the code which check accuracy.

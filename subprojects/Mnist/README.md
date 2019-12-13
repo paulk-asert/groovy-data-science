@@ -3,7 +3,7 @@
 Groovy code examples can be found in the [src](src/main/groovy) folder.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
-### Deeplearning4j example
+## Deeplearning4j example
 
 A multilayer perceptron (MLP) is a class of feed-forward artificial neural network, i.e. each
 layer feeds forward to the next layer based on weights and thresholds.
@@ -17,7 +17,7 @@ The [OneLayerMLP](src/main/groovy/OneLayerMLP.groovy)
 and [TwoLayerMLP](src/main/groovy/TwoLayerMLP.groovy) examples use
 [Deep Learning4J](https://deeplearning4j.org/).
 
-### Apache Commons Math Matrix example
+## Apache Commons Math Matrix example
 
 The scripts for this example use
 [Apache Commons Math](https://commons.apache.org/proper/commons-math/)
@@ -34,22 +34,22 @@ __Data details__:
 The MNIST dataset is freely available from:<br>
 http://yann.lecun.com/exdb/mnist/
 
-The application uses these 4 files:
+The trainer script uses these 4 files:
 
 train-images-idx3-ubyte.gz<br>
 train-labels-idx1-ubyte.gz<br>
 t10k-images-idx3-ubyte.gz<br>
 t10k-labels-idx1-ubyte.gz
 
-You should update the path to these files in the Groovy script before running.
+You should update the path to these files in the script before running.
 
 The `train*` files are the training dataset (60,000 images).<br>
 The `t10k*` files are the test dataset (10,000 images).<br>
 The `*images*` files contain the pixel data of the images.<br>
 The `*label*` files contain the label (number 0-9) for each image.
 
-Since the trainer script is primarily interested in training the mode,
+Since the trainer script is primarily interested in training the model,
 the `t10k` files aren't strictly necessary.
-However, currently the script outputs the model accuracy before saving.
+Currently the script outputs the model accuracy before saving.
 You could avoid downloading the `t10k` files if
 you delete the parts of the code which check accuracy.

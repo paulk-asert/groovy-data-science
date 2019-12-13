@@ -1,11 +1,10 @@
-apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
 ext {
-    beamVersion = '2.14.0'
+    beamVersion = '2.16.0'
     smileVersion = '1.5.3'
 }
 

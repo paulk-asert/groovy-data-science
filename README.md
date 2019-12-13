@@ -61,6 +61,8 @@ which are found as part of the clustering process.
 Members of each cluster should be similar to each other and
 different from the members of the other clusters.
 The K represents the number of clusters to find.
+This example uses K-means to look at grouping together
+similar Whiskey drinks from various distilleries.
 
 ![Constraint programming](images/whiskey.png)
 
@@ -87,7 +89,7 @@ It uses the [Apache OpenNLP](https://opennlp.apache.org/) library.
 Groovy code examples can be found in the [LanguageDetect](subprojects/LanguageDetect/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
-Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
+Alternatively, you can run the example online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageDetect%2Fsrc%2Fmain%2Fnotebook%2FLanguageDetect.ipynb)
 
 ### Digit recognition using neural networks

@@ -29,8 +29,9 @@ static buildPipeline(Pipeline p) {
             def chunkSize = 6000
             def table = Table.read().csv(path)
             table = table.dropWhere(table.column("bedrooms").isGreaterThan(30))
-            def idxs = 0..<table.rowCount()
-            for (nextChunkIdxs in idxs.shuffled().collate(chunkSize)) {
+            def idxs = (0..<table.rowCount()).toList()
+            idxs.shuffle()
+            for (nextChunkIdxs in idxs.collate(chunkSize)) {
                 def chunk = table.rows(*nextChunkIdxs)
                 receiver.output(chunk.as().doubleMatrix(*features))
             }

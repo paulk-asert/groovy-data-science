@@ -103,7 +103,7 @@ to optimize a diet problem. Given the cost and nutrition values of various
 foods, can we minimise the cost of a diet but still meet various
 health requirements for the diet.
 
-![Linear programming](images/lp_screenshot.png){:width="50%" height="50%"}
+![Linear programming](images/lp_screenshot.png)
 
 Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.

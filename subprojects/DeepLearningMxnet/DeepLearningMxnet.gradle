@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
 
 ext {
-    mxnetVersion = '1.5.0'
+    mxnetVersion = '1.5.1'
     commonsIoVersion = '2.6'
 }
 

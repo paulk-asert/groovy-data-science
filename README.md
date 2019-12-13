@@ -123,6 +123,23 @@ It contains examples using hand-written neural networks with
 and multilayer perceptron examples using
 [Deep Learning4J](https://deeplearning4j.org/).
 
+### Deep-learning with Apache MXNet
+
+Neural networks with numerous layers of nodes allow for more complex, rich and _deeper_ processing and understanding.
+This example detects objects within an image.
+It uses a pre-trained model and the
+[Apache MXNet](https://mxnet.apache.org/)
+library.
+
+![MXNet.groovy](images/mxnet.png)
+
+Groovy code examples can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxnet/src/main/groovy) subproject.
+If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
+
+__Requirements__: Unfortunately the MXNet Java Inference API (which is what our Groovy script is using)
+currently has issues running in Windows. The Scala API has the same issue.
+Avoid the Windows platform for this example for now.
+
 ### Diet optimization
 
 Optimization algorithms aren't exclusively related just to data science but

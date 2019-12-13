@@ -62,6 +62,8 @@ Members of each cluster should be similar to each other and
 different from the members of the other clusters.
 The K represents the number of clusters to find.
 
+![Constraint programming](images/whiskey.png)
+
 Groovy code examples can be found in the [Whiskey](subprojects/Whiskey/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 

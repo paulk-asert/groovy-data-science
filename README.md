@@ -16,6 +16,7 @@ Math/Data Science libraries covered include:<br>
 [Apache Commons Math](https://commons.apache.org/proper/commons-math/),
 [Jupyter/Beakerx](http://beakerx.com/) notebooks,
 [Tablesaw](https://tablesaw.tech/),
+[Apache OpenNLP](https://opennlp.apache.org/),
 [Deep Learning4J](https://deeplearning4j.org/).
 
 Libraries for scaling/concurrency include:<br>
@@ -73,34 +74,16 @@ The complete repo has additional examples using alternative clustering algorithm
 
 * The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
 
-### Cryptarithmetic puzzle with constraint programming
-
-While not often spoken about as a classic data science technique,
-constraint programming can be a very useful tool in numerous scenarios.
-
-Groovy code examples can be found in the [SendMoreMoney](subprojects/SendMoreMoney/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
-
-Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FSendMoreMoney%2Fsrc%2Fmain%2Fnotebook%2FSendMoreMoney.ipynb)
-
 ### Natural language processing
 
 Groovy code examples can be found in the [LanguageDetect](subprojects/LanguageDetect/src/main/groovy) subproject.
+They make use of a pre-trained language model and [Apache OpenNLP](https://opennlp.apache.org/).
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
 Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageDetect%2Fsrc%2Fmain%2Fnotebook%2FLanguageDetect.ipynb)
 
 ![Language detection notebook screenshot.groovy](images/lang_detect_notebook.png)
-
-### Diet optimization
-
-Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
-
-Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FDiet%2Fsrc%2Fmain%2Fnotebook%2FDiet.ipynb)
 
 ### Digit recognition using neural networks
 
@@ -112,3 +95,34 @@ and multilayer perceptron examples using
 
 ![Running Gui.groovy](images/mnist_gui.png)
 
+### Diet optimization
+
+Optimization algorithms aren't exclusively related just to data science but
+never-the-less can crop up quite often. This case study looks at using linear programming
+to optimize a diet problem. Given the cost and nutrition values of various
+foods, can we minimise the cost of a diet but still meet various
+health requirements for the diet.
+
+![Linear programming](images/lp_screenshot.png){:width="50%" height="50%"}
+
+Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.
+If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
+There are examples which use
+[Apache Commons Math](https://commons.apache.org/proper/commons-math/),
+[Choco](http://www.choco-solver.org/),
+[Ojalgo](https://www.ojalgo.org/),
+and the [SAS](https://www.sas.com/en_us/home.html) Groovy integration.
+
+Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FDiet%2Fsrc%2Fmain%2Fnotebook%2FDiet.ipynb)
+
+### Cryptarithmetic puzzle with constraint programming
+
+While not often spoken about as a classic data science technique,
+constraint programming can be a very useful tool in numerous scenarios.
+
+Groovy code examples can be found in the [SendMoreMoney](subprojects/SendMoreMoney/src/main/groovy) subproject.
+If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
+
+Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FSendMoreMoney%2Fsrc%2Fmain%2Fnotebook%2FSendMoreMoney.ipynb)

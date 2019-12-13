@@ -76,24 +76,33 @@ The complete repo has additional examples using alternative clustering algorithm
 
 ### Natural language processing
 
+Natural language processing may involve language detection, parsing, part-of-speech tagging and other activities.
+This example makes use of a pre-trained language model to detect the language used for a fragment of text.
+It uses the [Apache OpenNLP](https://opennlp.apache.org/) library.
+
+![Language detection notebook screenshot.groovy](images/lang_detect_notebook.png)
+
 Groovy code examples can be found in the [LanguageDetect](subprojects/LanguageDetect/src/main/groovy) subproject.
-They make use of a pre-trained language model and [Apache OpenNLP](https://opennlp.apache.org/).
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
 Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageDetect%2Fsrc%2Fmain%2Fnotebook%2FLanguageDetect.ipynb)
 
-![Language detection notebook screenshot.groovy](images/lang_detect_notebook.png)
-
 ### Digit recognition using neural networks
+
+An artificial neural network consists of layers of nodes which talk to other nodes based on weights and thresholds.
+It mimics to some degree the way in which neurons are interconnected in biological neural networks.
+Neural networks are particularly good when some degree of fuzziness is required in the processing activity.
+They are popular for speech and image recognition and medical diagnosis among other areas.
+This example looks at using neural networks for digit recognition.
+
+![Running Gui.groovy](images/mnist_gui.png)
 
 More details can be found in the [Mnist](subprojects/Mnist/) subproject.
 It contains examples using hand-written neural networks with
 [Apache Commons Math](https://commons.apache.org/proper/commons-math/) used for matrix calculations
 and multilayer perceptron examples using
 [Deep Learning4J](https://deeplearning4j.org/).
-
-![Running Gui.groovy](images/mnist_gui.png)
 
 ### Diet optimization
 
@@ -102,24 +111,31 @@ never-the-less can crop up quite often. This case study looks at using linear pr
 to optimize a diet problem. Given the cost and nutrition values of various
 foods, can we minimise the cost of a diet but still meet various
 health requirements for the diet.
-
-![Linear programming](images/lp_screenshot.png)
-
-Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 There are examples which use
 [Apache Commons Math](https://commons.apache.org/proper/commons-math/),
 [Choco](http://www.choco-solver.org/),
 [Ojalgo](https://www.ojalgo.org/),
 and the [SAS](https://www.sas.com/en_us/home.html) Groovy integration.
 
-Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
+![Linear programming](images/lp_screenshot.png)
+
+Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.
+If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
+
+Alternatively, you can run the Apache Commons Math example online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FDiet%2Fsrc%2Fmain%2Fnotebook%2FDiet.ipynb)
 
 ### Cryptarithmetic puzzle with constraint programming
 
 While not often spoken about as a classic data science technique,
 constraint programming can be a very useful tool in numerous scenarios.
+It allows users to specify characteristics of a problem as high-level constraints
+and then invoke a solution engine which will apply back-tracking,
+constraint propagation and perhaps heuristics to find a solution matching the constraints.
+This example solves a classic cryparithmetic puzzle using constraint programming.
+The Groovy solution is contrasted with brute-force approaches and python solutions.
+
+![Constraint programming](images/cp_screenshot.png)
 
 Groovy code examples can be found in the [SendMoreMoney](subprojects/SendMoreMoney/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.

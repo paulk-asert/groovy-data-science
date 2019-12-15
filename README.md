@@ -26,6 +26,12 @@ Libraries for scaling/concurrency include:<br>
 [GPars](http://gpars.org/),
 [Apache Beam](https://beam.apache.org/).
 
+Libraries for graphing/visualization include:<br>
+[Tablesaw Plot.ly support](https://jtablesaw.github.io/tablesaw/userguide/Introduction_to_Plotting.html),
+[Smile visualization](http://haifengl.github.io/visualization.html),
+[JFreeChart](https://ignite.apache.org/),
+[GroovyFX](https://mxnet.apache.org/).
+
 ### House price prediction with regression
 
 Linear regression will enable us to find a "best fit" linear relationship between some properties or features of interest.

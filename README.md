@@ -8,7 +8,7 @@ Groovy is a powerful multi-paradigm programming language for the JVM that offers
 
 * Groovy has first-class functional support, meaning that it offers features and allows solutions similar to Scala. Functional and stream processing with immutable data structures can offer many advantages when working in parallel processing or clustered environments.
 
-This repo has examples of using Groovy with various Data Science libraries.
+This repo has examples of using Groovy with various Data Science and related libraries.
 
 Math/Data Science libraries covered include:<br>
 [Weka](https://www.cs.waikato.ac.nz/ml/weka/),
@@ -18,8 +18,9 @@ Math/Data Science libraries covered include:<br>
 [Tablesaw](https://tablesaw.tech/),
 [Apache OpenNLP](https://opennlp.apache.org/),
 [Deep Learning4J](https://deeplearning4j.org/).
+[Choco](http://www.choco-solver.org/).
 
-Libraries for scaling/concurrency include:<br>
+Libraries for scaling, concurrency and machine learning at scale include:<br>
 [Apache Spark](https://spark.apache.org/),
 [Apache Ignite](https://ignite.apache.org/),
 [Apache MXNet](https://mxnet.apache.org/),
@@ -29,8 +30,9 @@ Libraries for scaling/concurrency include:<br>
 Libraries for graphing/visualization include:<br>
 [Tablesaw Plot.ly support](https://jtablesaw.github.io/tablesaw/userguide/Introduction_to_Plotting.html),
 [Smile visualization](http://haifengl.github.io/visualization.html),
-[JFreeChart](https://ignite.apache.org/),
-[GroovyFX](https://mxnet.apache.org/).
+[JFreeChart](http://www.jfree.org/jfreechart/),
+[XChart](https://knowm.org/open-source/xchart/),
+[GroovyFX](http://groovyfx.org/).
 
 ### House price prediction with regression
 

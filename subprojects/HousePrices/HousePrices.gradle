@@ -19,4 +19,5 @@ dependencies {
     compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
     compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
     compile "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
+//    runtime 'com.github.fommil.netlib:all:1.1.2'
 }

@@ -10,14 +10,14 @@ Groovy is a powerful multi-paradigm programming language for the JVM that offers
 
 This repo has examples of using Groovy with various Data Science and related libraries.
 
-Math/Data Science libraries covered include:<br>
+Math and Data Science libraries and technologies covered include:<br>
 [Weka](https://www.cs.waikato.ac.nz/ml/weka/),
 [Smile](http://haifengl.github.io/),
 [Apache Commons Math](https://commons.apache.org/proper/commons-math/),
 [Jupyter/Beakerx](http://beakerx.com/) notebooks,
 [Tablesaw](https://tablesaw.tech/),
 [Apache OpenNLP](https://opennlp.apache.org/),
-[Deep Learning4J](https://deeplearning4j.org/).
+[Deep Learning4J](https://deeplearning4j.org/),
 [Choco](http://www.choco-solver.org/).
 
 Libraries for scaling, concurrency and machine learning at scale include:<br>
@@ -33,6 +33,10 @@ Libraries for graphing/visualization include:<br>
 [JFreeChart](http://www.jfree.org/jfreechart/),
 [XChart](https://knowm.org/open-source/xchart/),
 [GroovyFX](http://groovyfx.org/).
+
+Utility libraries covered include:<br>
+[OpenCSV](http://opencsv.sourceforge.net/),
+[Apache Commons CSV](https://commons.apache.org/proper/commons-csv/),
 
 ### House price prediction with regression
 

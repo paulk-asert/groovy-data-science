@@ -9,8 +9,8 @@ config {
         description = 'Examples using Groovy for Data Science'
         links {
             website      = 'https://github.com/paulk-asert/groovy-data-science'
-            issueTracker = 'https://github.com/paulk-asert/groovy-constraint-programming/issues'
-            scm          = 'https://github.com/paulk-asert/groovy-constraint-programming.git'
+            issueTracker = 'https://github.com/paulk-asert/groovy-data-science/issues'
+            scm          = 'https://github.com/paulk-asert/groovy-data-science.git'
         }
     }
 

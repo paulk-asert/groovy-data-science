@@ -4,7 +4,7 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 
 ext {
-    beamVersion = '2.16.0'
+    beamVersion = '2.19.0'
     smileVersion = '1.5.3'
 }
 
@@ -21,4 +21,9 @@ dependencies {
     compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
     compile "com.github.haifengl:smile-core:$smileVersion"
     compile 'junit:junit:4.12'
+}
+
+application {
+    mainClassName = 'HousePricesBeam'
+//    mainClassName = 'HousePricesBeamMeta'
 }

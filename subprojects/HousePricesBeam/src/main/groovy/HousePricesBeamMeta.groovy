@@ -17,7 +17,7 @@ import util.Log
 
 import static java.lang.Math.sqrt
 
-static buildPipeline(Pipeline p) {
+static buildPipeline(Pipeline p, String filename) {
     def features = [
             'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_living15', 'lat',
             'sqft_above', 'grade', 'view', 'waterfront', 'floors'
@@ -29,9 +29,8 @@ static buildPipeline(Pipeline p) {
             def chunkSize = 6000
             def table = Table.read().csv(path)
             table = table.dropWhere(table.column("bedrooms").isGreaterThan(30))
-            def idxs = (0..<table.rowCount()).toList()
-            idxs.shuffle()
-            for (nextChunkIdxs in idxs.collate(chunkSize)) {
+            def idxs = 0..<table.rowCount()
+            for (nextChunkIdxs in idxs.shuffled().collate(chunkSize)) {
                 def chunk = table.rows(*nextChunkIdxs)
                 receiver.output(chunk.as().doubleMatrix(*features))
             }
@@ -73,7 +72,7 @@ static buildPipeline(Pipeline p) {
     }
 
     var csvChunks = p
-            | Create.of('/path/to/kc_house_data.csv')
+            | Create.of(filename)
             | 'Create chunks' >> ParDo.of(readCsvChunks)
 
     var model = csvChunks
@@ -96,6 +95,8 @@ PCollection.metaClass.or = { List arg -> delegate.apply(*arg) }
 PCollection.metaClass.or = { PTransform arg -> delegate.apply(arg) }
 String.metaClass.rightShift = { PTransform arg -> [delegate, arg] }
 Pipeline.metaClass.or = { PTransform arg -> delegate.apply(arg) }
+
 def pipeline = Pipeline.create()
-buildPipeline(pipeline)
+//buildPipeline(pipeline, '/path/to/kc_house_data.csv')
+buildPipeline(pipeline, getClass().classLoader.getResource('kc_house_data.csv').path)
 pipeline.run().waitUntilFinish()

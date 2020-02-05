@@ -15,7 +15,6 @@ import util.Log
 
 import static java.lang.Math.sqrt
 
-
 //interface Options extends PipelineOptions {
 //    @Description("Input file path")
 //    @Default.String('/path/to/kc_house_data.csv')
@@ -28,7 +27,7 @@ import static java.lang.Math.sqrt
 //    void setOutputDir(String value)
 //}
 
-static buildPipeline(Pipeline p) {
+static buildPipeline(Pipeline p, String filename) {
     def features = [
             'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_living15', 'lat',
             'sqft_above', 'grade', 'view', 'waterfront', 'floors'
@@ -41,8 +40,7 @@ static buildPipeline(Pipeline p) {
             def table = Table.read().csv(path)
             table = table.dropWhere(table.column("bedrooms").isGreaterThan(30))
             def idxs = 0..<table.rowCount()
-            Collections.shuffle(idxs.toList())
-            for (nextChunkIdxs in idxs.collate(chunkSize)) {
+            for (nextChunkIdxs in idxs.shuffled().collate(chunkSize)) {
                 def chunk = table.rows(*nextChunkIdxs)
                 receiver.output(chunk.as().doubleMatrix(*features))
             }
@@ -85,7 +83,7 @@ static buildPipeline(Pipeline p) {
     }
 
     var csvChunks = p
-            .apply(Create.of('/path/to/kc_house_data.csv'))
+            .apply(Create.of(filename))
             .apply('Create chunks', ParDo.of(readCsvChunks))
     var model = csvChunks
             .apply('Fit chunks', ParDo.of(fitModel))
@@ -101,5 +99,6 @@ static buildPipeline(Pipeline p) {
 }
 
 def pipeline = Pipeline.create()
-buildPipeline(pipeline)
+//buildPipeline(pipeline, '/path/to/kc_house_data.csv')
+buildPipeline(pipeline, getClass().classLoader.getResource('kc_house_data.csv').path)
 pipeline.run().waitUntilFinish()

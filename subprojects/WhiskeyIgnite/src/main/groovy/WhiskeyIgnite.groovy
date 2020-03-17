@@ -1,10 +1,11 @@
 import org.apache.ignite.Ignition
+import org.apache.ignite.cache.affinity.rendezvous.RendezvousAffinityFunction
+import org.apache.ignite.configuration.CacheConfiguration
 import org.apache.ignite.configuration.IgniteConfiguration
 import org.apache.ignite.ml.clustering.kmeans.KMeansTrainer
 import org.apache.ignite.ml.dataset.feature.extractor.Vectorizer
 import org.apache.ignite.ml.dataset.feature.extractor.impl.DoubleArrayVectorizer
 import org.apache.ignite.ml.math.distances.EuclideanDistance
-import org.apache.ignite.ml.util.SandboxMLCache
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi
 import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder
 import tech.tablesaw.api.Table
@@ -33,7 +34,10 @@ def cfg = new IgniteConfiguration(
 Ignition.start(cfg).withCloseable { ignite ->
   println ">>> Ignite grid started for data: ${data.size()} rows X ${data[0].size()} cols"
   def trainer = new KMeansTrainer().withDistance(new EuclideanDistance()).withAmountOfClusters(5)
-  def dataCache = new SandboxMLCache(ignite).fillCacheWith(data)
+  def dataCache = ignite.createCache(new CacheConfiguration<Integer, double[]>(
+          name: "TEST_${UUID.randomUUID()}",
+          affinity: new RendezvousAffinityFunction(false, 10)))
+  (0..<data.length).each { int i -> dataCache.put(i, data[i]) }
   def vectorizer = new DoubleArrayVectorizer().labeled(Vectorizer.LabelCoordinate.FIRST)
   def mdl = trainer.fit(ignite, dataCache, vectorizer)
   println ">>> KMeans centroids"

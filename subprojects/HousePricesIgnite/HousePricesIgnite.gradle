@@ -4,14 +4,14 @@ repositories {
     jcenter()
     mavenCentral()
     // snapshot installed in local maven repo
-    mavenLocal()
+//    mavenLocal()
 //    maven {
 //        url 'file:/staging/'
 //    }
 }
 
 ext {
-    igniteVersion = '2.8.0.20190712'
+    igniteVersion = '2.8.0'
 }
 
 dependencies {
@@ -19,5 +19,6 @@ dependencies {
     compile "org.apache.ignite:ignite-core:$igniteVersion"
     compile "org.apache.ignite:ignite-ml:$igniteVersion"
     runtime "org.apache.ignite:ignite-spring:$igniteVersion"
+    runtime "org.slf4j:slf4j-simple:1.7.29"
     compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
 }

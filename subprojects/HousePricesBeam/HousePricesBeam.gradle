@@ -4,7 +4,7 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 
 ext {
-    beamVersion = '2.19.0'
+    beamVersion = '2.24.0'
     smileVersion = '1.5.3'
 }
 

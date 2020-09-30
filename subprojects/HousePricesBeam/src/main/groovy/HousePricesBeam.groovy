@@ -8,12 +8,12 @@ import org.apache.beam.sdk.transforms.DoFn.ProcessElement
 import org.apache.beam.sdk.transforms.ParDo
 import org.apache.beam.sdk.transforms.View
 import org.apache.commons.math3.stat.StatUtils
-import smile.math.Math
 import smile.regression.OLS
 import tech.tablesaw.api.Table
 import util.Log
 
 import static java.lang.Math.sqrt
+import static smile.math.Math.dot
 
 //interface Options extends PipelineOptions {
 //    @Description("Input file path")
@@ -59,10 +59,10 @@ static buildPipeline(Pipeline p, String filename) {
     def evalModel = { double[][] chunk, double[] model ->
         double intercept = model[0]
         double[] coefficients = model[1..-1]
-        def predicted = chunk.collect { row -> intercept + Math.dot(row[1..-1] as double[], coefficients) }
+        def predicted = chunk.collect { row -> intercept + dot(row[1..-1] as double[], coefficients) }
         def residuals = chunk.toList().indexed().collect { idx, row -> predicted[idx] - row[0] }
         def rmse = sqrt(StatUtils.sumSq(residuals as double[]) / chunk.size())
-        def mean = Math.mean(residuals as double[])
+        def mean = residuals.average()
         [rmse, mean, chunk.size()] as double[]
     }
 

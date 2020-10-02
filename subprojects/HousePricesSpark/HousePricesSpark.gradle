@@ -8,7 +8,7 @@ repositories {
 
 ext {
     sparkVariant = '2.11'
-    sparkVersion = '2.4.4'
+    sparkVersion = '2.4.7'
 }
 
 dependencies {

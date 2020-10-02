@@ -7,7 +7,7 @@ repositories {
 }
 
 ext {
-    nd4jVersion = '1.0.0-beta5'
+    nd4jVersion = '1.0.0-beta7'
 }
 
 dependencies {

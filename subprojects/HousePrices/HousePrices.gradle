@@ -8,12 +8,12 @@ repositories {
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    compile 'nz.ac.waikato.cms.weka:weka-stable:3.8.3'
-    compile 'com.opencsv:opencsv:5.0'
-    compile 'org.apache.commons:commons-csv:1.7'
+    compile 'nz.ac.waikato.cms.weka:weka-stable:3.8.4'
+    compile 'com.opencsv:opencsv:5.2'
+    compile 'org.apache.commons:commons-csv:1.8'
     compile 'org.apache.commons:commons-math3:3.6.1'
     compile 'joinery:joinery-dataframe:1.9'
-    compile 'org.knowm.xchart:xchart:3.6.0'
+    compile 'org.knowm.xchart:xchart:3.6.5'
     runtime 'com.xeiam.xchart:xchart:2.5.1'
     compile 'org.groovyfx:groovyfx:8.0.0'
     compile "org.slf4j:slf4j-jdk14:$slf4jVersion"

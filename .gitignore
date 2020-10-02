@@ -1,6 +1,7 @@
 user.gradle
 .gradle/
 target/
+ignite/
 build/
 out/
 testoutput/

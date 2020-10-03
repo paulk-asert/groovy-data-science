@@ -4,6 +4,16 @@ repositories {
     mavenCentral()
 }
 
+file("$projectDir/src/main/groovy").listFiles()*.name.collect{it - '.groovy'}.each { name ->
+    task "run$name"(type: JavaExec) {
+        dependsOn compileGroovy
+        group 'Application tasks'
+        description "Run ${name}.groovy as a JVM application"
+        classpath = sourceSets.main.runtimeClasspath
+        main = name
+    }
+}
+
 dependencies {
     compile "org.codehaus.groovy:groovy-all:$groovyVersion"
     compile 'org.choco-solver:choco-solver:4.10.2'

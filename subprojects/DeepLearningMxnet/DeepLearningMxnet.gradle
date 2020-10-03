@@ -2,7 +2,7 @@ apply plugin: 'groovy'
 
 ext {
     mxnetVersion = '1.5.1'
-    commonsIoVersion = '2.6'
+//    commonsIoVersion = '2.6'
 }
 
 repositories {
@@ -15,9 +15,9 @@ repositories {
 }
 
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    compile "org.apache.mxnet:mxnet-full_2.11-linux-x86_64-cpu:$mxnetVersion"
-    compile "org.slf4j:slf4j-api:$slf4jVersion"
-    compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
-    compile "commons-io:commons-io:$commonsIoVersion"
+    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.apache.mxnet:mxnet-full_2.11-linux-x86_64-cpu:$mxnetVersion"
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    implementation "commons-io:commons-io:$commonsIoVersion"
 }

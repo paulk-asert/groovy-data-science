@@ -13,10 +13,10 @@ repositories {
 }
 
 dependencies {
-    compile "org.codehaus.groovy:groovy:$groovyVersion"
-    compile 'org.codehaus.gpars:gpars:1.2.1'
-    compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
-    compile "com.github.haifengl:smile-core:$smileVersion"
-//    compile "com.github.haifengl:smile-math:$smileVersion"
-    runtime "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    implementation "org.codehaus.groovy:groovy:$groovyVersion"
+    implementation 'org.codehaus.gpars:gpars:1.2.1'
+    implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
+    implementation "com.github.haifengl:smile-core:$smileVersion"
+//    implementation "com.github.haifengl:smile-math:$smileVersion"
+    runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
 }

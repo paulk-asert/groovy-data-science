@@ -6,18 +6,28 @@ repositories {
 //    mavenLocal()
 }
 
+file("$projectDir/src/main/groovy").listFiles()*.name.collect{it - '.groovy'}.each { name ->
+    task "run$name"(type: JavaExec) {
+        dependsOn compileGroovy
+        group 'Application tasks'
+        description "Run ${name}.groovy as a JVM application"
+        classpath = sourceSets.main.runtimeClasspath
+        main = name
+    }
+}
+
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    compile 'nz.ac.waikato.cms.weka:weka-stable:3.8.4'
-    compile 'com.opencsv:opencsv:5.2'
-    compile 'org.apache.commons:commons-csv:1.8'
-    compile 'org.apache.commons:commons-math3:3.6.1'
-    compile 'joinery:joinery-dataframe:1.9'
-    compile 'org.knowm.xchart:xchart:3.6.5'
-    runtime 'com.xeiam.xchart:xchart:2.5.1'
-    compile 'org.groovyfx:groovyfx:8.0.0'
-    compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
-    compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
-    compile "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
+    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "nz.ac.waikato.cms.weka:weka-stable:$wekaVersion"
+    implementation 'com.opencsv:opencsv:5.2'
+    implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'joinery:joinery-dataframe:1.9'
+    implementation 'org.knowm.xchart:xchart:3.6.5'
+    runtimeOnly 'com.xeiam.xchart:xchart:2.5.1'
+    implementation 'org.groovyfx:groovyfx:8.0.0'
+    implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
+    implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
 //    runtime 'com.github.fommil.netlib:all:1.1.2'
 }

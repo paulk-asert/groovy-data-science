@@ -13,14 +13,14 @@ repositories {
 }
 
 dependencies {
-    compile "org.apache.beam:beam-sdks-java-core:$beamVersion"
-    runtime "org.apache.beam:beam-runners-direct-java:$beamVersion"
-    compile "org.slf4j:slf4j-api:$slf4jVersion"
-    compile "org.slf4j:slf4j-jdk14:$slf4jVersion"
-    compile "org.codehaus.groovy:groovy:$groovyVersion"
-    compile "tech.tablesaw:tablesaw-core:$tablesawVersion"
-    compile "com.github.haifengl:smile-core:$smileVersion"
-    compile 'junit:junit:4.12'
+    implementation "org.apache.beam:beam-sdks-java-core:$beamVersion"
+    implementation "org.apache.beam:beam-runners-direct-java:$beamVersion"
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    implementation "org.codehaus.groovy:groovy:$groovyVersion"
+    implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
+    implementation "com.github.haifengl:smile-core:$smileVersion"
+    implementation "junit:junit:$junitVersion"
 }
 
 application {

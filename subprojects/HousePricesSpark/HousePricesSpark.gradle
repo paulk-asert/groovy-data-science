@@ -17,8 +17,8 @@ ext {
 }
 
 dependencies {
-    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
-    compile "org.apache.spark:spark-core_$sparkVariant:$sparkVersion"
-    compile "org.apache.spark:spark-sql_$sparkVariant:$sparkVersion"
-    compile "org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion"
+    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.apache.spark:spark-core_$sparkVariant:$sparkVersion"
+    implementation "org.apache.spark:spark-sql_$sparkVariant:$sparkVersion"
+    implementation "org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion"
 }

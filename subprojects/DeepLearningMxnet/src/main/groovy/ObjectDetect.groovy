@@ -4,8 +4,8 @@
 // For now, use another OS (in a VM if needed).
 //@GrabExclude("commons-codec#commons-codec:1.10")
 //@Grab("org.apache.mxnet:mxnet-full_2.11-linux-x86_64-cpu:1.5.1")
-//@Grab("org.slf4j:slf4j-api:1.7.29")
-//@Grab("org.slf4j:slf4j-jdk14:1.7.29")
+//@Grab("org.slf4j:slf4j-api:1.7.30")
+//@Grab("org.slf4j:slf4j-jdk14:1.7.30")
 import groovy.swing.SwingBuilder
 import javax.imageio.ImageIO
 import org.apache.mxnet.infer.javaapi.ObjectDetector

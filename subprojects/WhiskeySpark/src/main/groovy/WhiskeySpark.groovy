@@ -3,7 +3,7 @@
 //@Grab('org.apache.spark:spark-mllib_2.11:2.4.7')
 //@GrabExclude("commons-codec:commons-codec:1.10")
 //@GrabExclude("javax.xml.stream:stax-api:1.0-2")
-//@Grab("commons-io:commons-io:2.6")
+//@Grab("commons-io:commons-io:2.8.0")
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.sql.Dataset

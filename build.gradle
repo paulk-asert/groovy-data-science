@@ -23,3 +23,11 @@ config {
         }
     }
 }
+
+ext.UNSTABLE = /^[0-9,.-]+[.-](alpha|beta|rc)[.\d-]*$/
+// ignore non-stable releases
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        !(it.currentVersion.toLowerCase() ==~ UNSTABLE) && it.candidate.version.toLowerCase() ==~ UNSTABLE
+    }
+}

@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+apply plugin: 'application'
 
 repositories {
     jcenter()
@@ -12,6 +13,10 @@ repositories {
 
 ext {
     igniteVersion = '2.8.1'
+}
+
+application {
+    mainClass = 'HousePricesIgnite'
 }
 
 dependencies {

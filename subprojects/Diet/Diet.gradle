@@ -4,6 +4,23 @@ repositories {
     mavenCentral()
 }
 
+static List<String> baseNames(File subdir, List<String> exclusions = []) {
+    subdir.listFiles()*.name
+            .findAll{it.endsWith('.groovy')}
+            .collect{it - '.groovy'}
+            .findAll{ !(it in exclusions) }
+}
+
+baseNames(file("$projectDir/src/main/groovy")).each { name ->
+    task "run$name"(type: JavaExec) {
+        dependsOn compileGroovy
+        group 'Script'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        main = name
+    }
+}
+
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
     implementation "org.choco-solver:choco-solver:$chocoVersion"

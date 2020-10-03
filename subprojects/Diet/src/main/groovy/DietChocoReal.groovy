@@ -4,6 +4,15 @@
 import org.chocosolver.solver.Model
 import org.chocosolver.solver.variables.RealVar
 
+try {
+    Class.forName('org.chocosolver.solver.constraints.real.Ibex')
+} catch(UnsatisfiedLinkError error) {
+    System.err.println 'This examples requires ibex to be installed as per:'
+    System.err.println 'https://choco-solver.org/docs/advanced-usages/ibex/'
+    System.err.println error.message
+    return
+}
+
 def model = new Model("Diet problem")
 def unbounded = 1000.0d
 def precision = 0.00001d

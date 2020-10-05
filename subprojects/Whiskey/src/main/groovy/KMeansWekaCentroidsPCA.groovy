@@ -61,9 +61,8 @@ clusters.each { k, v ->
 }
 
 def spiderPlot = new SpiderWebPlot(dataset: category)
-def spiderChart = new JFreeChart('Whiskey cluster centroids spider plot', spiderPlot)
+def spiderChart = new JFreeChart('Centroids spider plot', spiderPlot)
 def spiderPanel = new ChartPanel(spiderChart)
-spiderPanel.displayToolTips = true
 
 def r = new XYBubbleRenderer()
 r.setDefaultToolTipGenerator(new StandardXYToolTipGenerator())
@@ -75,10 +74,10 @@ r.setSeriesPaint(3, new Color(1, 1, 0, 0.2f))
 def xaxis = new NumberAxis(label: "x", autoRange: false, lowerBound: -5, upperBound: 10)
 def yaxis = new NumberAxis(label: "y", autoRange: false, lowerBound: -7, upperBound: 5)
 def bubblePlot = new XYPlot(xyz, xaxis, yaxis, r)
-def bubbleChart = new JFreeChart('Whiskey cluster groupings PCA plot', bubblePlot)
+def bubbleChart = new JFreeChart('PCA bubble plot', bubblePlot)
 def bubblePanel = new ChartPanel(bubbleChart)
 
-SwingUtil.show(spiderPanel, bubblePanel,
-        title: 'Weka: CSV, KMeans, PCA; JFreeChart: plots',
-        size: [600, 1000]
+SwingUtil.showH(spiderPanel, bubblePanel,
+        title: 'Whiskey clusters: Weka=CSV,KMeans,PCA JFreeChart=plots',
+        size: [800, 400]
 )

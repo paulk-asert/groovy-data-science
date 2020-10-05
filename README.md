@@ -13,6 +13,8 @@ This repo has examples of using Groovy with various Data Science and related lib
 Math and Data Science libraries and technologies covered include:<br>
 [Weka](https://www.cs.waikato.ac.nz/ml/weka/),
 [Smile](http://haifengl.github.io/),
+[Datumbox](https://github.com/datumbox/datumbox-framework),
+[Encog](https://github.com/jeffheaton/encog-java-core),
 [Apache Commons Math](https://commons.apache.org/proper/commons-math/),
 [Jupyter/Beakerx](http://beakerx.com/) notebooks,
 [Tablesaw](https://tablesaw.tech/),

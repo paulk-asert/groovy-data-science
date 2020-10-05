@@ -1,11 +1,20 @@
 apply plugin: 'groovy'
-apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
 ext {
     // TODO port to 2.0?
     smileVersion = '1.5.3'
+}
+
+Util.baseNames(file("$projectDir/src/main/groovy")).each { name ->
+    task "run$name"(type: JavaExec) {
+        dependsOn compileGroovy
+        group 'Script'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        main = name
+    }
 }
 
 repositories {

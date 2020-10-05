@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+apply plugin: 'application'
 
 ext {
     mxnetVersion = '1.5.1'
@@ -12,6 +13,10 @@ repositories {
 //        url 'https://repository.apache.org/content/groups/snapshots'
 //    }
 //    mavenLocal()
+}
+
+application {
+    mainClass = 'ObjectDetect'
 }
 
 dependencies {

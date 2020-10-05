@@ -6,11 +6,11 @@ repositories {
 //    mavenLocal()
 }
 
-file("$projectDir/src/main/groovy").listFiles()*.name.collect{it - '.groovy'}.each { name ->
+Util.baseNames(file("$projectDir/src/main/groovy")).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
-        group 'Application tasks'
-        description "Run ${name}.groovy as a JVM application"
+        group 'Script'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         main = name
     }

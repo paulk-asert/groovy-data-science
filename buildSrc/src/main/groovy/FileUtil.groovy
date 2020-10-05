@@ -1,5 +1,5 @@
-class Util {
-    private Util() {}
+class FileUtil {
+    private FileUtil() {}
     static List<String> baseNames(File subdir, List<String> exclusions = []) {
         subdir.listFiles()*.name
                 .findAll{it.endsWith('.groovy')}

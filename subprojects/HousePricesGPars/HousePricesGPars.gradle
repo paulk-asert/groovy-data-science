@@ -7,7 +7,7 @@ ext {
     smileVersion = '1.5.3'
 }
 
-Util.baseNames(file("$projectDir/src/main/groovy")).each { name ->
+FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
         group 'Script'

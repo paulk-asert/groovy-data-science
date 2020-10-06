@@ -14,6 +14,7 @@ Math and Data Science libraries and technologies covered include:<br>
 [Weka](https://www.cs.waikato.ac.nz/ml/weka/),
 [Smile](http://haifengl.github.io/),
 [Datumbox](https://github.com/datumbox/datumbox-framework),
+[Elki](https://elki-project.github.io/),
 [Encog](https://github.com/jeffheaton/encog-java-core),
 [Apache Commons Math](https://commons.apache.org/proper/commons-math/),
 [Jupyter/Beakerx](http://beakerx.com/) notebooks,

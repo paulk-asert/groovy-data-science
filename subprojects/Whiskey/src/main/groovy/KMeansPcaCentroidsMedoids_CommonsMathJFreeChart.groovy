@@ -1,17 +1,15 @@
 import org.apache.commons.math3.linear.EigenDecomposition
 import org.apache.commons.math3.linear.MatrixUtils
-import org.apache.commons.math3.ml.clustering.*
+import org.apache.commons.math3.ml.clustering.DoublePoint
+import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer
 import org.apache.commons.math3.stat.correlation.Covariance
-import org.jfree.chart.*
+import org.jfree.chart.ChartPanel
+import org.jfree.chart.JFreeChart
 import org.jfree.chart.axis.NumberAxis
-import org.jfree.chart.labels.StandardXYToolTipGenerator
 import org.jfree.chart.plot.SpiderWebPlot
 import org.jfree.chart.plot.XYPlot
-import org.jfree.chart.renderer.xy.XYBubbleRenderer
 import org.jfree.data.category.DefaultCategoryDataset
 import org.jfree.data.xy.DefaultXYZDataset
-
-import java.awt.Color
 
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
@@ -99,16 +97,9 @@ clusterPts.each{ k, v ->
     xyz.addSeries("Cluster ${k+1}:", [x, y, z] as double[][])
 }
 
-def r = new XYBubbleRenderer()
-r.setDefaultToolTipGenerator(new StandardXYToolTipGenerator())
-// default colors are solid, make some semi-transparent ones
-r.setSeriesPaint(0, new Color(1, 0, 0, 0.1f))
-r.setSeriesPaint(1, new Color(0, 0, 1, 0.1f))
-r.setSeriesPaint(2, new Color(0, 1, 0, 0.1f))
-r.setSeriesPaint(3, new Color(1, 1, 0, 0.1f))
 def xaxis = new NumberAxis(label: "PCA1", autoRange: false, lowerBound: -3.5, upperBound: 7)
 def yaxis = new NumberAxis(label: "PCA2", autoRange: false, lowerBound: -6, upperBound: 4)
-def bubblePlot = new XYPlot(xyz, xaxis, yaxis, r)
+def bubblePlot = new XYPlot(xyz, xaxis, yaxis, JFreeChartUtil.bubbleRenderer())
 def bubbleChart = new JFreeChart('PCA bubble plot', bubblePlot)
 def bubblePanel = new ChartPanel(bubbleChart)
 

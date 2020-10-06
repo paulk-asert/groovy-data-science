@@ -1,10 +1,6 @@
-import groovy.swing.SwingBuilder
-import javax.swing.WindowConstants
 import java.awt.Color
 import smile.plot.*
 import tech.tablesaw.api.*
-
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE as DISPOSE
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def table = Table.read().csv(file)
@@ -21,8 +17,4 @@ def panel = new PlotPanel(
         }
 )
 
-new SwingBuilder().edt {
-    frame(title: 'Frame', size: [1200, 900], show: true, defaultCloseOperation: DISPOSE) {
-        widget(panel)
-    }
-}
+SwingUtil.show(size: [1200, 900], panel)

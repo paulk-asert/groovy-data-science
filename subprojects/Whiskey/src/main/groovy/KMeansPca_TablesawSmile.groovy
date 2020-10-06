@@ -20,7 +20,7 @@ pca.projection = dims
 def projected = pca.project(data)
 def adj = [1, 1, 1, 5]
 def clusterer = new KMeans(data, 5)
-def labels = clusterer.clusterLabel.collect{ "Cluster " + (it+1) }
+def labels = clusterer.clusterLabel.collect { "Cluster " + (it + 1) }
 rows = rows.addColumns(
     *(0..<dims).collect { idx ->
         DoubleColumn.create("PCA${idx+1}", (0..<data.size()).collect{

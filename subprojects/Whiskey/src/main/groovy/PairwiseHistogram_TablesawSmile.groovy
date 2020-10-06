@@ -1,10 +1,10 @@
-import groovy.swing.SwingBuilder
+import smile.plot.Histogram3D
+import smile.plot.PlotPanel
+import tech.tablesaw.api.Table
 
 import java.awt.Color
-import smile.plot.*
-import tech.tablesaw.api.Table
+
 import static java.awt.Color.*
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE as DISPOSE
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def table = Table.read().csv(file)
@@ -21,11 +21,5 @@ def panel = new PlotPanel(
             Histogram3D.plot(table.as().doubleMatrix(first, second), 4, colors)
         }
 )
-
-new SwingBuilder().edt {
-    frame(title: 'Frame', size: [1200, 900], show: true, defaultCloseOperation: DISPOSE) {
-        widget(panel)
-    }
-}
 
 SwingUtil.show(size: [1200, 900], panel)

@@ -1,3 +1,5 @@
+//@Grab('org.jfree:jfreechart:1.5.0')
+//@Grab('com.datumbox:datumbox-framework-lib:0.8.2')
 import com.datumbox.framework.core.common.dataobjects.Dataframe
 import com.datumbox.framework.common.Configuration
 import com.datumbox.framework.core.machinelearning.MLBuilder
@@ -24,7 +26,8 @@ def config = Configuration.configuration
 def headers = [*:cols.collectEntries{[it, NUMERICAL] }, Distillery: CATEGORICAL]
 Dataframe df = null
 def defaultSeps = [',' as char, '"' as char, "\r\n"]
-new File(getClass().classLoader.getResource('whiskey.csv').file).withReader {
+def filename = getClass().classLoader.getResource('whiskey.csv').file
+new File(filename).withReader {
     df = Dataframe.Builder.parseCSVFile(it, 'Distillery', headers, *defaultSeps, null, null, config)
 }
 
@@ -47,6 +50,7 @@ cl.each { idx, v ->
 
 def centroidPlot = new SpiderWebPlot(dataset: centroids)
 def centroidChart = new JFreeChart('Centroid spider plot', centroidPlot)
+def centroidPanel = new ChartPanel(centroidChart, false)
 
 def pcaParams = new PCA.TrainingParameters(whitened: true, maxDimensions: k)
 PCA featureSelector = MLBuilder.create(pcaParams, config)
@@ -81,8 +85,9 @@ def xaxis = new NumberAxis(label: "PCA1", autoRange: false, lowerBound: -6, uppe
 def yaxis = new NumberAxis(label: "PCA2", autoRange: false, lowerBound: -9, upperBound: 0)
 def bubblePlot = new XYPlot(xyz, xaxis, yaxis, JFreeChartUtil.bubbleRenderer())
 def bubbleChart = new JFreeChart('PCA bubble plot', bubblePlot)
+def bubblePanel = new ChartPanel(bubbleChart, false)
 
-SwingUtil.show(new ChartPanel(centroidChart), new ChartPanel(bubbleChart),
-        size: [400, 800],
+SwingUtil.show(centroidPanel, bubblePanel,
+        size: [600, 900],
         title: 'Whiskey clusters: CSV,kmeans,PCA=datumbox plot=jfreechart'
 )

@@ -23,12 +23,13 @@ def k = 4
 def config = Configuration.configuration
 def headers = [*:cols.collectEntries{[it, NUMERICAL] }, Distillery: CATEGORICAL]
 Dataframe df = null
+def defaultSeps = [',' as char, '"' as char, "\r\n"]
 new File(getClass().classLoader.getResource('whiskey.csv').file).withReader {
-    df = Dataframe.Builder.parseCSVFile(it, 'Distillery', headers, ',' as char, '"' as char, "\r\n", null, null, config)
+    df = Dataframe.Builder.parseCSVFile(it, 'Distillery', headers, *defaultSeps, null, null, config)
 }
 
-def trainParams = new Kmeans.TrainingParameters(k: k, maxIterations: 100, initializationMethod: FORGY,
-        distanceMethod: EUCLIDIAN, weighted: false)
+def trainParams = new Kmeans.TrainingParameters(k: k, maxIterations: 100,
+        initializationMethod: FORGY, distanceMethod: EUCLIDIAN, weighted: false)
 
 Kmeans clusterer = MLBuilder.create(trainParams, config)
 clusterer.fit(df)

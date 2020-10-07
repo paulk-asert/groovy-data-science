@@ -33,5 +33,8 @@ dependencies {
     implementation "com.github.haifengl:smile-plot:$smileVersion"
     implementation "org.jfree:jfreechart:1.5.0"
     implementation "de.lmu.ifi.dbs.elki:elki:0.7.5"
+    implementation("de.lmu.ifi.dbs.elki:elki-batik-visualization:0.7.5") {
+        exclude(group: 'xml-apis', module: 'xml-apis')
+    }
     implementation "com.datumbox:datumbox-framework-lib:0.8.2"
 }

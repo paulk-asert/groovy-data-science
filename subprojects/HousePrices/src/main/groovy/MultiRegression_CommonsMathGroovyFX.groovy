@@ -31,7 +31,7 @@ def rmseTrain = Math.sqrt(reg.calculateResidualSumOfSquares() / (train.size() - 
 def rmseTest = Math.sqrt(StatUtils.sumSq(residuals as double[]) / (test.size() - 1))
 def mean =  residuals.average()
 println "$rr $rmseTrain $rmseTest $mean"
-def showError = true
+def showError = false
 if (showError) {
     def maxError = [residuals.min(), residuals.max()].max { Math.abs(it) }
     residuals << maxError * -1 // make graph even around origin

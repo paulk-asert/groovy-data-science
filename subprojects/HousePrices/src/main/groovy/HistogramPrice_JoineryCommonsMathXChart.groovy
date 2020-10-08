@@ -18,7 +18,8 @@ hist1.plot(DataFrame.PlotType.BAR)
 // we can also use xchart directly (using new version shown)
 
 def hist2 = new Histogram(price.collect{ it[0] }, binCount)
-def chart = new CategoryChartBuilder().width(900).height(450).title("Price Histogram").xAxisTitle("Price").yAxisTitle("Count").build()
+def chart = new CategoryChartBuilder().width(900).height(450)
+        .title("Price Histogram").xAxisTitle("Price").yAxisTitle("Count").build()
 chart.addSeries("Price", hist2.xAxisData, hist2.yAxisData)
 chart.styler.with {
     XAxisLabelRotation = 90

@@ -35,7 +35,7 @@ def regs = idxs.collect { idx ->
     new SimpleRegression().tap{ addData([trainT[idx], trainT[priceIdx]].transpose() as double[][]) }
 }
 def residuals = idxs.collect{ idx -> test.collect{ regs[idx].predict(it[idx]) - it[priceIdx] } }
-def graphIdx = -1
+def graphIdx = 0 // -1 for error stats, 0..<features.size() for distribution chart
 if (graphIdx == -1) {
     idxs.each { idx ->
         features[idx].rr = regs[idx].RSquare

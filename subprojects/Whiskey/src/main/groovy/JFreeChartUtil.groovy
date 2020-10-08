@@ -1,4 +1,7 @@
+import org.jfree.chart.ChartPanel
+import org.jfree.chart.JFreeChart
 import org.jfree.chart.labels.StandardXYToolTipGenerator
+import org.jfree.chart.plot.Plot
 import org.jfree.chart.renderer.xy.XYBubbleRenderer
 
 import java.awt.Color
@@ -15,5 +18,9 @@ class JFreeChartUtil {
         r.setSeriesPaint(2, new Color(0, 1, 0, alpha))
         r.setSeriesPaint(3, new Color(1, 1, 0, alpha))
         r
+    }
+
+    static ChartPanel chart(String title, Plot plot) {
+        new ChartPanel(new JFreeChart(title, plot), false)
     }
 }

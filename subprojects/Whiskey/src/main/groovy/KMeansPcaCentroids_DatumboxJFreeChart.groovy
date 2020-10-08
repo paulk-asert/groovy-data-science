@@ -5,14 +5,14 @@ import com.datumbox.framework.common.Configuration
 import com.datumbox.framework.core.machinelearning.MLBuilder
 import com.datumbox.framework.core.machinelearning.clustering.Kmeans
 import com.datumbox.framework.core.machinelearning.featureselection.PCA
-import org.jfree.chart.ChartPanel
-import org.jfree.chart.JFreeChart
 import org.jfree.chart.axis.NumberAxis
 import org.jfree.chart.plot.SpiderWebPlot
 import org.jfree.chart.plot.XYPlot
 import org.jfree.data.category.DefaultCategoryDataset
 import org.jfree.data.xy.DefaultXYZDataset
 
+import static JFreeChartUtil.bubbleRenderer
+import static JFreeChartUtil.chart
 import static com.datumbox.framework.common.dataobjects.TypeInference.DataType.NUMERICAL
 import static com.datumbox.framework.common.dataobjects.TypeInference.DataType.CATEGORICAL
 import static com.datumbox.framework.core.machinelearning.clustering.Kmeans.TrainingParameters.Distance.EUCLIDIAN
@@ -48,9 +48,7 @@ cl.each { idx, v ->
     }
 }
 
-def centroidPlot = new SpiderWebPlot(dataset: centroids)
-def centroidChart = new JFreeChart('Centroid spider plot', centroidPlot)
-def centroidPanel = new ChartPanel(centroidChart, false)
+def centroidChart = chart('Centroid spider plot', new SpiderWebPlot(dataset: centroids))
 
 def pcaParams = new PCA.TrainingParameters(whitened: true, maxDimensions: k)
 PCA featureSelector = MLBuilder.create(pcaParams, config)
@@ -83,11 +81,9 @@ println clusters
 
 def xaxis = new NumberAxis(label: "PCA1", autoRange: false, lowerBound: -6, upperBound: 10)
 def yaxis = new NumberAxis(label: "PCA2", autoRange: false, lowerBound: -9, upperBound: 0)
-def bubblePlot = new XYPlot(xyz, xaxis, yaxis, JFreeChartUtil.bubbleRenderer())
-def bubbleChart = new JFreeChart('PCA bubble plot', bubblePlot)
-def bubblePanel = new ChartPanel(bubbleChart, false)
+def bubbleChart = chart('PCA bubble plot', new XYPlot(xyz, xaxis, yaxis, bubbleRenderer()))
 
-SwingUtil.show(centroidPanel, bubblePanel,
+SwingUtil.show(centroidChart, bubbleChart,
         size: [600, 900],
         title: 'Whiskey clusters: CSV,kmeans,PCA=datumbox plot=jfreechart'
 )

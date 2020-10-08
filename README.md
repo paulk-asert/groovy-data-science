@@ -94,13 +94,14 @@ The K represents the number of clusters to find.
 This example uses K-means to look at grouping together
 similar Whiskey drinks from various distilleries.
 
-![Constraint programming](images/whiskey.png)
+![Clustering](images/whiskey.png)
 
-Groovy code examples can be found in the [Whiskey](subprojects/Whiskey/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
-
-Alternatively, you can run the main examples online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FWhiskey%2Fsrc%2Fmain%2Fnotebook%2FWhiskey.ipynb)
+Groovy code examples for the [Whiskey subproject](subprojects/Whiskey/) can be found in
+the [src/main/groovy](subprojects/Whiskey/src/main/groovy) subdirectory.
+Options are available to run the examples in your favourite IDE, using a Jupyter/Beakerx notebook:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FWhiskey%2Fsrc%2Fmain%2Fnotebook%2FWhiskey.ipynb),
+using Gradle or the groovyConsole.
+The [Whiskey subproject README](subprojects/Whiskey/) has more details.
 
 The complete repo has additional examples using alternative clustering algorithms or visualization options. See also:
 

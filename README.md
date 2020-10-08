@@ -53,11 +53,12 @@ several CVS handling libraries and a number of visualization options.
 
 ![linear regression house prices](images/houses.png)
 
-Groovy code examples can be found in the [HousePrices](subprojects/HousePrices/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
-
-Alternatively, you can run the main examples online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FHousePrices%2Fsrc%2Fmain%2Fnotebook%2FHousePrices.ipynb)
+Groovy code examples for the [HousePrices subproject](subprojects/HousePrices/) can be found in
+the [src/main/groovy](subprojects/HousePrices/src/main/groovy) subdirectory.
+Options are available to run the examples in your favourite IDE, using a Jupyter/Beakerx notebook:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FHousePrices%2Fsrc%2Fmain%2Fnotebook%2FHousePrices.ipynb),
+using Gradle or the groovyConsole.
+The [HousePrices subproject README](subprojects/HousePrices/) has more details.
 
 It can be potentially difficult to scale linear regression.
 How do you minimise residual errors on data spread across different

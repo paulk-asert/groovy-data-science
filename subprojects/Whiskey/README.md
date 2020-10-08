@@ -13,7 +13,6 @@ similar Whiskey drinks from various distilleries.
 ![Clustering](../../images/whiskey.png)
 
 Groovy code examples can be found in the [Whiskey](subprojects/Whiskey/src/main/groovy) subproject.
-Most examples require JDK8+. Some examples might require later JDKs.
 You have several options for running the programs:
 
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
@@ -30,3 +29,5 @@ The complete repo has additional examples using alternative clustering algorithm
 * The [WhiskeyIgnite](subprojects/WhiskeyIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite.
 
 * The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
+
+__Requirements__: Most examples run JDK 8 or higher. The Datumbox examples are intended for JDK 11+.

@@ -11,11 +11,12 @@ import de.lmu.ifi.dbs.elki.distance.distancefunction.minkowski.EuclideanDistance
 import de.lmu.ifi.dbs.elki.result.AutomaticVisualization
 import de.lmu.ifi.dbs.elki.utilities.ELKIBuilder
 import de.lmu.ifi.dbs.elki.utilities.random.RandomFactory
+//import de.lmu.ifi.dbs.elki.visualization.VisualizerParameterizer
 
 import static de.lmu.ifi.dbs.elki.datasource.parser.CSVReaderFormat.DEFAULT_FORMAT
 
-def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
+            'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def parser = new NumberVectorLabelParser(DEFAULT_FORMAT, [3] as long[], DoubleVector.FACTORY)
@@ -29,9 +30,9 @@ def init = new KMeansPlusPlusInitialMeans(RandomFactory.DEFAULT)
 def kmeans = new KMeansLloyd<NumberVector>(dist, 4, 0, init)
 def c = kmeans.run(db)
 
-def auto = new ELKIBuilder<>(AutomaticVisualization)
-        .with(AutomaticVisualization.Parameterizer.WINDOW_TITLE_ID, "Whiskey clusters")
-        //.with(VisualizerParameterizer.Parameterizer.ENABLEVIS_ID, "scatter")
+def auto = new ELKIBuilder(AutomaticVisualization)
+        .with(AutomaticVisualization.Parameterizer.WINDOW_TITLE_ID, 'Whiskey clusters')
+//        .with(VisualizerParameterizer.Parameterizer.ENABLEVIS_ID, 'scatter|parallel|key')
         .build()
 
 def hier = db.hierarchy

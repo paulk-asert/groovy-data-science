@@ -1,24 +1,27 @@
+//@Grab('org.jfree:jfreechart:1.5.0')
+//@Grab('org.apache.commons:commons-math3:3.6.1')
+//@Grab('org.apache.commons:commons-csv:1.8')
 import org.apache.commons.math3.linear.EigenDecomposition
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.ml.clustering.DoublePoint
 import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer
 import org.apache.commons.math3.stat.correlation.Covariance
-import org.jfree.chart.ChartPanel
-import org.jfree.chart.JFreeChart
 import org.jfree.chart.axis.NumberAxis
 import org.jfree.chart.plot.SpiderWebPlot
 import org.jfree.chart.plot.XYPlot
 import org.jfree.data.category.DefaultCategoryDataset
 import org.jfree.data.xy.DefaultXYZDataset
 
+import static JFreeChartUtil.bubbleRenderer
+import static JFreeChartUtil.chart
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def rows = CSV.withFirstRecordAsHeader().parse(new FileReader(file))
 
-def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
+            'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
 def clusterer = new KMeansPlusPlusClusterer(4)
 List<DoublePoint> data = []
@@ -51,10 +54,10 @@ clusters.eachWithIndex{ ctrd, num ->
 }
 
 def centroidPlot = new SpiderWebPlot(dataset: centroids)
-def centroidChart = new JFreeChart('Centroid spider plot', centroidPlot)
+def centroidChart = chart('Centroid spider plot', centroidPlot)
 
 def medoidPlot = new SpiderWebPlot(dataset: medoids)
-def medoidChart = new JFreeChart('Medoid spider plot', medoidPlot)
+def medoidChart = chart('Medoid spider plot', medoidPlot)
 
 def pointsArray = data*.point as double[][]
 def mean = (0..<pointsArray[0].length).collect{col ->
@@ -97,13 +100,9 @@ clusterPts.each{ k, v ->
     xyz.addSeries("Cluster ${k+1}:", [x, y, z] as double[][])
 }
 
-def xaxis = new NumberAxis(label: "PCA1", autoRange: false, lowerBound: -3.5, upperBound: 7)
-def yaxis = new NumberAxis(label: "PCA2", autoRange: false, lowerBound: -6, upperBound: 4)
-def bubblePlot = new XYPlot(xyz, xaxis, yaxis, JFreeChartUtil.bubbleRenderer())
-def bubbleChart = new JFreeChart('PCA bubble plot', bubblePlot)
-def bubblePanel = new ChartPanel(bubbleChart)
+def xaxis = new NumberAxis(label: 'PCA1', autoRange: false, lowerBound: -3.5, upperBound: 7)
+def yaxis = new NumberAxis(label: 'PCA2', autoRange: false, lowerBound: -6, upperBound: 4)
+def bubbleChart = chart('PCA bubble plot', new XYPlot(xyz, xaxis, yaxis, bubbleRenderer()))
 
-SwingUtil.showH(new ChartPanel(centroidChart), new ChartPanel(medoidChart), bubblePanel,
-        size: [1000, 400],
-        title: 'Whiskey clusters: CSV=commons-csv kmeans,PCA=commons-math plot=jfreechart'
-)
+SwingUtil.showH(centroidChart, medoidChart, bubbleChart, size: [1000, 400],
+        title: 'Whiskey clusters: CSV=commons-csv kmeans,PCA=commons-math plot=jfreechart')

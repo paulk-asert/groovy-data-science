@@ -18,8 +18,8 @@ import static com.datumbox.framework.common.dataobjects.TypeInference.DataType.C
 import static com.datumbox.framework.core.machinelearning.clustering.Kmeans.TrainingParameters.Distance.EUCLIDIAN
 import static com.datumbox.framework.core.machinelearning.clustering.Kmeans.TrainingParameters.Initialization.FORGY
 
-def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
+            'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 def k = 4
 
 def config = Configuration.configuration
@@ -79,8 +79,8 @@ println clusters
         .sort{e -> e.key }
         .collect{ idx, v -> "$idx: $v" }.join('\n')
 
-def xaxis = new NumberAxis(label: "PCA1", autoRange: false, lowerBound: -6, upperBound: 10)
-def yaxis = new NumberAxis(label: "PCA2", autoRange: false, lowerBound: -9, upperBound: 0)
+def xaxis = new NumberAxis(label: 'PCA1', autoRange: false, lowerBound: -6, upperBound: 10)
+def yaxis = new NumberAxis(label: 'PCA2', autoRange: false, lowerBound: -9, upperBound: 0)
 def bubbleChart = chart('PCA bubble plot', new XYPlot(xyz, xaxis, yaxis, bubbleRenderer()))
 
 SwingUtil.show(centroidChart, bubbleChart,

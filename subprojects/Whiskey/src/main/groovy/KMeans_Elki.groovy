@@ -2,8 +2,6 @@
 import de.lmu.ifi.dbs.elki.algorithm.clustering.kmeans.KMeansLloyd
 import de.lmu.ifi.dbs.elki.database.StaticArrayDatabase
 import de.lmu.ifi.dbs.elki.database.ids.DBIDIter
-import de.lmu.ifi.dbs.elki.datasource.FileBasedDatabaseConnection
-import de.lmu.ifi.dbs.elki.datasource.parser.NumberVectorLabelParser
 import de.lmu.ifi.dbs.elki.result.AutomaticVisualization
 import de.lmu.ifi.dbs.elki.utilities.ELKIBuilder
 //import de.lmu.ifi.dbs.elki.visualization.VisualizerParameterizer
@@ -12,9 +10,10 @@ def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
-def parser = new ELKIBuilder(NumberVectorLabelParser).with('parser.labelIndices', '0,1').build()
-def dbc = new FileBasedDatabaseConnection([], parser, file)
-def db = new StaticArrayDatabase(dbc, null)
+def db = new ELKIBuilder(StaticArrayDatabase)
+        .with('parser.labelIndices', '0,1')
+        .with('dbc.in', file)
+        .build()
 db.initialize()
 
 def kmeans = new ELKIBuilder(KMeansLloyd).with('kmeans.k', 4).build()

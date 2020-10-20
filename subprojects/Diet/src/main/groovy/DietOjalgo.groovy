@@ -25,6 +25,7 @@ carbs.set(bread, 15.0).set(milk, 11.7).set(cheese, 0.4).set(potato, 22.6).set(fi
 def calories = model.addExpression("Calories").lower(300)
 calories.set(bread, 90).set(milk, 120).set(cheese, 106).set(potato, 97).set(fish, 130).set(yogurt, 180)
 
+cost.weight(1.0)
 def result = model.minimise()
 
 println result

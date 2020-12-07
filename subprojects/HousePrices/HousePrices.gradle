@@ -19,11 +19,11 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
     implementation "nz.ac.waikato.cms.weka:weka-stable:$wekaVersion"
-    implementation 'com.opencsv:opencsv:5.2'
+    implementation "com.opencsv:opencsv:$opencsvVersion"
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'joinery:joinery-dataframe:1.9'
-    implementation 'org.knowm.xchart:xchart:3.6.5'
+    implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
     runtimeOnly 'com.xeiam.xchart:xchart:2.5.1'
     implementation 'org.groovyfx:groovyfx:8.0.0'
     implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"

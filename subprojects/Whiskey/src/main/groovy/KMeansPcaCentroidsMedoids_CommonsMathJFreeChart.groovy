@@ -1,4 +1,4 @@
-//@Grab('org.jfree:jfreechart:1.5.0')
+//@Grab('org.jfree:jfreechart:1.5.1')
 //@Grab('org.apache.commons:commons-math3:3.6.1')
 //@Grab('org.apache.commons:commons-csv:1.8')
 import org.apache.commons.math3.linear.EigenDecomposition

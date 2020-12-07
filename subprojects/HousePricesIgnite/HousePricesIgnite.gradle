@@ -11,10 +11,6 @@ repositories {
 //    }
 }
 
-ext {
-    igniteVersion = '2.8.1'
-}
-
 application {
     mainClass = 'HousePricesIgnite'
 }

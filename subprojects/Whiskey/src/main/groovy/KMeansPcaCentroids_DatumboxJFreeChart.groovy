@@ -1,4 +1,4 @@
-//@Grab('org.jfree:jfreechart:1.5.0')
+//@Grab('org.jfree:jfreechart:1.5.1')
 //@Grab('com.datumbox:datumbox-framework-lib:0.8.2')
 import com.datumbox.framework.core.common.dataobjects.Dataframe
 import com.datumbox.framework.common.Configuration

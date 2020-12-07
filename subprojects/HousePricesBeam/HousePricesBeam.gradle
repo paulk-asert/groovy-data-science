@@ -18,11 +18,13 @@ dependencies {
 }
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
-    task "run$name"(type: JavaExec) {
-        dependsOn compileGroovy
-        group 'Script'
-        description "Run ${name}.groovy as a JVM application/Groovy script"
-        classpath = sourceSets.main.runtimeClasspath
-        main = name
+    if (name.startsWith('House')) {
+        task "run$name"(type: JavaExec) {
+            dependsOn compileGroovy
+            group 'Script'
+            description "Run ${name}.groovy as a JVM application/Groovy script"
+            classpath = sourceSets.main.runtimeClasspath
+            main = name
+        }
     }
 }

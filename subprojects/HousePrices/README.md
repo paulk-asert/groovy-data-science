@@ -24,7 +24,7 @@ of other features such as number of bedrooms, number of bathrooms, living space 
 The examples illustrate several alternative dataframe libraries,
 several CVS handling libraries and a number of visualization options.
 
-![linear regression house prices](../../images/houses.png)
+![linear regression house prices](../../docs/images/houses.png)
 
 Groovy code examples can be found in the [HousePrices](subprojects/HousePrices/src/main/groovy) subproject.
 You have several options for running the programs:

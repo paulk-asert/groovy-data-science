@@ -67,7 +67,7 @@ living space etc.
 The examples illustrate several alternative dataframe libraries,
 several CVS handling libraries and a number of visualization options.
 
-![linear regression house prices](images/houses.png)
+![linear regression house prices](docs/images/houses.png)
 
 Groovy code examples for the [HousePrices subproject](subprojects/HousePrices/) can be found in
 the [src/main/groovy](subprojects/HousePrices/src/main/groovy) subdirectory.
@@ -111,7 +111,7 @@ The K represents the number of clusters to find.
 This example uses K-means to look at grouping together
 similar Whiskey drinks from various distilleries.
 
-![Clustering](images/whiskey.png)
+![Clustering](docs/images/whiskey.png)
 
 Groovy code examples for the [Whiskey subproject](subprojects/Whiskey/) can be found in
 the [src/main/groovy](subprojects/Whiskey/src/main/groovy) subdirectory.
@@ -132,7 +132,7 @@ Natural language processing may involve language detection, parsing, part-of-spe
 This example makes use of a pre-trained language model to detect the language used for a fragment of text.
 It uses the [Apache OpenNLP](https://opennlp.apache.org/) library.
 
-![Language detection notebook screenshot.groovy](images/lang_detect_notebook.png)
+![Language detection notebook screenshot.groovy](docs/images/lang_detect_notebook.png)
 
 Groovy code examples can be found in the [LanguageDetect](subprojects/LanguageDetect/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
@@ -148,7 +148,7 @@ Neural networks are particularly good when some degree of fuzziness is required 
 They are popular for speech and image recognition and medical diagnosis among other areas.
 This example looks at using neural networks for digit recognition.
 
-![Running Gui.groovy](images/mnist_gui.png)
+![Running Gui.groovy](docs/images/mnist_gui.png)
 
 More details can be found in the [Mnist](subprojects/Mnist/) subproject.
 It contains examples using hand-written neural networks with
@@ -164,7 +164,7 @@ It uses a pre-trained model and the
 [Apache MXNet](https://mxnet.apache.org/)
 library.
 
-![MXNet.groovy](images/mxnet.png)
+![MXNet.groovy](docs/images/mxnet.png)
 
 Groovy code examples can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxnet/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
@@ -186,7 +186,7 @@ There are examples which use
 [Ojalgo](https://www.ojalgo.org/),
 and the [SAS](https://www.sas.com/en_us/home.html) Groovy integration.
 
-![Linear programming](images/lp_screenshot.png)
+![Linear programming](docs/images/lp_screenshot.png)
 
 Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
@@ -204,7 +204,7 @@ constraint propagation and perhaps heuristics to find a solution matching the co
 This example solves a classic cryparithmetic puzzle using constraint programming.
 The Groovy solution is contrasted with brute-force approaches and python solutions.
 
-![Constraint programming](images/cp_screenshot.png)
+![Constraint programming](docs/images/cp_screenshot.png)
 
 Groovy code examples can be found in the [SendMoreMoney](subprojects/SendMoreMoney/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.

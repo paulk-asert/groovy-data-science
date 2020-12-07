@@ -10,7 +10,7 @@ The K represents the number of clusters to find.
 This example uses K-means to look at grouping together
 similar Whiskey drinks from various distilleries.
 
-![Clustering](../../images/whiskey.png)
+![Clustering](../../docs/images/whiskey.png)
 
 Groovy code examples can be found in the [Whiskey](subprojects/Whiskey/src/main/groovy) subproject.
 You have several options for running the programs:

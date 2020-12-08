@@ -173,6 +173,10 @@ __Requirements__: Unfortunately the MXNet Java Inference API (which is what our 
 currently has issues running in Windows. The Scala API has the same issue.
 Avoid the Windows platform for this example for now.
 
+---
+
+## Related examples
+
 ### Diet optimization
 
 Optimization algorithms aren't exclusively related just to data science but
@@ -194,6 +198,8 @@ If you have opened the repo in IntelliJ (or your favourite IDE) you should be ab
 Alternatively, you can run the Apache Commons Math example online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FDiet%2Fsrc%2Fmain%2Fnotebook%2FDiet.ipynb)
 
+---
+
 ### Cryptarithmetic puzzle with constraint programming
 
 While not often spoken about as a classic data science technique,
@@ -201,13 +207,9 @@ constraint programming can be a very useful tool in numerous scenarios.
 It allows users to specify characteristics of a problem as high-level constraints
 and then invoke a solution engine which will apply back-tracking,
 constraint propagation and perhaps heuristics to find a solution matching the constraints.
-This example solves a classic cryparithmetic puzzle using constraint programming.
-The Groovy solution is contrasted with brute-force approaches and python solutions.
+This example solves a classic cryptarithmetic puzzle using constraint programming.
+The Groovy solution is contrasted with brute-force approaches and solutions in other JVM languages.
 
 ![Constraint programming](docs/images/cp_screenshot.png)
 
-Groovy code examples can be found in the [SendMoreMoney](subprojects/SendMoreMoney/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
-
-Alternatively, you can run the examples online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FSendMoreMoney%2Fsrc%2Fmain%2Fnotebook%2FSendMoreMoney.ipynb)
+Details can be found in the related website: [groovy-constraint-programming/SendMoreMoney](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/SendMoreMoney)

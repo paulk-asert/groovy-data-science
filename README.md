@@ -26,37 +26,6 @@ Groovy is a powerful multi-paradigm programming language for the JVM that offers
 
 This repo has examples of using Groovy with various Data Science and related libraries.
 
-Math and Data Science libraries and technologies covered include:<br>
-[Weka](https://www.cs.waikato.ac.nz/ml/weka/),
-[Smile](http://haifengl.github.io/),
-[Datumbox](https://github.com/datumbox/datumbox-framework),
-[Elki](https://elki-project.github.io/),
-[Encog](https://github.com/jeffheaton/encog-java-core),
-[Apache Commons Math](https://commons.apache.org/proper/commons-math/),
-[Jupyter/Beakerx](http://beakerx.com/) notebooks,
-[Tablesaw](https://tablesaw.tech/),
-[Apache OpenNLP](https://opennlp.apache.org/),
-[Deep Learning4J](https://deeplearning4j.org/),
-[Choco](http://www.choco-solver.org/).
-
-Libraries for scaling, concurrency and machine learning at scale include:<br>
-[Apache Spark](https://spark.apache.org/),
-[Apache Ignite](https://ignite.apache.org/),
-[Apache MXNet](https://mxnet.apache.org/),
-[GPars](http://gpars.org/),
-[Apache Beam](https://beam.apache.org/).
-
-Libraries for graphing/visualization include:<br>
-[Tablesaw Plot.ly support](https://jtablesaw.github.io/tablesaw/userguide/Introduction_to_Plotting.html),
-[Smile visualization](http://haifengl.github.io/visualization.html),
-[JFreeChart](http://www.jfree.org/jfreechart/),
-[XChart](https://knowm.org/open-source/xchart/),
-[GroovyFX](http://groovyfx.org/).
-
-Utility libraries covered include:<br>
-[OpenCSV](http://opencsv.sourceforge.net/),
-[Apache Commons CSV](https://commons.apache.org/proper/commons-csv/),
-
 ### House price prediction with regression
 
 Linear regression will enable us to find a "best fit" linear relationship between some properties or features of interest.
@@ -65,7 +34,7 @@ This example uses linear regression to explore predicting house prices from a nu
 of other features such as number of bedrooms, number of bathrooms,
 living space etc.
 The examples illustrate several alternative dataframe libraries,
-several CVS handling libraries and a number of visualization options.
+several CVS handling libraries, and a number of visualization options.
 
 ![linear regression house prices](docs/images/houses.png)
 
@@ -189,6 +158,14 @@ health requirements for the diet.
 
 Details can be found in the related website: [groovy-constraint-programming/Diet](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/Diet)
 
+Constraint-programming/Linear programming libraries covered:
+[Apache Commons Math][],
+[Choco][],
+[JaCoP][],
+[Ojalgo][],
+[OptaPlanner][],
+[OrTools][],
+[SAS/OR][].
 ---
 
 ### Cryptarithmetic puzzle with constraint programming
@@ -204,3 +181,96 @@ The Groovy solution is contrasted with brute-force approaches and solutions in o
 ![Constraint programming](docs/images/cp_screenshot.png)
 
 Details can be found in the related website: [groovy-constraint-programming/SendMoreMoney](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/SendMoreMoney)
+
+Constraint-programming libraries covered:
+[Choco][]
+
+Programming languages covered:
+[Clojure][],
+[Groovy][],
+[Frege][],
+[Java][],
+[Nashorn][],
+[JRuby][],
+[Jython][],
+[Kotlin][],
+[Luaj][],
+[Scala][],
+[tuprolog][].
+
+---
+
+## Technology Summary
+
+Math and Data Science libraries and technologies covered include:<br>
+[Weka][],
+[Smile][],
+[Datumbox][],
+[Elki][],
+[Encog][],
+[Apache Commons Math][],
+[Jupyter/BeakerX][],
+[Tablesaw][],
+[Apache OpenNLP][],
+[Deep Learning4J][],
+[Choco][].
+
+Libraries for scaling, concurrency and machine learning at scale include:<br>
+[Apache Spark][],
+[Apache Ignite][],
+[Apache MXNet][],
+[GPars][],
+[Apache Beam][].
+
+Libraries for graphing/visualization include:<br>
+[Tablesaw Plot.ly support][],
+[Smile visualization][],
+[JFreeChart][],
+[XChart][],
+[GroovyFX][].
+
+Utility libraries covered include:<br>
+[OpenCSV][],
+[Apache Commons CSV][]
+
+
+[Weka]: https://www.cs.waikato.ac.nz/ml/weka/
+[Smile]: http://haifengl.github.io/
+[Datumbox]: https://github.com/datumbox/datumbox-framework
+[Elki]: https://elki-project.github.io/
+[Encog]: https://github.com/jeffheaton/encog-java-core
+[Apache Commons Math]: https://commons.apache.org/proper/commons-math/
+[Jupyter/BeakerX]: http://beakerx.com/ "Jupyter/BeakerX notebooks"
+[Tablesaw]: https://tablesaw.tech/
+[Apache OpenNLP]: https://opennlp.apache.org/
+[Deep Learning4J]: https://deeplearning4j.org/
+[Choco]: http://www.choco-solver.org/
+[Apache Spark]: https://spark.apache.org/
+[Apache Ignite]: https://ignite.apache.org/
+[Apache MXNet]: https://mxnet.apache.org/
+[GPars]: http://gpars.org/
+[Apache Beam]: https://beam.apache.org/
+[Tablesaw Plot.ly]: https://jtablesaw.github.io/tablesaw/userguide/Introduction_to_Plotting.html "Tablesaw Plot.ly support"
+[Smile visualization]: http://haifengl.github.io/visualization.html
+[JFreeChart]: http://www.jfree.org/jfreechart/
+[XChart]: https://knowm.org/open-source/xchart/
+[GroovyFX]: http://groovyfx.org/
+[OpenCSV]: http://opencsv.sourceforge.net/
+[Apache Commons CSV]: https://commons.apache.org/proper/commons-csv/
+[Apache Commons Math]: https://commons.apache.org/proper/commons-math/
+[Clojure]: https://clojure.org/
+[Groovy]: https://groovy-lang.org/
+[Frege]: https://github.com/Frege/frege "JVM Haskell"
+[Java]: https://www.java.com/
+[Nashorn]: https://docs.oracle.com/javase/10/nashorn/ "JavaScript for JVM up to JDK"
+[JRuby]: https://www.jruby.org/ "Ruby for the JVM"
+[Jython]: https://www.jython.org/ "Python for the JVM"
+[Kotlin]: https://kotlinlang.org/
+[Luaj]: https://github.com/luaj/luaj "LUA for the JVM"
+[Scala]: https://www.scala-lang.org/
+[tuprolog]: http://apice.unibo.it/xwiki/bin/view/Tuprolog/ "A prolog for the JVM"
+[Ojalgo]: https://www.ojalgo.org/
+[JaCoP]: https://github.com/radsz/jacop
+[OptaPlanner]: https://www.optaplanner.org/
+[OrTools]: https://developers.google.com/optimization "Google OR Tools"
+[SAS/OR]: https://www.sas.com/en_us/software/or.html

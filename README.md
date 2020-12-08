@@ -184,19 +184,10 @@ never-the-less can crop up quite often. This case study looks at using linear pr
 to optimize a diet problem. Given the cost and nutrition values of various
 foods, can we minimise the cost of a diet but still meet various
 health requirements for the diet.
-There are examples which use
-[Apache Commons Math](https://commons.apache.org/proper/commons-math/),
-[Choco](http://www.choco-solver.org/),
-[Ojalgo](https://www.ojalgo.org/),
-and the [SAS](https://www.sas.com/en_us/home.html) Groovy integration.
 
 ![Linear programming](docs/images/lp_screenshot.png)
 
-Groovy code examples can be found in the [Diet](subprojects/Diet/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
-
-Alternatively, you can run the Apache Commons Math example online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FDiet%2Fsrc%2Fmain%2Fnotebook%2FDiet.ipynb)
+Details can be found in the related website: [groovy-constraint-programming/Diet](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/Diet)
 
 ---
 

@@ -1,2 +1,2 @@
 tasks:
-  - init: ./gradlew projects
+  - init: ./gradlew -q projects

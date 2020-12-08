@@ -99,7 +99,7 @@ The complete repo has additional examples using alternative clustering algorithm
 
 Natural language processing may involve language detection, parsing, part-of-speech tagging and other activities.
 This example makes use of a pre-trained language model to detect the language used for a fragment of text.
-It uses the [Apache OpenNLP](https://opennlp.apache.org/) library.
+It uses the [Apache OpenNLP][] library.
 
 ![Language detection notebook screenshot.groovy](docs/images/lang_detect_notebook.png)
 
@@ -239,7 +239,6 @@ Utility libraries covered include:<br>
 [Datumbox]: https://github.com/datumbox/datumbox-framework
 [Elki]: https://elki-project.github.io/
 [Encog]: https://github.com/jeffheaton/encog-java-core
-[Apache Commons Math]: https://commons.apache.org/proper/commons-math/
 [Jupyter/BeakerX]: http://beakerx.com/ "Jupyter/BeakerX notebooks"
 [Tablesaw]: https://tablesaw.tech/
 [Apache OpenNLP]: https://opennlp.apache.org/

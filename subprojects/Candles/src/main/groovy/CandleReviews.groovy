@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-import tech.tablesaw.api.BooleanColumn
-import tech.tablesaw.api.DoubleColumn
-import tech.tablesaw.api.StringColumn
-import tech.tablesaw.api.Table
+import tech.tablesaw.api.*
 import tech.tablesaw.io.xlsx.XlsxReader
 import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.components.Figure

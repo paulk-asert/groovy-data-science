@@ -13,22 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import tech.tablesaw.api.DateColumn
-import tech.tablesaw.api.DateTimeColumn
-import tech.tablesaw.api.IntColumn
-import tech.tablesaw.api.Table
+import tech.tablesaw.api.*
 import tech.tablesaw.io.xlsx.XlsxReader
 import tech.tablesaw.plotly.Plot
-import tech.tablesaw.plotly.components.Figure
-import tech.tablesaw.plotly.components.Layout
-import tech.tablesaw.plotly.components.Line
-import tech.tablesaw.plotly.components.Marker
+import tech.tablesaw.plotly.components.*
 import tech.tablesaw.plotly.traces.ScatterTrace
 import tech.tablesaw.plotly.traces.Trace
 import tech.tablesaw.selection.Selection
 
-import java.time.LocalDate
-import java.time.LocalDateTime
+import java.time.*
 import java.util.function.Function
 
 import static java.time.Month.JANUARY
@@ -36,7 +29,7 @@ import static tech.tablesaw.aggregate.AggregateFunctions.mean
 import static tech.tablesaw.api.QuerySupport.and
 import static tech.tablesaw.io.xlsx.XlsxReadOptions.builder
 
-
+// helper function
 List<Trace> traces(String filename, String lineColor, String markerColor) {
     def url = getClass().classLoader.getResource(filename)
     def table = new XlsxReader().read(builder(url).build())
@@ -70,6 +63,7 @@ static Layout layout(String variant) {
             .showLegend(false).width(1000).height(500).build()
 }
 
+// create the start of COVID line
 def covidReported = LocalDateTime.of(2020, JANUARY, 20, 0, 0)
 def reported = Table.create(DateTimeColumn.create('Date'), IntColumn.create('Val'))
 reported.appendRow().with {setDateTime('Date', covidReported); setInt('Val', 1) }

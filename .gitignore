@@ -22,5 +22,6 @@ testoutput/
 .classpath
 .project
 bin/
+work/
 .jqwik-database
 .ipynb_checkpoints/

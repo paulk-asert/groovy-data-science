@@ -28,10 +28,28 @@ This repo has examples of using Groovy with various Data Science and related lib
 
 Topics covered include:
 
+* Dataframes and visualization
 * Linear regression
 * Clustering
 * Natural language processing
 * Neural networks
+
+### Scented candles and COVID-19
+
+When we hypothesize about a trend,
+it can be interesting to see whether any data backs up our hypothesis.
+To do that, we want to be able to easily obtain data in a form we can
+analyse and visualize. This example illustrates doing just that.
+
+![Scented candles](docs/images/candles.png)
+
+All the details can be found in the [Candles subproject](subprojects/Candles/).
+Options are available to run the examples on the command-line or in your favourite IDE.
+
+| | Technologies/libraries covered |
+| --- | --- |
+| Data manipulation | [Tablesaw] |
+| Visualization | [Tablesaw Plot.ly] |
 
 ### House price prediction with linear regression
 

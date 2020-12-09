@@ -15,33 +15,23 @@
  */
 
 import tech.tablesaw.api.BooleanColumn
-import tech.tablesaw.api.DateColumn
-import tech.tablesaw.api.DateTimeColumn
 import tech.tablesaw.api.DoubleColumn
-import tech.tablesaw.api.IntColumn
 import tech.tablesaw.api.StringColumn
 import tech.tablesaw.api.Table
 import tech.tablesaw.io.xlsx.XlsxReader
 import tech.tablesaw.plotly.Plot
-import tech.tablesaw.plotly.api.BarPlot
-import tech.tablesaw.plotly.api.VerticalBarPlot
 import tech.tablesaw.plotly.components.Figure
 import tech.tablesaw.plotly.components.Layout
-import tech.tablesaw.plotly.components.Line
-import tech.tablesaw.plotly.components.Marker
 import tech.tablesaw.plotly.traces.BarTrace
 import tech.tablesaw.plotly.traces.ScatterTrace
-import tech.tablesaw.plotly.traces.Trace
 import tech.tablesaw.selection.Selection
 
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.function.Function
 
 import static java.time.Month.JANUARY
 import static tech.tablesaw.aggregate.AggregateFunctions.count
 import static tech.tablesaw.aggregate.AggregateFunctions.countTrue
-import static tech.tablesaw.api.QuerySupport.and
 import static tech.tablesaw.io.xlsx.XlsxReadOptions.builder
 
 def url = getClass().classLoader.getResource('Scented_all.xlsx')

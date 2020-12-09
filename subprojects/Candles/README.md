@@ -47,3 +47,18 @@ Analysing the reviews of the top 5 scented candles to see which ones mention no 
 yields the following graph:
 
 ![Original tweet](../../docs/images/reviews.png)
+
+## Running the examples
+
+These examples are currently set up to run locally, either in your IDE or via the command-line using Gradle.
+
+Command-line arguments for Gradle to see the task names for running the Groovy scripts:
+```
+gradlew :SendMoreMoney:tasks --group="Script"
+```
+
+Alternatively, you can use a Jupyter/Beakerx notebook:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FCandles%2Fsrc%2Fmain%2Fnotebook%2FCandles.ipynb)
+
+__Requirements__: These examples should work with JDK 8 and 11. Since they fire up a browser,
+it is more difficult to run them using Gitpod. You are recommended to run them locally.

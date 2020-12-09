@@ -26,7 +26,14 @@ Groovy is a powerful multi-paradigm programming language for the JVM that offers
 
 This repo has examples of using Groovy with various Data Science and related libraries.
 
-### House price prediction with regression
+Topics covered include:
+
+* Linear regression
+* Clustering
+* Natural language processing
+* Neural networks
+
+### House price prediction with linear regression
 
 Linear regression will enable us to find a "best fit" linear relationship between some properties or features of interest.
 Ordinary least squares finds such a relationship by minimising residual errors.
@@ -38,35 +45,16 @@ several CVS handling libraries, and a number of visualization options.
 
 ![linear regression house prices](docs/images/houses.png)
 
-Groovy code examples for the [HousePrices subproject](subprojects/HousePrices/) can be found in
-the [src/main/groovy](subprojects/HousePrices/src/main/groovy) subdirectory.
-Options are available to run the examples in your favourite IDE, using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FHousePrices%2Fsrc%2Fmain%2Fnotebook%2FHousePrices.ipynb),
-using Gradle or the groovyConsole.
-The [HousePrices subproject README](subprojects/HousePrices/) has more details.
+All the details can be found in the [HousePrices subproject](subprojects/HousePrices/).
+Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
+or using a Jupyter/BeakerX notebook.
 
-It can be potentially difficult to scale linear regression.
-How do you minimise residual errors on data spread across different
-threads/clusters/CPUs?
-Some regression algorithm variants like stochastic gradient descent are amenable to scaling.
-And some frameworks support such algorithms. The following subprojects highlight frameworks
-with special support for scaling linear regression:
-
-* The [HousePricesIgnite](subprojects/HousePricesIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite.
-
-* The [HousePricesSpark](subprojects/HousePricesSpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
-
-If you find that your algorithm isn't directly amenable to scaling
-you can often tweak it or apply it in some fashion to ensure certain
-constraints hold. This can enable you to still scale up.
-The following subprojects highlight tweaking linear regression
-for scaling purposes:
-
-* The [HousePricesBeam](subprojects/HousePricesBeam/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Beam.
-
-* The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars.
-
-__Requirements__: Some examples run only on JDK 8, e.g. examples using GroovyFX. Most others run on JDK 8 or 11.
+| | Technologies/libraries covered |
+| --- | --- |
+| Data manipulation | [Tablesaw], [Joinery], [Apache Commons CSV], [OpenCSV] |
+| Regression | [Smile], [Apache Commons Math], [Weka] |
+| Visualization | [GroovyFX], [XChart], [Tablesaw Plot.ly] |
+| Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars] |
 
 ### Whiskey clustering with K-means
 
@@ -233,7 +221,6 @@ Utility libraries covered include:<br>
 [OpenCSV][],
 [Apache Commons CSV][]
 
-
 [Weka]: https://www.cs.waikato.ac.nz/ml/weka/
 [Smile]: http://haifengl.github.io/
 [Datumbox]: https://github.com/datumbox/datumbox-framework
@@ -241,6 +228,7 @@ Utility libraries covered include:<br>
 [Encog]: https://github.com/jeffheaton/encog-java-core
 [Jupyter/BeakerX]: http://beakerx.com/ "Jupyter/BeakerX notebooks"
 [Tablesaw]: https://tablesaw.tech/
+[Joinery]: https://cardillo.github.io/joinery
 [Apache OpenNLP]: https://opennlp.apache.org/
 [Deep Learning4J]: https://deeplearning4j.org/
 [Choco]: http://www.choco-solver.org/

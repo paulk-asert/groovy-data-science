@@ -24,7 +24,8 @@ dependencies {
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'joinery:joinery-dataframe:1.9'
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
-    runtimeOnly 'com.xeiam.xchart:xchart:2.5.1'
+    // https://web.archive.org/web/20140415021609/http://xeiam.com:80/xchart.jsp
+    runtimeOnly 'com.xeiam.xchart:xchart:2.5.1' // older version of org.knowm.xchart:xchart
     implementation 'org.groovyfx:groovyfx:8.0.0'
     implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"

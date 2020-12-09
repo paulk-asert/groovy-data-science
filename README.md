@@ -146,7 +146,7 @@ Details can be found in the related website: [groovy-constraint-programming/Diet
 
 | | Technologies/libraries covered |
 | --- | --- |
-| Constraint-programming, Linear programming | [Apache Commons Math][], [Choco][], [JaCoP][], [Ojalgo][], [OptaPlanner][], [OrTools][], [SAS/OR][] |
+| Constraint-programming, Linear programming | [Apache Commons Math], [Choco], [JaCoP], [Ojalgo], [OptaPlanner], [OrTools], [SAS/OR] |
 
 ---
 
@@ -167,42 +167,24 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 | | Technologies/libraries covered |
 | --- | --- |
 | Constraint-programming | [Choco] |
-| Programming language | [Clojure][], [Groovy][], [Frege][], [Java][], [Nashorn][], [JRuby][], [Jython][], [Kotlin][], [Luaj][], [Scala][], [tuprolog][] |
+| Programming language | [Clojure], [Groovy], [Frege], [Java], [Nashorn], [JRuby], [Jython], [Kotlin], [Luaj], [Scala], [tuprolog] |
 
 ---
 
 ## Technology Summary
 
 Math and Data Science libraries and technologies covered include:<br>
-[Weka][],
-[Smile][],
-[Datumbox][],
-[Elki][],
-[Encog][],
-[Apache Commons Math][],
-[Jupyter/BeakerX][],
-[Tablesaw][],
-[Apache OpenNLP][],
-[Deep Learning4J][],
-[Choco][].
+[Weka], [Smile], [Datumbox], [Joinery], [Elki], [Encog], [Apache Commons Math],
+[Jupyter/BeakerX], [Tablesaw], [Apache OpenNLP], [Deep Learning4J], [Choco]
 
 Libraries for scaling, concurrency and machine learning at scale include:<br>
-[Apache Spark][],
-[Apache Ignite][],
-[Apache MXNet][],
-[GPars][],
-[Apache Beam][].
+[Apache Spark], [Apache Ignite], [Apache MXNet], [GPars], [Apache Beam]
 
 Libraries for graphing/visualization include:<br>
-[Tablesaw Plot.ly support][],
-[Smile visualization][],
-[JFreeChart][],
-[XChart][],
-[GroovyFX][].
+[Tablesaw Plot.ly], [Smile visualization], [JFreeChart], [XChart], [GroovyFX]
 
 Utility libraries covered include:<br>
-[OpenCSV][],
-[Apache Commons CSV][]
+[OpenCSV], [Apache Commons CSV]
 
 [Weka]: https://www.cs.waikato.ac.nz/ml/weka/
 [Smile]: http://haifengl.github.io/

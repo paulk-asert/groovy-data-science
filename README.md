@@ -70,18 +70,16 @@ similar Whiskey drinks from various distilleries.
 
 ![Clustering](docs/images/whiskey.png)
 
-Groovy code examples for the [Whiskey subproject](subprojects/Whiskey/) can be found in
-the [src/main/groovy](subprojects/Whiskey/src/main/groovy) subdirectory.
-Options are available to run the examples in your favourite IDE, using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FWhiskey%2Fsrc%2Fmain%2Fnotebook%2FWhiskey.ipynb),
-using Gradle or the groovyConsole.
-The [Whiskey subproject README](subprojects/Whiskey/) has more details.
+All the details can be found in the [Whiskey subproject](subprojects/Whiskey/).
+Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
+or using a Jupyter/BeakerX notebook.
 
-The complete repo has additional examples using alternative clustering algorithms or visualization options. See also:
-
-* The [WhiskeyIgnite](subprojects/WhiskeyIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite.
-
-* The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
+| | Technologies/libraries covered |
+| --- | --- |
+| Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV] |
+| Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki] |
+| Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart] |
+| Scaling clustering | [Apache Ignite], [Apache Spark] |
 
 ### Natural language processing
 

@@ -163,6 +163,8 @@ Lights are [on] in [entire house].
 No matching intent found.
 ```
 
+We could now revise our model if we wanted the last example to also succeed.
+
 ### Digit recognition using neural networks
 
 An artificial neural network consists of layers of nodes which talk to other nodes based on weights and thresholds.

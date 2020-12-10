@@ -21,7 +21,6 @@ import tech.tablesaw.plotly.components.Figure
 import tech.tablesaw.plotly.components.Layout
 import tech.tablesaw.plotly.traces.BarTrace
 import tech.tablesaw.plotly.traces.ScatterTrace
-import tech.tablesaw.selection.Selection
 import java.time.LocalDateTime
 import java.util.function.Function
 
@@ -33,27 +32,25 @@ import static tech.tablesaw.io.xlsx.XlsxReadOptions.builder
 def url = getClass().classLoader.getResource('Scented_all.xlsx')
 def table = new XlsxReader().read(builder(url).build())
 def start2020 = LocalDateTime.of(2020, JANUARY, 1, 0, 0)
-Function<Table, Selection> from2020 = r -> r.dateTimeColumn('Date').isAfter(start2020)
+Function from2020 = r -> r.dateTimeColumn('Date').isAfter(start2020)
 
-def candidates = [
-        '[Nn]o scent', '[Nn]o smell', '[Dd]oes not smell like', "[Dd]oesn't smell like", "[Cc]an't smell",
-        '[Cc]annot smell', '[Ff]aint smell', '[Ff]aint scent', "[Dd]on't smell", '[Ll]ike nothing']
+def candidates = ['[Nn]o scent', '[Nn]o smell', '[Dd]oes not smell like', "[Dd]oesn't smell like", "[Cc]an't smell",
+                  '[Cc]annot smell', '[Ff]aint smell', '[Ff]aint scent', "[Dd]on't smell", '[Ll]ike nothing']
 table.addColumns(
         StringColumn.create('Month', table.column('Date').collect { it.month.toString() }),
-        BooleanColumn.create('Noscent', table.column('Review').collect {review -> candidates.any{ review =~ it } })
-)
+        BooleanColumn.create('Noscent', table.column('Review').collect { review -> candidates.any { review =~ it } }))
+
 def byMonth2020 = table.where(from2020).sortAscendingOn('Date')
         .summarize('Noscent', countTrue, count).by('Month')
 def indices = 0..<byMonth2020.size()
-double[] nsprop = indices.collect{byMonth2020[it].with{it.getDouble('Number True [Noscent]')/it.getDouble('Count [Noscent]') } }
-double[] se = indices.collect{Math.sqrt(nsprop[it] * (1 - nsprop[it]) / byMonth2020[it].getDouble('Count [Noscent]')) }
-double[] barLower = indices.collect{nsprop[it] - se[it] }
-double[] barHigher = indices.collect{nsprop[it] + se[it] }
+double[] nsprop = indices.collect { byMonth2020[it].with { it.getDouble('Number True [Noscent]') / it.getDouble('Count [Noscent]') } }
+double[] se = indices.collect { Math.sqrt(nsprop[it] * (1 - nsprop[it]) / byMonth2020[it].getDouble('Count [Noscent]')) }
+double[] barLower = indices.collect { nsprop[it] - se[it] }
+double[] barHigher = indices.collect { nsprop[it] + se[it] }
 byMonth2020.addColumns(
         DoubleColumn.create('nsprop', nsprop),
         DoubleColumn.create('barLower', barLower),
-        DoubleColumn.create('barHigher', barHigher)
-)
+        DoubleColumn.create('barHigher', barHigher))
 
 def title = 'Proportion of top 5 scented candles on Amazon mentioning lack of scent by month 2020'
 def layout = Layout.builder(title, 'Month', 'Proportion of reviews')

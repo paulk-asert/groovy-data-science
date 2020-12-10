@@ -58,9 +58,9 @@ byMonth2020.addColumns(
 def title = 'Proportion of top 5 scented candles on Amazon mentioning lack of scent by month 2020'
 def layout = Layout.builder(title, 'Month', 'Proportion of reviews')
         .showLegend(false).width(1000).height(500).build()
-def trace = BarTrace.builder(byMonth2020.categoricalColumn('Month'), byMonth2020.numberColumn('nsprop'))
+def trace = BarTrace.builder(byMonth2020.categoricalColumn('Month'), byMonth2020.nCol('nsprop'))
         .orientation(BarTrace.Orientation.VERTICAL).opacity(0.5).build()
-def errors = ScatterTrace.builder(byMonth2020.categoricalColumn('Month'), byMonth2020.numberColumn('barLower'),
-        byMonth2020.numberColumn('barHigher'), byMonth2020.numberColumn('barLower'), byMonth2020.numberColumn('barHigher'))
+def errors = ScatterTrace.builder(byMonth2020.categoricalColumn('Month'), byMonth2020.nCol('barLower'),
+        byMonth2020.nCol('barHigher'), byMonth2020.nCol('barLower'), byMonth2020.nCol('barHigher'))
         .type("candlestick").opacity(0.5).build()
 Plot.show(new Figure(layout, trace, errors))

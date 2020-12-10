@@ -52,9 +52,9 @@ yields the following graph:
 
 These examples are currently set up to run locally, either in your IDE or via the command-line using Gradle.
 
-Command-line arguments for Gradle to see the task names for running the Groovy scripts:
+Command-line arguments for Gradle to see the task names for running the Groovy scripts (use `./gradlew` on Unix-like systems):
 ```
-gradlew :SendMoreMoney:tasks --group="Script"
+gradlew :Candles:tasks --group="Script"
 ```
 
 Alternatively, you can use a Jupyter/Beakerx notebook:

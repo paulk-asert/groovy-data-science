@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
 import opennlp.tools.langdetect.*
 
 def base = 'http://apache.forsale.plus/opennlp/models'

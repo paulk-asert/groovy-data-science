@@ -9,7 +9,7 @@ Details for cloning and showing available gradle tasks:
 <summary>Linux/MacOS</summary>
 
 ```
-$ git clone https://github.com/paulk-asert/groovy-constraint-programming.git
+$ git clone https://github.com/paulk-asert/groovy-data-science.git
 ...
 $ ./gradlew tasks
 ```
@@ -20,7 +20,7 @@ $ ./gradlew tasks
 Assuming you have git installed:
 
 ```
-> git clone https://github.com/paulk-asert/groovy-constraint-programming.git
+> git clone https://github.com/paulk-asert/groovy-data-science.git
 ...
 > gradlew tasks
 ```

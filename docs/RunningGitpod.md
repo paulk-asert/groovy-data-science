@@ -7,7 +7,7 @@ Once loaded, run one of the available script tasks. To find
 available script tasks you can try something like:
 
 ```
-> ./gradlew :McNuggets:tasks --group="Scripts"
+> ./gradlew :HousePricesBeam:tasks --group="Scripts"
 ```
 
 You should see something like below:
@@ -15,8 +15,12 @@ You should see something like below:
 
 And you can run a script with something like:
 ```
-> ./gradlew :McNuggets:runChoco
+> ./gradlew :HousePricesBeam:runHousePricesBeam
 ```
 
 With the following result:
 ![Gitpod result](images/GitpodResult.png)
+
+__Requirements__: Gitpod isn't currently set up for scripts which
+use GroovyFX or display plots using a browser. It would try to
+display the output in the cloud rather than via your local machine.

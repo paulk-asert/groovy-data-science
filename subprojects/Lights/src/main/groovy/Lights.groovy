@@ -11,9 +11,10 @@ import static org.apache.nlpcraft.model.tools.embedded.NCEmbeddedProbe.stop
 def t = Thread.start { new AntBuilder().with {
     java(classname: NCStart.name, fork: true, clonevm: true) {
         arg(value: '-server')
-        classpath {
-            pathelement(location: "lib/apache-nlpcraft-incubating-0.7.2-all-deps.jar")
-        }
+        // uncomment if needed if you downloaded the all jar as per instructions in Lights.gradle build file
+//        classpath {
+//            pathelement(location: "lib/apache-nlpcraft-incubating-0.7.2-all-deps.jar")
+//        }
     }
 }}
 sleep 35000 // allow server to start up

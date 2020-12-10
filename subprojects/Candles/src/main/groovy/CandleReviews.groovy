@@ -43,13 +43,13 @@ def adjusted = table.addColumns(
         StringColumn.create('Month', table.column('Date').collect { it.month.toString() }),
         BooleanColumn.create('Noscent', table.column('Review').collect {review -> candidates.any{ review =~ it } })
 )
-def only2020 = adjusted.where(from2020)
-        .sortAscendingOn('Date')
+def only2020 = adjusted.where(from2020).sortAscendingOn('Date')
         .summarize('Noscent', countTrue, count).by('Month')
-double[] nsprop = (0..<only2020.size()).collect{only2020[it].with{it.getDouble('Number True [Noscent]')/it.getDouble('Count [Noscent]') } }
-double[] se = (0..<only2020.size()).collect{Math.sqrt(nsprop[it] * (1 - nsprop[it]) / only2020[it].getDouble('Count [Noscent]')) }
-double[] barLower = (0..<only2020.size()).collect{nsprop[it] - se[it] }
-double[] barHigher = (0..<only2020.size()).collect{nsprop[it] + se[it] }
+def indices = 0..<only2020.size()
+double[] nsprop = indices.collect{only2020[it].with{it.getDouble('Number True [Noscent]')/it.getDouble('Count [Noscent]') } }
+double[] se = indices.collect{Math.sqrt(nsprop[it] * (1 - nsprop[it]) / only2020[it].getDouble('Count [Noscent]')) }
+double[] barLower = indices.collect{nsprop[it] - se[it] }
+double[] barHigher = indices.collect{nsprop[it] + se[it] }
 def next = only2020.addColumns(
         DoubleColumn.create('nsprop', nsprop),
         DoubleColumn.create('barLower', barLower),
@@ -58,16 +58,9 @@ def next = only2020.addColumns(
 
 def layout = Layout.builder("Proportion of top 5 scented candles on Amazon mentioning lack of scent by month 2020", 'Month', 'Proportion of reviews')
         .showLegend(false).width(1000).height(500).build()
-println barLower
-println barHigher
-println next.last(12)
 def trace = BarTrace.builder(next.categoricalColumn('Month'), next.numberColumn('nsprop'))
-        .orientation(BarTrace.Orientation.VERTICAL)
-        .opacity(0.5)
-        .build()
+        .orientation(BarTrace.Orientation.VERTICAL).opacity(0.5).build()
 def errors = ScatterTrace.builder(next.categoricalColumn('Month'), next.numberColumn('barLower'),
         next.numberColumn('barHigher'), next.numberColumn('barLower'), next.numberColumn('barHigher'))
-        .type("candlestick")
-        .opacity(0.5)
-        .build()
+        .type("candlestick").opacity(0.5).build()
 Plot.show(new Figure(layout, trace, errors))

@@ -22,7 +22,6 @@ import tech.tablesaw.plotly.components.Layout
 import tech.tablesaw.plotly.traces.BarTrace
 import tech.tablesaw.plotly.traces.ScatterTrace
 import tech.tablesaw.selection.Selection
-
 import java.time.LocalDateTime
 import java.util.function.Function
 
@@ -39,28 +38,29 @@ Function<Table, Selection> from2020 = r -> r.dateTimeColumn('Date').isAfter(star
 def candidates = [
         '[Nn]o scent', '[Nn]o smell', '[Dd]oes not smell like', "[Dd]oesn't smell like", "[Cc]an't smell",
         '[Cc]annot smell', '[Ff]aint smell', '[Ff]aint scent', "[Dd]on't smell", '[Ll]ike nothing']
-def adjusted = table.addColumns(
+table.addColumns(
         StringColumn.create('Month', table.column('Date').collect { it.month.toString() }),
         BooleanColumn.create('Noscent', table.column('Review').collect {review -> candidates.any{ review =~ it } })
 )
-def only2020 = adjusted.where(from2020).sortAscendingOn('Date')
+def byMonth2020 = table.where(from2020).sortAscendingOn('Date')
         .summarize('Noscent', countTrue, count).by('Month')
-def indices = 0..<only2020.size()
-double[] nsprop = indices.collect{only2020[it].with{it.getDouble('Number True [Noscent]')/it.getDouble('Count [Noscent]') } }
-double[] se = indices.collect{Math.sqrt(nsprop[it] * (1 - nsprop[it]) / only2020[it].getDouble('Count [Noscent]')) }
+def indices = 0..<byMonth2020.size()
+double[] nsprop = indices.collect{byMonth2020[it].with{it.getDouble('Number True [Noscent]')/it.getDouble('Count [Noscent]') } }
+double[] se = indices.collect{Math.sqrt(nsprop[it] * (1 - nsprop[it]) / byMonth2020[it].getDouble('Count [Noscent]')) }
 double[] barLower = indices.collect{nsprop[it] - se[it] }
 double[] barHigher = indices.collect{nsprop[it] + se[it] }
-def next = only2020.addColumns(
+byMonth2020.addColumns(
         DoubleColumn.create('nsprop', nsprop),
         DoubleColumn.create('barLower', barLower),
         DoubleColumn.create('barHigher', barHigher)
 )
 
-def layout = Layout.builder("Proportion of top 5 scented candles on Amazon mentioning lack of scent by month 2020", 'Month', 'Proportion of reviews')
+def title = 'Proportion of top 5 scented candles on Amazon mentioning lack of scent by month 2020'
+def layout = Layout.builder(title, 'Month', 'Proportion of reviews')
         .showLegend(false).width(1000).height(500).build()
-def trace = BarTrace.builder(next.categoricalColumn('Month'), next.numberColumn('nsprop'))
+def trace = BarTrace.builder(byMonth2020.categoricalColumn('Month'), byMonth2020.numberColumn('nsprop'))
         .orientation(BarTrace.Orientation.VERTICAL).opacity(0.5).build()
-def errors = ScatterTrace.builder(next.categoricalColumn('Month'), next.numberColumn('barLower'),
-        next.numberColumn('barHigher'), next.numberColumn('barLower'), next.numberColumn('barHigher'))
+def errors = ScatterTrace.builder(byMonth2020.categoricalColumn('Month'), byMonth2020.numberColumn('barLower'),
+        byMonth2020.numberColumn('barHigher'), byMonth2020.numberColumn('barLower'), byMonth2020.numberColumn('barHigher'))
         .type("candlestick").opacity(0.5).build()
 Plot.show(new Figure(layout, trace, errors))

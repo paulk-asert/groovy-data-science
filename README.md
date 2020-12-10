@@ -120,6 +120,49 @@ If you have opened the repo in IntelliJ (or your favourite IDE) you should be ab
 Alternatively, you can run the example online using a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageDetect%2Fsrc%2Fmain%2Fnotebook%2FLanguageDetect.ipynb)
 
+#### Scaling up natural language processing
+
+We have all seen recent advancements in systems like Apple's Siri,
+Google Assistant and Amazon Alexa. This is part of a bigger push towards
+Natural Language Interface (NLI) interaction with computers.
+Such systems can be quite complex, yet the expectation is that
+folks using simple devices will be able to access them.
+The ability to deliver such services depends on smart scaling approaches.
+
+The [Apache NLPCraft](https://nlpcraft.apache.org/) (incubating) project
+provides a scalable architecture for the supporting natural language interface
+approach with language models as code, flexible components and good
+third party integration.
+
+![NLPCraft architecture](https://nlpcraft.apache.org/images/homepage-fig1.1.png)
+
+Groovy code examples can be found in the [Lights](subprojects/Lights/src/main/groovy) subproject.
+This example is interacting with one of the built-in example language models
+for light switches:
+
+```groovy
+start(LightSwitchModel)
+
+def cli = new NCTestClientBuilder().newBuilder().build()
+
+cli.open("nlpcraft.lightswitch.ex")
+println cli.ask('Turn on the lights in the master bedroom')
+println cli.ask("Light 'em all up")
+println cli.ask('Make it dark downstairs') // expecting no match
+if (cli) {
+    cli.close()
+}
+
+stop()
+```
+
+Running the example gives the following output:
+```asciidoc
+Lights are [on] in [master bedroom].
+Lights are [on] in [entire house].
+No matching intent found.
+```
+
 ### Digit recognition using neural networks
 
 An artificial neural network consists of layers of nodes which talk to other nodes based on weights and thresholds.

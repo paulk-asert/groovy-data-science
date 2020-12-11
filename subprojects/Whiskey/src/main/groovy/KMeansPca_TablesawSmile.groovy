@@ -18,12 +18,11 @@
 import smile.clustering.KMeans
 import smile.projection.PCA
 import tech.tablesaw.api.*
-import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.api.*
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
+def helper = new TablesawHelper(file)
 def rows = Table.read().csv(file)
-//Table rows = Table.read().csv('whiskey.csv')
 
 def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
             "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
@@ -47,4 +46,4 @@ rows = rows.addColumns(
 
 def title = "Clusters x Principal Components"
 def type = dims == 2 ? ScatterPlot : Scatter3DPlot
-Plot.show(type.create(title, rows, *(1..dims).collect { "PCA$it" }, "Cluster"))
+helper.show(type.create(title, rows, *(1..dims).collect { "PCA$it" }, "Cluster"), 'KMeansClustersPca')

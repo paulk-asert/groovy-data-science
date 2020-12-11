@@ -20,6 +20,13 @@ import tech.tablesaw.plotly.components.Figure
 class TablesawHelper {
     private File parent
 
+    /**
+     * Creates the plot files in a suitable temporary location
+     * determined from the parent of the passed file - typically
+     * a build folder or IDE temporary folder.
+     *
+     * @param filename Of a file in a suitable temporary directory
+     */
     TablesawHelper(String filename) {
         parent = new File(filename).parentFile
     }

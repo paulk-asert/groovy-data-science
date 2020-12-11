@@ -65,4 +65,6 @@ for scaling purposes:
 __Requirements__:
 * GroovyFX examples require JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
 * Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
-* Some examples use Tablesaw Plot.ly integration which fires open a browser, so aren't suitable for running in the normal way when using Gitpod.
+* Some examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
+  using Gitpod but will create a file in the `build` folder which you can then open by right-clicking
+  in the Gitpod browser then "Open With -> Preview".

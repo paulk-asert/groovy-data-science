@@ -21,7 +21,7 @@ repositories {
 //    mavenLocal()
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
+FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
         group 'Script'

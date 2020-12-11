@@ -60,5 +60,8 @@ gradlew :Candles:tasks --group="Script"
 Alternatively, you can use a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FCandles%2Fsrc%2Fmain%2Fnotebook%2FCandles.ipynb)
 
-__Requirements__: These examples should work with JDK 8 and 11. Since they fire up a browser,
-it is more difficult to run them using Gitpod. You are recommended to run them locally.
+__Requirements__:
+* Examples should run fine in JDK8 or JDK11.
+* These examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
+  using Gitpod but will create a file in the `build` folder which you can then open by right-clicking in the
+  Gitpod browser then "Open With -> Preview".

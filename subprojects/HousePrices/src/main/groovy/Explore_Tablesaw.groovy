@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-import groovy.transform.Field
 import tech.tablesaw.api.*
-import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.api.*
-import tech.tablesaw.plotly.components.Figure
 
 import static tech.tablesaw.aggregate.AggregateFunctions.*
-@Field File parent
 
 //def file = '/path/to/kc_house_data.csv' as File
 def file = getClass().classLoader.getResource('kc_house_data.csv').file
-parent = new File(file).parentFile
+def helper = new TablesawHelper(file)
 Table rows = Table.read().csv(file)
 
 println rows.shape()
@@ -40,7 +36,7 @@ def cleaned = rows.dropWhere(rows.column("bedrooms").isGreaterThan(30))
 println cleaned.shape()
 println cleaned.summarize("price", mean, min, max).by("bedrooms")
 
-show(ScatterPlot.create("Price x bathrooms x grade", cleaned, "bathrooms", "price", 'grade'), 'PriceBathroomsGrade')
+helper.show(ScatterPlot.create("Price x bathrooms x grade", cleaned, "bathrooms", "price", 'grade'), 'PriceBathroomsGrade')
 
 cleaned.addColumns(
     StringColumn.create("waterfrontDesc", cleaned.column("waterfront").collect{ it ? 'waterfront' : 'interior' }),
@@ -48,17 +44,8 @@ cleaned.addColumns(
     DoubleColumn.create("scaledPrice", cleaned.column("price").collect{ it / 100000 })
 )
 
-show(BubblePlot.create("Price vs living area and grade (bubble size)",
+helper.show(BubblePlot.create("Price vs living area and grade (bubble size)",
         cleaned, "sqft_living", "price", "scaledGrade", "waterfrontDesc"), 'LivingPriceGradeWaterfront')
 
-show(Scatter3DPlot.create("Grade, living space, bathrooms and price (bubble size)",
+helper.show(Scatter3DPlot.create("Grade, living space, bathrooms and price (bubble size)",
         cleaned, "sqft_living", "bathrooms", "grade", "scaledPrice", "waterfrontDesc"), 'LivingBathroomsGradePriceWaterfront')
-
-def show(Figure figure, String filename) {
-    def file = new File(parent, filename + '.html')
-    try {
-        Plot.show(figure, file)
-    } catch(ex) {
-        println "Unable to show file '$file' due to '$ex.message'"
-    }
-}

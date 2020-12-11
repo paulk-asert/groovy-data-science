@@ -62,4 +62,7 @@ for scaling purposes:
 
 * The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars.
 
-__Requirements__: Some examples run only on JDK 8, e.g. examples using GroovyFX. Most others run on JDK 8 or 11.
+__Requirements__:
+* GroovyFX examples require JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
+* Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
+* Some examples use Tablesaw Plot.ly integration which fires open a browser, so aren't suitable for running in the normal way when using Gitpod.

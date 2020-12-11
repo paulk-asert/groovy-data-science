@@ -31,4 +31,8 @@ The complete repo has additional examples using alternative clustering algorithm
 
 * The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
 
-__Requirements__: Most examples run JDK 8 or higher. The Datumbox examples are intended for JDK 11+.
+__Requirements__:
+* GroovyFX examples require JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
+* Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
+* Some examples use Tablesaw Plot.ly integration which fires open a browser, so aren't suitable for running in the normal way when using Gitpod.
+* The Datumbox examples are intended for JDK 11+.

@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import groovy.transform.Field
 import tech.tablesaw.api.*
 import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.api.*
-import tech.tablesaw.plotly.components.Page
+import tech.tablesaw.plotly.components.Figure
 
 import static tech.tablesaw.aggregate.AggregateFunctions.*
+@Field File parent
 
 //def file = '/path/to/kc_house_data.csv' as File
 def file = getClass().classLoader.getResource('kc_house_data.csv').file
+parent = new File(file).parentFile
 Table rows = Table.read().csv(file)
-//Table rows = Table.read().csv('/path/to/kc_house_data.csv')
 
 println rows.shape()
 
@@ -37,24 +40,7 @@ def cleaned = rows.dropWhere(rows.column("bedrooms").isGreaterThan(30))
 println cleaned.shape()
 println cleaned.summarize("price", mean, min, max).by("bedrooms")
 
-def figure = ScatterPlot.create("Price x bathrooms x grade", cleaned, "bathrooms", "price", 'grade')
-//println figure.asJavascript('target')
-/*
-import com.sun.net.httpserver.HttpServer
-int PORT = 8080
-HttpServer.create(new InetSocketAddress(PORT), 0).with {
-    println "Server is listening on ${PORT}, hit Ctrl+C to exit."
-    createContext("/") { http ->
-        http.responseHeaders.add("Content-type", "text/html")
-        http.sendResponseHeaders(200, 0)
-        http.responseBody.withWriter { out ->
-            out << Page.pageBuilder(figure, 'target').build().asJavascript()
-        }
-    }
-    start()
-}
-*/
-Plot.show(figure, 'PriceBathroomsGrade.html' as File)
+show(ScatterPlot.create("Price x bathrooms x grade", cleaned, "bathrooms", "price", 'grade'), 'PriceBathroomsGrade')
 
 cleaned.addColumns(
     StringColumn.create("waterfrontDesc", cleaned.column("waterfront").collect{ it ? 'waterfront' : 'interior' }),
@@ -62,8 +48,17 @@ cleaned.addColumns(
     DoubleColumn.create("scaledPrice", cleaned.column("price").collect{ it / 100000 })
 )
 
-Plot.show(BubblePlot.create("Price vs living area and grade (bubble size)",
-        cleaned, "sqft_living", "price", "scaledGrade", "waterfrontDesc"), 'LivingPriceGradeWaterfront.html' as File)
+show(BubblePlot.create("Price vs living area and grade (bubble size)",
+        cleaned, "sqft_living", "price", "scaledGrade", "waterfrontDesc"), 'LivingPriceGradeWaterfront')
 
-Plot.show(Scatter3DPlot.create("Grade, living space, bathrooms and price (bubble size)",
-        cleaned, "sqft_living", "bathrooms", "grade", "scaledPrice", "waterfrontDesc"), 'LivingBathroomsGradePriceWaterfront.html' as File)
+show(Scatter3DPlot.create("Grade, living space, bathrooms and price (bubble size)",
+        cleaned, "sqft_living", "bathrooms", "grade", "scaledPrice", "waterfrontDesc"), 'LivingBathroomsGradePriceWaterfront')
+
+def show(Figure figure, String filename) {
+    def file = new File(parent, filename + '.html')
+    try {
+        Plot.show(figure, file)
+    } catch(ex) {
+        println "Unable to show file '$file' due to '$ex.message'"
+    }
+}

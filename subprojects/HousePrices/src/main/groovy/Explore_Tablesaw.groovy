@@ -16,6 +16,7 @@
 import tech.tablesaw.api.*
 import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.api.*
+import tech.tablesaw.plotly.components.Page
 
 import static tech.tablesaw.aggregate.AggregateFunctions.*
 
@@ -36,7 +37,24 @@ def cleaned = rows.dropWhere(rows.column("bedrooms").isGreaterThan(30))
 println cleaned.shape()
 println cleaned.summarize("price", mean, min, max).by("bedrooms")
 
-Plot.show(ScatterPlot.create("Price x bathrooms x grade", cleaned, "bathrooms", "price", 'grade'))
+def figure = ScatterPlot.create("Price x bathrooms x grade", cleaned, "bathrooms", "price", 'grade')
+//println figure.asJavascript('target')
+/*
+import com.sun.net.httpserver.HttpServer
+int PORT = 8080
+HttpServer.create(new InetSocketAddress(PORT), 0).with {
+    println "Server is listening on ${PORT}, hit Ctrl+C to exit."
+    createContext("/") { http ->
+        http.responseHeaders.add("Content-type", "text/html")
+        http.sendResponseHeaders(200, 0)
+        http.responseBody.withWriter { out ->
+            out << Page.pageBuilder(figure, 'target').build().asJavascript()
+        }
+    }
+    start()
+}
+*/
+Plot.show(figure, 'PriceBathroomsGrade.html' as File)
 
 cleaned.addColumns(
     StringColumn.create("waterfrontDesc", cleaned.column("waterfront").collect{ it ? 'waterfront' : 'interior' }),
@@ -45,7 +63,7 @@ cleaned.addColumns(
 )
 
 Plot.show(BubblePlot.create("Price vs living area and grade (bubble size)",
-        cleaned, "sqft_living", "price", "scaledGrade", "waterfrontDesc"))
+        cleaned, "sqft_living", "price", "scaledGrade", "waterfrontDesc"), 'LivingPriceGradeWaterfront.html' as File)
 
 Plot.show(Scatter3DPlot.create("Grade, living space, bathrooms and price (bubble size)",
-        cleaned, "sqft_living", "bathrooms", "grade", "scaledPrice", "waterfrontDesc"))
+        cleaned, "sqft_living", "bathrooms", "grade", "scaledPrice", "waterfrontDesc"), 'LivingBathroomsGradePriceWaterfront.html' as File)

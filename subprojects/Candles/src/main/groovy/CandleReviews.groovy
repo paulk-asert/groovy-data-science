@@ -15,7 +15,6 @@
  */
 
 import tech.tablesaw.io.xlsx.XlsxReader
-import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.components.Figure
 import tech.tablesaw.plotly.components.Layout
 import tech.tablesaw.plotly.traces.BarTrace
@@ -33,6 +32,7 @@ import static tech.tablesaw.api.StringColumn.create as sCol
 import static tech.tablesaw.io.xlsx.XlsxReadOptions.builder
 
 def url = getClass().classLoader.getResource('Scented_all.xlsx')
+def helper = new TablesawHelper(url.file)
 def table = new XlsxReader().read(builder(url).build())
 def start2020 = LocalDateTime.of(2020, JANUARY, 1, 0, 0)
 Function from2020 = r -> r.dateTimeColumn('Date').isAfter(start2020)
@@ -60,4 +60,4 @@ def trace = BarTrace.builder(byMonth2020.categoricalColumn('Month'), byMonth2020
 def errors = ScatterTrace.builder(byMonth2020.categoricalColumn('Month'), byMonth2020.nCol('barLower'),
         byMonth2020.nCol('barHigher'), byMonth2020.nCol('barLower'), byMonth2020.nCol('barHigher'))
         .type("candlestick").opacity(0.5).build()
-Plot.show(new Figure(layout, trace, errors))
+helper.show(new Figure(layout, trace, errors), 'ReviewBarchart')

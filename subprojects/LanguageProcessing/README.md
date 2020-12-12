@@ -63,7 +63,7 @@ def text = '''
 The most referenced scientific paper of all time is "Protein measurement with the
 Folin phenol reagent" by Lowry, O. H., Rosebrough, N. J., Farr, A. L. & Randall,
 R. J. and was published in the J. BioChem. in 1951. It describes a method for
-measuring the amount of protein (even as small as 0.2 ?, were ? is the specific
+measuring the amount of protein (even as small as 0.2 γ, were γ is the specific
 weight) in solutions and has been cited over 300,000 times and can be found here:
 https://www.jbc.org/content/193/1/265.full.pdf. Dr. Lowry completed
 two doctoral degrees under an M.D.-Ph.D. program from the University of Chicago
@@ -87,7 +87,7 @@ Folin phenol reagent" by Lowry, O. H., Rosebrough, N. J., Farr, A. L. & Randall,
 R. J. and was published in the J. BioChem. in 1951.
 
 It describes a method for
-measuring the amount of protein (even as small as 0.2 \gamma, were $\gamma$ is the specific
+measuring the amount of protein (even as small as 0.2 γ, were γ is the specific
 weight) in solutions and has been cited over 300,000 times and can be found here:
 https://www.jbc.org/content/193/1/265.full.pdf.
 

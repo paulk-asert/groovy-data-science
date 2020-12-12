@@ -137,26 +137,28 @@ This example looks at using neural networks for digit recognition.
 
 More details can be found in the [Mnist](subprojects/Mnist/) subproject.
 It contains examples using hand-written neural networks with
-[Apache Commons Math](https://commons.apache.org/proper/commons-math/) used for matrix calculations
+[Apache Commons Math] used for matrix calculations
 and multilayer perceptron examples using
-[Deep Learning4J](https://deeplearning4j.org/).
+[Deep Learning4J].
+
+| | Technologies/libraries covered |
+| --- | --- |
+| Neural networks | [Apache Commons Math], [Deep Learning4J] |
 
 ### Deep-learning with Apache MXNet
 
 Neural networks with numerous layers of nodes allow for more complex, rich and _deeper_ processing and understanding.
 This example detects objects within an image.
 It uses a pre-trained model and the
-[Apache MXNet](https://mxnet.apache.org/)
-library.
+[Apache MXNet] (incubating) library.
 
 ![MXNet.groovy](docs/images/mxnet.png)
 
-Groovy code examples can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxnet/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
+More details can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxnet/) subproject.
 
-__Requirements__: Unfortunately the MXNet Java Inference API (which is what our Groovy script is using)
-currently has issues running in Windows. The Scala API has the same issue.
-Avoid the Windows platform for this example for now.
+| | Technologies/libraries covered |
+| --- | --- |
+| Image detection | [Apache MXNet] |
 
 ---
 

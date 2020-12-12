@@ -101,6 +101,13 @@ Pharmacology at Washington University in St. Louis for 29 years.
 
 ## Entity Detection
 
+Sometimes when analysing text we want to search for meaningful entities
+such as the dates, locations, names of people, etc.
+The following example uses OpenNLP. It has numerous named entity models
+which select such aspects individually. We'll use 5 English-language models:
+`person`, `money`, `date`, `time`, and `location`,
+but there are [other models and models for some other languages](http://opennlp.sourceforge.net/models-1.5/).
+
 ```groovy
 import opennlp.tools.namefind.*
 import opennlp.tools.tokenize.SimpleTokenizer
@@ -158,7 +165,7 @@ The parcel was passed from date(May to June).
 ```
 
 The result isn't perfect.
-Arguably "Sun." should be detected as part of the subsequent `date` in the first sentence,
+Arguably "Sun." should be detected as part of the subsequent `date` entity in the second sentence,
 and "Ms." as part of the `person` entity in the 5th sentence.
 Also, the `location` entities in sentence 4 could potentially be merged.
 We can either do fancier programming or train better models to help for such cases.

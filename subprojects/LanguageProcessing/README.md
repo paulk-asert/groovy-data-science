@@ -170,6 +170,62 @@ and "Ms." as part of the `person` entity in the 5th sentence.
 Also, the `location` entities in sentence 4 could potentially be merged.
 We can either do fancier programming or train better models to help for such cases.
 
+## Parts of Speech (POS) Detection
+
+Parts of speech (POS) detection tags words as nouns, verbs and other [parts-of-speed](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html).
+Some of the common tags are:
+
+| Tag | Meaning |
+| --- | --- |
+| CC | coordinating conjunction |
+| CD | cardinal number |
+| DT | determiner |
+| IN | preposition or subordinating conjunction |
+| JJ | adjective |
+| JJR | adjective, comparative |
+| NN | noun, singular or mass |
+| NNS | noun, plural |
+| NNP | proper noun, singular |
+| POS | possessive ending |
+| PRP | personal pronoun |
+| PRP$ | possessive pronoun |
+| RB | adverb |
+| TO | the word "to" |
+| VB | verb, base form |
+| VBD | verb, past tense |
+| VBZ | verb, third person singular present |
+
+Here, we use OpenNLP's POS detection capabilities to detect the parts of speech for a nyumber of sentences.
+
+```groovy
+def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
+def sentences = [
+    'Paul has two sisters, Maree and Christine.',
+    'Has bark was much bigger than his bite',
+    'Turn on the lights to the master bedroom',
+    "Light 'em all up",
+    'Make it dark downstairs'
+]
+def tokenizer = SimpleTokenizer.INSTANCE
+sentences.each {
+    String[] tokens = tokenizer.tokenize(it)
+    def model = new POSModel(helper.load('en-pos-maxent'))
+    def posTagger = new POSTaggerME(model)
+    String[] tags = posTagger.tag(tokens)
+    println tokens.indices.collect{tags[it] == tokens[it] ? tags[it] : "${tags[it]}(${tokens[it]})" }.join(' ')
+}
+```
+
+When run, the output will be:
+
+```asciidoc
+NNP(Paul) VBZ(has) CD(two) NNS(sisters) , NNP(Maree) CC(and) NNP(Christine) .
+NNP(Has) NN(bark) VBD(was) RB(much) JJR(bigger) IN(than) PRP$(his) NN(bite)
+VB(Turn) IN(on) DT(the) NNS(lights) TO(to) DT(the) NN(master) NN(bedroom)
+NN(Light) POS(') NN(em) DT(all) IN(up)
+VB(Make) PRP(it) JJ(dark) NN(downstairs)
+```
+
 ## Scaling up natural language processing
 
 We have all seen recent advancements in systems like Apple's Siri,

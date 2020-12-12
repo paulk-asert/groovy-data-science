@@ -123,7 +123,7 @@ or using a Jupyter/BeakerX notebook.
 | --- | --- |
 | NLP | [Apache OpenNLP] |
 | Scaling NLP | [Apache NLPCraft] |
-| Aspects covered | Language detection, sentence detection, named entity detection |
+| Aspects covered | Language detection, sentence detection, named entity detection, parts-of-speech detection |
 
 ### Digit recognition using neural networks
 

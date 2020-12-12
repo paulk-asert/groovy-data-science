@@ -18,7 +18,7 @@ limitations under the License.
 
 An interesting tweet popped into my twitter feed while preparing this workshop:
 
-![Original tweet](../../docs/images/2020-Nov-28_KatePetrovaOnTwitter.png)
+<img src="https://github.com/paulk-asert/groovy-data-science/raw/master/docs/images/2020-Nov-28_KatePetrovaOnTwitter.png" width="500" height="718">
 
 It was interesting not solely because the topic is one that interests many of us
 right now. It is interesting because when we hypothesize about a trend,

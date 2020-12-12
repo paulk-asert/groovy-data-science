@@ -114,11 +114,11 @@ It uses the [Apache OpenNLP][] library.
 
 ![Language detection notebook screenshot.groovy](docs/images/lang_detect_notebook.png)
 
-Groovy code examples can be found in the [LanguageDetect](subprojects/LanguageDetect/src/main/groovy) subproject.
+Groovy code examples can be found in the [LanguageProcessing](subprojects/LanguageProcessing/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
 Alternatively, you can run the example online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageDetect%2Fsrc%2Fmain%2Fnotebook%2FLanguageDetect.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageProcessing%2Fsrc%2Fmain%2Fnotebook%2FLanguageProcessing.ipynb)
 
 #### Scaling up natural language processing
 

@@ -16,14 +16,16 @@
 //@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
 import opennlp.tools.langdetect.*
 
-def base = 'http://apache.forsale.plus/opennlp/models'
-def url = "$base/langdetect/1.8.3/langdetect-183.bin"
-def model = new LanguageDetectorModel(new URL(url))
+// use a helper to cache models
+def helper = new ResourceHelper('http://apache.forsale.plus/opennlp/models/langdetect/1.8.3/')
+
+def model = new LanguageDetectorModel(helper.load('langdetect-183'))
 def detector = new LanguageDetectorME(model)
 
 [ 'spa': 'Bienvenido a Madrid',
   'fra': 'Bienvenue à Paris',
-  'dan': 'Velkommen til København'
+  'dan': 'Velkommen til København',
+  'bul': 'Добре дошли в София'
 ].each { k, v ->
     assert detector.predictLanguage(v).lang == k
 }

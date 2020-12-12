@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+//@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
 import opennlp.tools.langdetect.*
 
 u = "http://apache.forsale.plus/opennlp/models/langdetect/1.8.3/langdetect-183.bin"
@@ -20,7 +21,7 @@ d = new LanguageDetectorME(new LanguageDetectorModel(new URL(u)))
 a = 'Bienvenue à Paris'
 b = 'Velkommen til København'
 
-// meant to fail (French != Danish) to illustrate Groovy's power assert feature
+// Expected to fail (French != Danish) to illustrate Groovy's power assert feature
 assert d.predictLanguage(a).lang == d.predictLanguage(b).lang
 
 /*

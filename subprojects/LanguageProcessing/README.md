@@ -218,7 +218,7 @@ sentences.each {
 
 When run, the output will be:
 
-```asciidoc
+```text
 NNP(Paul) VBZ(has) CD(two) NNS(sisters) , NNP(Maree) CC(and) NNP(Christine) .
 NNP(Has) NN(bark) VBD(was) RB(much) JJR(bigger) IN(than) PRP$(his) NN(bite)
 VB(Turn) IN(on) DT(the) NNS(lights) TO(to) DT(the) NN(master) NN(bedroom)

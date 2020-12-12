@@ -177,7 +177,7 @@ third party integration.
 
 ![NLPCraft architecture](https://nlpcraft.apache.org/images/homepage-fig1.1.png)
 
-Groovy code examples can be found in the [Lights](subprojects/Lights/src/main/groovy) subproject.
+Groovy code examples can be found in the [LanguageProcessingNLPCraft/src/main/groovy](../../subprojects/LanguageProcessingNLPCraft/src/main/groovy) directory.
 This example is interacting with one of the built-in example language models
 for light switches:
 

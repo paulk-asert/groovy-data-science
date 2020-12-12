@@ -57,6 +57,7 @@ Options are available to run the examples on the command-line or in your favouri
 | --- | --- |
 | Data manipulation | [Tablesaw] |
 | Visualization | [Tablesaw Plot.ly] |
+| Aspects covered | Reading xlsx, dataframes, visualization |
 
 ### House price prediction with linear regression
 
@@ -80,6 +81,7 @@ or using a Jupyter/BeakerX notebook.
 | Regression | [Smile], [Apache Commons Math], [Weka] |
 | Visualization | [GroovyFX], [XChart], [Tablesaw Plot.ly] |
 | Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars] |
+| Aspects covered | Reading csv, dataframes, visualization, exploration, errors, outliers, single and multi linear regression |
 
 ### Whiskey clustering with K-means
 
@@ -105,65 +107,23 @@ or using a Jupyter/BeakerX notebook.
 | Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki] |
 | Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart] |
 | Scaling clustering | [Apache Ignite], [Apache Spark] |
+| Aspects covered | Reading csv, dataframes, visualization, exploration, kmeans, xmeans, gmeans, PCA, centroids |
 
 ### Natural language processing
 
 Natural language processing may involve language detection, parsing, part-of-speech tagging and other activities.
-This example makes use of a pre-trained language model to detect the language used for a fragment of text.
-It uses the [Apache OpenNLP][] library.
 
 ![Language detection notebook screenshot.groovy](docs/images/lang_detect_notebook.png)
 
-Groovy code examples can be found in the [LanguageProcessing](subprojects/LanguageProcessing/src/main/groovy) subproject.
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
+All the details can be found in the [LanguageProcessing](subprojects/LanguageProcessing/) subproject.
+Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
+or using a Jupyter/BeakerX notebook.
 
-Alternatively, you can run the example online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageProcessing%2Fsrc%2Fmain%2Fnotebook%2FLanguageProcessing.ipynb)
-
-#### Scaling up natural language processing
-
-We have all seen recent advancements in systems like Apple's Siri,
-Google Assistant and Amazon Alexa. This is part of a bigger push towards
-Natural Language Interface (NLI) interaction with computers.
-Such systems can be quite complex, yet the expectation is that
-folks using simple devices will be able to access them.
-The ability to deliver such services depends on smart scaling approaches.
-
-The [Apache NLPCraft](https://nlpcraft.apache.org/) (incubating) project
-provides a scalable architecture for the supporting natural language interface
-approach with language models as code, flexible components and good
-third party integration.
-
-![NLPCraft architecture](https://nlpcraft.apache.org/images/homepage-fig1.1.png)
-
-Groovy code examples can be found in the [Lights](subprojects/Lights/src/main/groovy) subproject.
-This example is interacting with one of the built-in example language models
-for light switches:
-
-```groovy
-start(LightSwitchModel)
-
-def cli = new NCTestClientBuilder().newBuilder().build()
-
-cli.open("nlpcraft.lightswitch.ex")
-println cli.ask('Turn on the lights in the master bedroom')
-println cli.ask("Light 'em all up")
-println cli.ask('Make it dark downstairs') // expecting no match
-if (cli) {
-    cli.close()
-}
-
-stop()
-```
-
-Running the example gives the following output:
-```asciidoc
-Lights are [on] in [master bedroom].
-Lights are [on] in [entire house].
-No matching intent found.
-```
-
-We could now revise our model if we wanted the last example to also succeed.
+| | Technologies/libraries covered |
+| --- | --- |
+| NLP | [Apache OpenNLP] |
+| Scaling NLP | [Apache NLPCraft] |
+| Aspects covered | Language detection, sentence detection, named entity detection |
 
 ### Digit recognition using neural networks
 
@@ -241,21 +201,6 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 
 ---
 
-## Technology Summary
-
-Math and Data Science libraries and technologies covered include:<br>
-[Weka], [Smile], [Datumbox], [Joinery], [Elki], [Encog], [Apache Commons Math],
-[Jupyter/BeakerX], [Tablesaw], [Apache OpenNLP], [Deep Learning4J], [Choco]
-
-Libraries for scaling, concurrency and machine learning at scale include:<br>
-[Apache Spark], [Apache Ignite], [Apache MXNet], [GPars], [Apache Beam]
-
-Libraries for graphing/visualization include:<br>
-[Tablesaw Plot.ly], [Smile visualization], [JFreeChart], [XChart], [GroovyFX]
-
-Utility libraries covered include:<br>
-[OpenCSV], [Apache Commons CSV]
-
 [Weka]: https://www.cs.waikato.ac.nz/ml/weka/
 [Smile]: http://haifengl.github.io/
 [Datumbox]: https://github.com/datumbox/datumbox-framework
@@ -272,6 +217,7 @@ Utility libraries covered include:<br>
 [Apache MXNet]: https://mxnet.apache.org/
 [GPars]: http://gpars.org/
 [Apache Beam]: https://beam.apache.org/
+[Apache NLPCraft]: https://nlpcraft.apache.org/
 [Tablesaw Plot.ly]: https://jtablesaw.github.io/tablesaw/userguide/Introduction_to_Plotting.html "Tablesaw Plot.ly support"
 [Smile visualization]: http://haifengl.github.io/visualization.html
 [JFreeChart]: http://www.jfree.org/jfreechart/

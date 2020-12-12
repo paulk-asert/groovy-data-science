@@ -201,7 +201,7 @@ Here, we use OpenNLP's POS detection capabilities to detect the parts of speech 
 def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
 def sentences = [
     'Paul has two sisters, Maree and Christine.',
-    'Has bark was much bigger than his bite',
+    'His bark was much worse than his bite',
     'Turn on the lights to the master bedroom',
     "Light 'em all up",
     'Make it dark downstairs'
@@ -220,7 +220,7 @@ When run, the output will be:
 
 ```text
 NNP(Paul) VBZ(has) CD(two) NNS(sisters) , NNP(Maree) CC(and) NNP(Christine) .
-NNP(Has) NN(bark) VBD(was) RB(much) JJR(bigger) IN(than) PRP$(his) NN(bite)
+PRP$(His) NN(bark) VBD(was) RB(much) JJR(worse) IN(than) PRP$(his) NN(bite)
 VB(Turn) IN(on) DT(the) NNS(lights) TO(to) DT(the) NN(master) NN(bedroom)
 NN(Light) POS(') NN(em) DT(all) IN(up)
 VB(Make) PRP(it) JJ(dark) NN(downstairs)

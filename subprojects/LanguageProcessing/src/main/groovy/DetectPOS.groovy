@@ -21,7 +21,7 @@ import opennlp.tools.tokenize.SimpleTokenizer
 def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
 def sentences = [
     'Paul has two sisters, Maree and Christine.',
-    'Has bark was much bigger than his bite',
+    'His bark was much worse than his bite',
     'Turn on the lights to the master bedroom',
     "Light 'em all up",
     'Make it dark downstairs'

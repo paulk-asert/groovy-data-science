@@ -19,12 +19,12 @@ import opennlp.tools.tokenize.SimpleTokenizer
 import opennlp.tools.util.Span
 
 String[] sentences = [
-    '''A commit by Daniel Sun on December 6, 2020 improved Groovy 4's language integrated query.''',
-    '''A commit by Daniel on Sun., December 6, 2020 improved Groovy 4's language integrated query.''',
-    '''The Groovy in Action book by Dierk Koenig et. al. is a bargain at $50, or indeed any price.''',
-    '''The conference wrapped up yesterday at 5:30 p.m. in Copenhagen, Denmark.''',
-    '''I saw Ms. May Smith waving to June Jones.''',
-    '''The parcel was passed from May to June.'''
+    "A commit by Daniel Sun on December 6, 2020 improved Groovy 4's language integrated query.",
+    "A commit by Daniel on Sun., December 6, 2020 improved Groovy 4's language integrated query.",
+    'The Groovy in Action book by Dierk Koenig et. al. is a bargain at $50, or indeed any price.',
+    'The conference wrapped up yesterday at 5:30 p.m. in Copenhagen, Denmark.',
+    'I saw Ms. May Smith waving to June Jones.',
+    'The parcel was passed from May to June.'
 ]
 
 // use a helper to cache models

@@ -107,12 +107,12 @@ import opennlp.tools.tokenize.SimpleTokenizer
 import opennlp.tools.util.Span
 
 String[] sentences = [
-    '''A commit by Daniel Sun on December 6, 2020 improved Groovy 4's language integrated query.''',
-    '''A commit by Daniel on Sun., December 6, 2020 improved Groovy 4's language integrated query.''',
-    '''The Groovy in Action book by Dierk Koenig et. al. is a bargain at $50, or indeed any price.''',
-    '''The conference wrapped up yesterday at 5:30 p.m. in Copenhagen, Denmark.''',
-    '''I saw Ms. May Smith waving to June Jones.''',
-    '''The parcel was passed from May to June.'''
+    "A commit by Daniel Sun on December 6, 2020 improved Groovy 4's language integrated query.",
+    "A commit by Daniel on Sun., December 6, 2020 improved Groovy 4's language integrated query.",
+    'The Groovy in Action book by Dierk Koenig et. al. is a bargain at $50, or indeed any price.',
+    'The conference wrapped up yesterday at 5:30 p.m. in Copenhagen, Denmark.',
+    'I saw Ms. May Smith waving to June Jones.',
+    'The parcel was passed from May to June.'
 ]
 
 // use a helper to cache models
@@ -157,9 +157,11 @@ I saw Ms. person(May Smith) waving to person(June Jones).
 The parcel was passed from date(May to June).
 ```
 
-The result isn't perfect. Arguably "Sun." should be detected as a `date` and "Ms."
-as part of `person`. Also, should the `location` entities be merged.
-We can either do fancier programming or use better models to help for such cases.
+The result isn't perfect.
+Arguably "Sun." should be detected as part of the subsequent `date` in the first sentence,
+and "Ms." as part of the `person` entity in the 5th sentence.
+Also, the `location` entities in sentence 4 could potentially be merged.
+We can either do fancier programming or train better models to help for such cases.
 
 ## Scaling up natural language processing
 

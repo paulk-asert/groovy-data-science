@@ -23,15 +23,6 @@ repositories {
 tasks.register('checkJdk8Compatibility') {
     doLast {
         assert JavaVersion.current().isJava8(), "JDK8 is required but found ${JavaVersion.current()}!"
-        boolean javafxFound = false
-        try {
-            Class.forName('javafx/beans/value/ObservableNumberValue')
-            javafxFound = true
-        } catch(ignore) {
-            println 'sun.boot.class.path: ' + System.properties.'sun.boot.class.path'
-            println ignore
-        }
-        assert javafxFound, "JavaFX required but not on bootclasspath?"
     }
 }
 
@@ -39,7 +30,7 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
         // current version of GroovyFX requires JDK8
-        if (name.endsWith('GroovyFX')) dependsOn(checkJdk8Compatibility)
+        if (name.endsWith('GroovyFX')) dependsOn([checkJdk8Compatibility, 'runFXCheck'])
         group 'Script'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath

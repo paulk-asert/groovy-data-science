@@ -39,7 +39,7 @@ config {
     }
 }
 
-ext.UNSTABLE = /^[0-9,.-]+[.-](alpha|beta|rc)[.\d-]*$/
+ext.UNSTABLE = /^([0-9,.-]+[.-](alpha|beta|rc)[.\d-]*)|20030203.000550$/
 // ignore non-stable releases
 allprojects {
     tasks.named("dependencyUpdates").configure {

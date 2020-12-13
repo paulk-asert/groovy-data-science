@@ -203,6 +203,12 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 
 ---
 
+__Requirements__:
+* Most examples have been tested with at least JDK8 and JDK11.
+  Examples which run with JDK11, typically also work with later JDK versions.
+  Some examples have more specific requirements, e.g. JDK8 with JavaFX or JDK11+ only.
+  Such requirements are noted in the specific README docs for each subproject.
+
 [Weka]: https://www.cs.waikato.ac.nz/ml/weka/
 [Smile]: http://haifengl.github.io/
 [Datumbox]: https://github.com/datumbox/datumbox-framework

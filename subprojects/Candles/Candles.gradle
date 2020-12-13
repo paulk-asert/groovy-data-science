@@ -18,7 +18,6 @@ apply plugin: 'groovy'
 repositories {
     jcenter()
     mavenCentral()
-//    mavenLocal()
 }
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each { name ->

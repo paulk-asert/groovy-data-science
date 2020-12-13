@@ -270,3 +270,6 @@ No matching intent found.
 ```
 
 We could now revise our model if we wanted the last example to also succeed.
+
+__Requirements__:
+* The version of NLPCraft being used requires JDK11+.

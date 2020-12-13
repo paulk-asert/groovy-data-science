@@ -31,6 +31,14 @@ dependencies {
     // Comment out the above nlpcraft line and uncomment the next line instead.
 //    implementation fileTree(dir: 'lib', include: '*.jar')
 }
+
+tasks.register('checkCompatibility') {
+    doLast {
+        assert JavaVersion.current().isJava11Compatible(), "JDK11+ is required but found ${JavaVersion.current()}!"
+    }
+}
+
+run.dependsOn('checkCompatibility')
 /*
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->

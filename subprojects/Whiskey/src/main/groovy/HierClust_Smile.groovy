@@ -15,28 +15,32 @@
  */
 import smile.clustering.HierarchicalClustering
 import smile.clustering.linkage.WardLinkage
-import smile.math.Math
-import smile.plot.Dendrogram
-import tech.tablesaw.api.Table
+import smile.io.Read
+import smile.plot.swing.Dendrogram
 
-def file = getClass().classLoader.getResource('whiskey.csv').file
-def rows = Table.read().csv(file)
-//Table rows = Table.read().csv('whiskey.csv')
+import java.awt.Color
 
-def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
+import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
+import static smile.math.MathEx.distance
+
+def file = new File(getClass().classLoader.getResource('whiskey.csv').file)
+def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
+
+String[] cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
             "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
-def data = rows.as().doubleMatrix(*cols)
+def data = table.select(cols).toArray()
 
 int n = data.length
 double[][] proximity = new double[n][]
 for (i in 0..<n) {
     proximity[i] = new double[i + 1]
-    for (j in 0..<i) proximity[i][j] = Math.distance(data[i], data[j])
+    for (j in 0..<i) proximity[i][j] = distance(data[i], data[j])
 }
-def clusterer = new HierarchicalClustering(new WardLinkage(proximity))
+def clusterer = HierarchicalClustering.fit(new WardLinkage(proximity))
 //println clusterer.tree
 //println clusterer.height
-def plot = Dendrogram.plot(clusterer.tree, clusterer.height)
-plot.title = "Dendrogram"
 
-SwingUtil.show(plot)
+new Dendrogram(clusterer.tree, clusterer.height, Color.BLUE).canvas().with {
+    title = "Dendrogram"
+    window()
+}

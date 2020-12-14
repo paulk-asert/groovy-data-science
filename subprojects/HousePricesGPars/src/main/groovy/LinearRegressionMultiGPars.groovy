@@ -13,35 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import smile.regression.OLS
-import tech.tablesaw.api.*
 import groovyx.gpars.GParsPool
+import smile.data.DataFrame
+import smile.data.formula.Formula
+import smile.io.Read
+import smile.regression.OLS
 
 import static java.lang.Math.sqrt
+import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
-import static smile.math.Math.dot
+import static smile.math.MathEx.dot
 
 def features = [
         'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_living15', 'lat',
         'sqft_above', 'grade', 'view', 'waterfront', 'floors'
 ]
 
-def file = getClass().classLoader.getResource('kc_house_data.csv').file
-def table = Table.read().csv(file)
-table = table.dropWhere(table.column("bedrooms").isGreaterThan(30))
-def data = table.as().doubleMatrix(*features)
+def file = new File(getClass().classLoader.getResource('kc_house_data.csv').file)
+def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
+table = table.select(*features)
+table = table.stream().filter { it.apply('bedrooms') <= 30 }.collect(DataFrame.collect())
+println table.schema()
+println table.structure()
 
 GParsPool.withPool {
     def trainChunkSize = 3000
     def numTrainChunks = 8
     def models = (0..<numTrainChunks).collectParallel {
-        def list = data.toList().shuffled().take(trainChunkSize)
-        new OLS(list.collect{ it[1..-1] } as double[][], list.collect{ it[0] } as double[]).with{ [it.intercept(), *it.coefficients()] }
+        def list = DataFrame.of(table.toArray().toList().shuffled().take(trainChunkSize) as double[][], *features)
+        OLS.fit(Formula.lhs('price'), list).coefficients()
     }
-//    models.each {
-//        println "Intercept: ${it[0]}, Coefficients: ${it[1..-1]}"
-//    }
-    def model = models.transpose()*.sum().collect{ it/numTrainChunks }
+    models.each {
+        println "Intercept: ${it[0]}, Coefficients: ${it[1..-1]}"
+    }
+    def model = models.transpose()*.sum().collect { it / numTrainChunks }
     println "Intercept: ${model[0]}"
     println "Coefficients: ${model[1..-1].join(', ')}"
 
@@ -55,7 +60,7 @@ GParsPool.withPool {
     }
 //    println stats(data)
     def evalChunkSize = 2000
-    def results = data.collate(evalChunkSize).collectParallel(stats)
-    println 'RMSE: ' + sqrt(results.collect{ it[0] * it[0] * it[2] }.sum() / data.size())
-    println 'mean: ' + results.collect{ it[1] * it[2] }.sum() / data.size()
+    def results = table.toArray().collate(evalChunkSize).collectParallel(stats)
+    println 'RMSE: ' + sqrt(results.collect { it[0] * it[0] * it[2] }.sum() / table.size())
+    println 'mean: ' + results.collect { it[1] * it[2] }.sum() / table.size()
 }

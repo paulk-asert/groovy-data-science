@@ -34,8 +34,9 @@ repositories {
 dependencies {
     implementation "org.codehaus.groovy:groovy:$groovyVersion"
     implementation 'org.codehaus.gpars:gpars:1.2.1'
-    implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "com.github.haifengl:smile-core:$smileVersion"
-//    implementation "com.github.haifengl:smile-math:$smileVersion"
+    implementation "com.github.haifengl:smile-math:$smileVersion"
+    implementation "com.github.haifengl:smile-io:$smileVersion"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    runtimeOnly "org.bytedeco:openblas-platform:0.3.9-1.5.3"
 }

@@ -14,33 +14,25 @@
  * limitations under the License.
  */
 import smile.clustering.HierarchicalClustering
-import smile.clustering.linkage.WardLinkage
+import smile.clustering.linkage.CompleteLinkage
 import smile.io.Read
 import smile.plot.swing.Dendrogram
 
-import java.awt.Color
-
+import static java.awt.Color.BLUE
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
-import static smile.math.MathEx.distance
 
 def file = new File(getClass().classLoader.getResource('whiskey.csv').file)
 def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
 
 String[] cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+                 "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
 def data = table.select(cols).toArray()
 
-int n = data.length
-double[][] proximity = new double[n][]
-for (i in 0..<n) {
-    proximity[i] = new double[i + 1]
-    for (j in 0..<i) proximity[i][j] = distance(data[i], data[j])
-}
-def clusterer = HierarchicalClustering.fit(new WardLinkage(proximity))
-//println clusterer.tree
-//println clusterer.height
+def clusters = HierarchicalClustering.fit(CompleteLinkage.of(data))
+//println clusters.tree
+//println clusters.height
 
-new Dendrogram(clusterer.tree, clusterer.height, Color.BLUE).canvas().with {
-    title = "Dendrogram"
+new Dendrogram(clusters.tree, clusters.height, BLUE).canvas().with {
+    title = "Whiskey Dendrogram"
     window()
 }

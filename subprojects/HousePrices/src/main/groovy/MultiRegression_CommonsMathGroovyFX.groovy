@@ -59,7 +59,7 @@ if (showError) {
     def scale = dist.binStats.max { it.n }.n / nbins.max { it[1] }[1]
     nbins = nbins.collect { [it[0], it[1] * scale] }
     start {
-        stage(title: "Error histogram for ${features.join(', ')}", show: true, width: 800, height: 600) {
+        stage(title: "Error histogram for ${features.join(', ')}", show: true, width: 800, height: 500) {
             scene {
                 barChart(title: 'Error percentile', barGap: 0, categoryGap: 0) {
                     series(name: 'Error in prediction', data: bins)
@@ -69,16 +69,17 @@ if (showError) {
         }
     }
 } else {
-    def maxp = predicted.max()
+    def from = [price.min(), predicted.min()].min()
+    def to = [price.max(), predicted.max()].max()
     start {
-        stage(title: "Price vs predicted", show: true, width: 800, height: 600) {
+        stage(title: "Price vs predicted", show: true, width: 900, height: 450) {
             scene {
 //                scatterChart {
 //                    series(name: 'Actual', data: [price, predicted].transpose())
 //                }
                 lineChart(stylesheets: resource('/style.css')) {
                     series(name: 'Actual', data: [price, predicted].transpose())
-                    series(name: 'Ideal', data: [[0, 0], [maxp, maxp]])
+                    series(name: 'Ideal', data: [[from, from], [to, to]])
                 }
             }
         }

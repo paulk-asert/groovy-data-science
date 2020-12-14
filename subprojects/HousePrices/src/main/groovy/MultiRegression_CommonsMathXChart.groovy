@@ -37,8 +37,8 @@ chart.addSeries("Price", price as double[], predicted as double[]).with {
     XYSeriesRenderStyle = Scatter
 }
 def from = [price.min(), predicted.min()].min()
-def to = [price.max(), predicted.max()].min()
-chart.addSeries("exact", [from, to] as double[], [from, to] as double[]).with {
+def to = [price.max(), predicted.max()].max()
+chart.addSeries("Ideal", [from, to] as double[], [from, to] as double[]).with {
     marker = NONE
     XYSeriesRenderStyle = Line
 }

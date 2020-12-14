@@ -53,4 +53,10 @@ dependencies {
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
 //    runtime 'com.github.fommil.netlib:all:1.1.2'
+    implementation "com.github.haifengl:smile-core:$smileVersion"
+    implementation "com.github.haifengl:smile-math:$smileVersion"
+    implementation "com.github.haifengl:smile-io:$smileVersion"
+    implementation "com.github.haifengl:smile-plot:$smileVersion"
+    runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    runtimeOnly "org.bytedeco:openblas-platform:0.3.9-1.5.3"
 }

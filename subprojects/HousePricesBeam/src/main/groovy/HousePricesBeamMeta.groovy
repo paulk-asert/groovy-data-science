@@ -24,13 +24,28 @@ import org.apache.beam.sdk.transforms.PTransform
 import org.apache.beam.sdk.transforms.ParDo
 import org.apache.beam.sdk.transforms.View
 import org.apache.beam.sdk.values.PCollection
+import smile.data.DataFrame
+import smile.data.formula.Formula
+import smile.io.Read
 import smile.regression.OLS
-import tech.tablesaw.api.Table
 import util.Log
 
 import static java.lang.Math.sqrt
+import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
-import static smile.math.Math.dot
+import static smile.math.MathEx.dot
+
+//interface Options extends PipelineOptions {
+//    @Description("Input file path")
+//    @Default.String('/path/to/kc_house_data.csv')
+//    String getInputFile()
+//    void setInputFile(String value)
+//
+//    @Description("Output directory")
+//    @Required
+//    String getOutputDir()
+//    void setOutputDir(String value)
+//}
 
 static buildPipeline(Pipeline p, String filename) {
     def features = [
@@ -42,12 +57,13 @@ static buildPipeline(Pipeline p, String filename) {
         @ProcessElement
         void processElement(@Element String path, OutputReceiver<double[][]> receiver) throws IOException {
             def chunkSize = 6000
-            def table = Table.read().csv(path)
-            table = table.dropWhere(table.column("bedrooms").isGreaterThan(30))
-            def idxs = 0..<table.rowCount()
+            def table = Read.csv(new File(path).toPath(), CSV.withFirstRecordAsHeader())
+            table = table.select(*features)
+            table = table.stream().filter { it.apply('bedrooms') <= 30 }.collect(DataFrame.collect())
+            def idxs = 0..<table.nrows()
             for (nextChunkIdxs in idxs.shuffled().collate(chunkSize)) {
-                def chunk = table.rows(*nextChunkIdxs)
-                receiver.output(chunk.as().doubleMatrix(*features))
+                def all = table.toArray().toList()
+                receiver.output(all[nextChunkIdxs] as double[][])
             }
             sleep 2000
         }
@@ -56,7 +72,7 @@ static buildPipeline(Pipeline p, String filename) {
     def fitModel = new DoFn<double[][], double[]>() {
         @ProcessElement
         void processElement(@Element double[][] rows, OutputReceiver<double[]> receiver) throws IOException {
-            double[] model = new OLS(rows.collect{ it[1..-1] } as double[][], rows.collect{ it[0] } as double[]).with{ [it.intercept(), *it.coefficients()] }
+            def model = OLS.fit(Formula.lhs('price'), DataFrame.of(rows, features as String[])).coefficients()
             receiver.output(model)
         }
     }

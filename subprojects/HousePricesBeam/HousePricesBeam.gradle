@@ -25,11 +25,13 @@ dependencies {
     implementation "org.apache.beam:beam-sdks-java-core:$beamVersion"
     implementation "org.apache.beam:beam-runners-direct-java:$beamVersion"
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
-    implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
     implementation "org.codehaus.groovy:groovy:$groovyVersion"
-    implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "com.github.haifengl:smile-core:$smileVersion"
-    implementation "junit:junit:$junitVersion"
+    implementation "com.github.haifengl:smile-math:$smileVersion"
+    implementation "com.github.haifengl:smile-io:$smileVersion"
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    runtimeOnly "org.bytedeco:openblas-platform:0.3.9-1.5.3"
 }
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->

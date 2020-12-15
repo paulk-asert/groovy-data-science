@@ -15,7 +15,6 @@
  */
 import smile.io.Read
 import smile.plot.swing.PlotGrid
-import smile.plot.swing.ScatterPlot
 import java.awt.Color
 
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
@@ -26,12 +25,6 @@ def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
 String[] cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
                  "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
 table = table.select(cols)
+char mark = '#'
 
-new PlotGrid(
-        *[0..<cols.size(), 0..<cols.size()].combinations().collect { first, second ->
-            def color = new Color(72 + (first * 16), 72 + (second * 16), 200 - (first * 4) - (second * 4))
-            def f = table.column(first).toDoubleArray()
-            def s = table.column(second).toDoubleArray()
-            ScatterPlot.of([f, s].transpose() as double[][], '#' as char, color)
-        }*.canvas()*.panel()
-).window()
+PlotGrid.splom(table, mark, Color.BLUE).window()

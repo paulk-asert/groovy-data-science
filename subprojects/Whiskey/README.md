@@ -10,9 +10,9 @@ The K represents the number of clusters to find.
 This example uses K-means to look at grouping together
 similar Whiskey drinks from various distilleries.
 
-![Clustering](../../docs/images/whiskey.png)
+![Clustering](../../docs/images/whiskey2.png)
 
-Groovy code examples can be found in the [Whiskey](subprojects/Whiskey/src/main/groovy) subproject.
+Groovy code examples can be found in the [src/main/groovy](subprojects/Whiskey/src/main/groovy) directory.
 You have several options for running the programs:
 
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.

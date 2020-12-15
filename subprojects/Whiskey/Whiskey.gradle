@@ -41,6 +41,7 @@ dependencies {
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
     implementation "com.github.haifengl:smile-core:$smileVersion"
+    implementation "com.github.haifengl:smile-io:$smileVersion"
     implementation "com.github.haifengl:smile-plot:$smileVersion"
     implementation "org.jfree:jfreechart:$jfreechartVersion"
     implementation "de.lmu.ifi.dbs.elki:elki:0.7.5"
@@ -48,4 +49,6 @@ dependencies {
         exclude(group: 'xml-apis', module: 'xml-apis')
     }
     implementation "com.datumbox:datumbox-framework-lib:0.8.2"
+    runtimeOnly "org.bytedeco:openblas-platform:0.3.10-1.5.4"
+    runtimeOnly "org.bytedeco:arpack-ng-platform:3.7.0-1.5.4"
 }

@@ -78,7 +78,7 @@ or using a Jupyter/BeakerX notebook.
 | | Technologies/libraries covered |
 | --- | --- |
 | Data manipulation | [Tablesaw], [Joinery], [Apache Commons CSV], [OpenCSV] |
-| Regression | [Smile], [Apache Commons Math], [Weka] |
+| Regression, math | [Smile], [Apache Commons Math], [Weka] |
 | Visualization | [GroovyFX], [XChart], [Tablesaw Plot.ly] |
 | Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars] |
 | Aspects covered | Reading csv, dataframes, visualization, exploration, errors, outliers, single and multi linear regression |

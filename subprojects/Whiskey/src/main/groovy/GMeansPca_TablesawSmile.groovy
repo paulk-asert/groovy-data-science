@@ -26,14 +26,14 @@ def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
             "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
 def data = rows.as().doubleMatrix(*cols)
 
-def pca = new PCA(data)
+def pca = PCA.fit(data)
 def dims = 4 // can be 2, 3 or 4
 pca.projection = dims
 def projected = pca.project(data)
-def adj = [1, 1, 1, 5]
+def adj = [1, 1, 1, 5] // adjustment to make graph pretty
 def kmax = 10
-def clusterer = new GMeans(data, kmax)
-def labels = clusterer.clusterLabel.collect { "Cluster " + (it + 1) }
+def clusters = GMeans.fit(data, kmax)
+def labels = clusters.y.collect { "Cluster " + (it + 1) }
 rows = rows.addColumns(
     *(0..<dims).collect { idx ->
         DoubleColumn.create("PCA${idx+1}", (0..<data.size()).collect{

@@ -13,28 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import smile.plot.Histogram3D
-import smile.plot.PlotPanel
-import tech.tablesaw.api.Table
-
+import smile.io.Read
+import smile.plot.swing.Histogram3D
+import smile.plot.swing.PlotGrid
 import java.awt.Color
 
 import static java.awt.Color.*
+import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
-def file = getClass().classLoader.getResource('whiskey.csv').file
-def table = Table.read().csv(file)
-//def table = Table.read().csv('whiskey.csv')
-table = table.removeColumns(0)
+def file = new File(getClass().classLoader.getResource('whiskey.csv').file)
+def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
 
-def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+String[] cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
+                 "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
 
 Color[] colors = [CYAN, PINK, MAGENTA, ORANGE, GREEN, BLUE, RED, YELLOW]
 
-def panel = new PlotPanel(
+new PlotGrid(
         *[cols, cols].combinations().collect { first, second ->
-            Histogram3D.plot(table.as().doubleMatrix(first, second), 4, colors)
-        }
-)
-
-SwingUtil.show(size: [1200, 900], panel)
+            def f = table.column(first).toDoubleArray()
+            def s = table.column(second).toDoubleArray()
+            Histogram3D.of([f, s].transpose() as double[][], 4, colors)
+        }*.canvas()*.panel()
+).window()

@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('tech.tablesaw:tablesaw-core:0.34.1')
-//@Grab('tech.tablesaw:tablesaw-aggregate:0.34.1')
 import smile.clustering.KMeans
 import smile.projection.PCA
 import tech.tablesaw.api.*
@@ -28,13 +26,14 @@ def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
             "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
 def data = rows.as().doubleMatrix(*cols)
 
-def pca = new PCA(data)
+def pca = PCA.fit(data)
 def dims = 4 // can be 2, 3 or 4
 pca.projection = dims
 def projected = pca.project(data)
-def adj = [1, 1, 1, 5]
-def clusterer = new KMeans(data, 5)
-def labels = clusterer.clusterLabel.collect { "Cluster " + (it + 1) }
+def adj = [1, 1, 1, 5] // scaling factor to make graph pretty
+def clusters = KMeans.fit(data, 5)
+println clusters
+def labels = clusters.y.collect { "Cluster " + (it + 1) }
 rows = rows.addColumns(
     *(0..<dims).collect { idx ->
         DoubleColumn.create("PCA${idx+1}", (0..<data.size()).collect{

@@ -13,23 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import smile.io.Read
+import smile.plot.swing.PlotGrid
+import smile.plot.swing.ScatterPlot
 import java.awt.Color
-import smile.plot.*
-import tech.tablesaw.api.*
 
-def file = getClass().classLoader.getResource('whiskey.csv').file
-def table = Table.read().csv(file)
-//def table = Table.read().csv('whiskey.csv')
-table = table.removeColumns(0)
+import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
-def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+def file = new File(getClass().classLoader.getResource('whiskey.csv').file)
+def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
 
-def panel = new PlotPanel(
+String[] cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
+                 "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+table = table.select(cols)
+
+new PlotGrid(
         *[0..<cols.size(), 0..<cols.size()].combinations().collect { first, second ->
             def color = new Color(72 + (first * 16), 72 + (second * 16), 200 - (first * 4) - (second * 4))
-            ScatterPlot.plot(table.as().doubleMatrix(cols[first], cols[second]), '#' as char, color)
-        }
-)
-
-SwingUtil.show(size: [1200, 900], panel)
+            def f = table.column(first).toDoubleArray()
+            def s = table.column(second).toDoubleArray()
+            ScatterPlot.of([f, s].transpose() as double[][], '#' as char, color)
+        }*.canvas()*.panel()
+).window()

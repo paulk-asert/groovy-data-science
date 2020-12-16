@@ -45,12 +45,21 @@ for (int i = 0; i < epochs; i++) {
     }
 }
 
-def groups = data.toList().indices.groupBy { idx ->
-    model.quantize(data[idx]).collect{sprintf('%.5f', it) }.join(' ')
-}
-groups.eachWithIndex { k, v, i ->
-    println "Cluster $i: ${v.collect{ distilleries[it] }.join(', ')}"
+def groups = data.toList().indices.groupBy { idx -> group(model, data[idx]) }
+def names = groups.collectEntries { k, v -> [k, distilleries[v].join(', ')] }
+
+private group(SOM model, double[] row) {
+    double[][][] neurons = model.neurons()
+    [0..<neurons.size(), 0..<neurons[0].size()].combinations().min { pair ->
+        def (i, j) = pair
+        MathEx.distance(neurons[i][j], row)
+    }
 }
 
-def hexmap = Hexmap.of(model.umatrix(), Palette.jet(256))
-hexmap.canvas().tap{setAxisLabels('', '') }.window()
+names.toSorted{ e1, e2 -> e1.key[0] <=> e2.key[0] ?: e1.key[1] <=> e2.key[1] }.each { k, v ->
+    println "Cluster ${k[0]},${k[1]}: $v"
+}
+
+def tooltip = { i, j -> names[[i, j]] ?: '' } as Hexmap.Tooltip
+new Hexmap(model.umatrix(), Palette.jet(256), tooltip)
+        .canvas().tap { setAxisLabels('', '') }.window()

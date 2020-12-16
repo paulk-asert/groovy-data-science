@@ -99,44 +99,44 @@ Clustering is achieved by grouping together observations
 which are quantized by the neural network to the same value.
 
 ```text
-Cluster 0: Aberfeldy, Benromach
-Cluster 1: Aberlour, Strathisla
-Cluster 2: AnCnoc, Cardhu, Glenallachie, Glenfiddich
-Cluster 3: Ardbeg, Caol Ila, Clynelish, Talisker
-Cluster 4: Ardmore, GlenDeveronMacduff, OldFettercairn, Tomatin
-Cluster 5: ArranIsleOf, Speyburn
-Cluster 6: Auchentoshan, Glengoyne
-Cluster 7: Auchroisk, Glenrothes
-Cluster 8: Aultmore, Dufftown, Speyside
-Cluster 9: Balblair, Craigganmore
-Cluster 10: Balmenach, Glendronach, Macallan
-Cluster 11: Belvenie, Benriach, Dalwhinnie
-Cluster 12: BenNevis, Benrinnes, Glendullan
-Cluster 13: Bladnoch, Bunnahabhain, Loch Lomond, Tamdhu, Tobermory
-Cluster 14: BlairAthol, Mortlach, RoyalLochnagar
-Cluster 15: Bowmore, Bruichladdich, Isle of Jura, Springbank
-Cluster 16: Craigallechie, GlenMoray, Longmorn
-Cluster 17: Dailuaine, Dalmore
-Cluster 18: Deanston
-Cluster 19: Edradour
-Cluster 20: GlenElgin, Glenlivet
-Cluster 21: GlenGarioch
-Cluster 22: GlenGrant, Tomore
-Cluster 23: GlenKeith, Knochando
-Cluster 24: GlenOrd
-Cluster 25: GlenScotia, Highland Park
-Cluster 26: GlenSpey
-Cluster 27: Glenfarclas, Glenturret
-Cluster 28: Glenkinchie, Glenlossie, Tullibardine
-Cluster 29: Glenmorangie, Strathmill, Tamnavulin
-Cluster 30: Inchgower, Tomintoul
-Cluster 31: Lagavulin, Laphroig
-Cluster 32: Linkwood, RoyalBrackla
-Cluster 33: Mannochmore, Scapa
-Cluster 34: Miltonduff
-Cluster 35: Oban
-Cluster 36: OldPulteney
-Cluster 37: Teaninich
+Cluster 0,0: Auchentoshan, Glengoyne
+Cluster 0,1: Inchgower, Tomintoul
+Cluster 0,2: ArranIsleOf, Speyburn
+Cluster 0,3: GlenElgin, Glenlivet
+Cluster 0,4: Glenfarclas, Glenturret
+Cluster 0,5: Aberlour, Strathisla
+Cluster 1,0: Bladnoch, Bunnahabhain, Loch Lomond, Tamdhu, Tobermory
+Cluster 1,1: AnCnoc, Cardhu, Glenallachie, Glenfiddich
+Cluster 1,3: Linkwood, RoyalBrackla
+Cluster 1,4: Craigallechie, GlenMoray, Longmorn
+Cluster 1,5: Aberfeldy, Benromach
+Cluster 2,0: GlenSpey
+Cluster 2,1: Miltonduff
+Cluster 2,2: Glenmorangie, Strathmill, Tamnavulin
+Cluster 2,3: Glenkinchie, Glenlossie, Tullibardine
+Cluster 2,4: GlenOrd
+Cluster 2,5: Belvenie, Benriach, Dalwhinnie
+Cluster 3,0: GlenGrant, Tomore
+Cluster 3,1: Edradour
+Cluster 3,2: GlenKeith, Knochando
+Cluster 3,4: Deanston
+Cluster 3,5: BenNevis, Benrinnes, Glendullan
+Cluster 4,0: Aultmore, Dufftown, Speyside
+Cluster 4,1: Mannochmore, Scapa
+Cluster 4,3: Ardmore, GlenDeveronMacduff, OldFettercairn, Tomatin
+Cluster 4,4: Auchroisk, Glenrothes
+Cluster 4,5: BlairAthol, Mortlach, RoyalLochnagar
+Cluster 5,0: Balblair, Craigganmore
+Cluster 5,1: GlenGarioch
+Cluster 5,2: Bowmore, Bruichladdich, Isle of Jura, Springbank
+Cluster 5,3: GlenScotia, Highland Park
+Cluster 5,4: Dailuaine, Dalmore
+Cluster 5,5: Balmenach, Glendronach, Macallan
+Cluster 6,0: Teaninich
+Cluster 6,1: OldPulteney
+Cluster 6,2: Lagavulin, Laphroig
+Cluster 6,3: Oban
+Cluster 6,4: Ardbeg, Caol Ila, Clynelish, Talisker
 ```
 
 # Scaling clustering

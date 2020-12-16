@@ -29,16 +29,18 @@ String[] cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
                  'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 def data = table.select(cols).toArray()
 
+def p = 2 // number of dimensions in projection (2 or 3)
 def pca = PCA.fit(data)
-pca.projection = 2
-def plots = [new ScreePlot(pca)]
+pca.projection = p
+def plots = [new ScreePlot(pca).canvas()]
 def projected = pca.project(data)
 char mark = '#'
+String[] labels = (1..p).collect { "PCA$it" }
 
 (2..6).each { k ->
     println "Processing cluster size $k"
     def clusters = KMeans.fit(data, k)
-    plots << ScatterPlot.of(projected, clusters.y, mark)
+    plots << ScatterPlot.of(projected, clusters.y, mark).canvas().tap { setAxisLabels(labels) }
 }
 
-new PlotGrid(*plots*.canvas()*.panel()).window()
+new PlotGrid(*plots*.panel()).window()

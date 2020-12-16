@@ -24,8 +24,8 @@ import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 def file = new File(getClass().classLoader.getResource('whiskey.csv').file)
 def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
 
-String[] cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-                 "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+String[] cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
+                 'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
 Color[] colors = [CYAN, PINK, MAGENTA, ORANGE, GREEN, BLUE, RED, YELLOW]
 

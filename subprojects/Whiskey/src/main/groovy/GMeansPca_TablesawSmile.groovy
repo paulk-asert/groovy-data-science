@@ -22,8 +22,8 @@ def file = getClass().classLoader.getResource('whiskey.csv').file
 def helper = new TablesawHelper(file)
 def rows = Table.read().csv(file)
 
-def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
+            'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 def data = rows.as().doubleMatrix(*cols)
 
 def pca = PCA.fit(data)

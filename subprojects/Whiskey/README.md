@@ -1,18 +1,36 @@
 # Whiskey clustering
 
-K-means is the most common form of “centroid” clustering.
-Unlike classification, clustering is an unsupervised learning method.
+In an attempt to find the perfect single-malt Scotch whiskey,
+the whiskies produced from [86 distilleries](https://www.niss.org/sites/default/files/ScotchWhisky01.txt) have been ranked
+by expert tasters according to 12 criteria (Body, Sweetness, Malty, Smoky, Fruity, etc.).
+
+![Clustering](../../docs/images/clustering_bottles.jpg)
+
+While those rankings might prove interesting reading to some Whiskey advocates,
+it is difficult to draw many conclusions from the raw data alone.
+Clustering is a well-established area of statistical modelling where
+data is grouped into clusters.
+Members within a cluster should be similar to each other and
+different from the members of other clusters.
+Clustering is an unsupervised learning method.
 The categories are not predetermined but instead represent natural groupings
 which are found as part of the clustering process.
-Members of each cluster should be similar to each other and
-different from the members of the other clusters.
+
+K-Means is the most common form of _centroid_ clustering.
 The K represents the number of clusters to find.
-This example uses K-means to look at grouping together
-similar Whiskey drinks from various distilleries.
+This example uses K-Means (and other algorithms) to look at grouping together
+the Whiskey drinks in our case study.
 
 ![Clustering](../../docs/images/whiskey2.png)
 
-Groovy code examples can be found in the [src/main/groovy](subprojects/Whiskey/src/main/groovy) directory.
+One of the other aspects which crops up when working with data having many dimensions
+(12 criteria in our case) is how to visualize the data. An approach called
+dimensionality reduction will be used. We'll mostly use a technique called
+Principal Component Analysis (PCA) which we'll discuss later. In the third plot
+of the above figure, our twelve dimensions are mapped into 4 dimensions (a 2D chart
+plus color plus bubble size).
+
+Groovy code examples can be found in the [src/main/groovy](src/main/groovy) directory.
 You have several options for running the programs:
 
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
@@ -25,25 +43,60 @@ You have several options for running the programs:
 * If the example has @Grab statements commented out at the top, you can cut and paste the examples into the groovyConsole
 and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.
 
+See also:
+* a [study](https://blog.revolutionanalytics.com/2013/12/k-means-clustering-86-single-malt-scotch-whiskies.html) which goes on to display clusters according to geographic region.
+
 ## KMeans
 
-![Clustering](../../docs/images/clustering_kmeans.png)
+K-Means works by iteratively finding centroids and assigning data points to their closest
+centroid.
 
-![Clustering](../../docs/images/clustering_centroids.png)
+![Finding centroids iteratively](../../docs/images/clustering_kmeans.png)
 
-The repo has additional examples using XMeans and GMeans.
+After applying this process, we can visualize where each Whiskey is
+in relation to each other (and if we wish the centroids) as shown here:
+
+![Cluster graph with centroids](../../docs/images/clustering_centroids.png)
+
+The repo illustrates K-Means for numerous data science libraries and
+has additional examples using X-Means and G-Means.
 
 ## PCA
 
-![Clustering](../../docs/images/clustering_scree.png)
+Principal Component Analysis (PCA) maps many dimensions
+onto a smaller more manageable number of _manufactured_ dimensions.
+Roughly speaking, the new dimensions are simply scaled projections
+of the existing dimensions, but scaled to preserve the variance in the clusters.
+
+![Screeplot and plots showing different cluster sizes](../../docs/images/clustering_scree.png)
+
+In the figure above, a _Screeplot_ is shown which indicates what proportion
+of the variance is preserved by each dimension in the PCA projection.
+Also shown are 2D projections for varying cluster sizes.
 
 ## Dendogram
 
+Hierarchical clustering as its name suggests creates a hierarchy of clusters.
+Clusters higher up in the hierarchy subsume the lower clusters.
+Typically, the factor which is the most discriminating, in terms of variance,
+is selected to split a cluster at any level.
+
 ![Clustering](../../docs/images/clustering_dendogram.png)
+
+Clustering is achieved by stopping the splitting process when the
+desired number of clusters is reached.
 
 ## SOM
 
+Self-Organizing Maps (SOM) is another technique for dimensionality reduction.
+Neural networks are used to produce a low-dimension (typically two-dimensional)
+map of the input observations. Within the map,
+similar observations are mapped close together and dissimilar ones apart.
+
 ![Clustering](../../docs/images/clustering_som_heatmap.png)
+
+Clustering is achieved by grouping together observations
+which are quantized by the neural network to the same value.
 
 ```text
 Cluster 0: Aberfeldy, Benromach

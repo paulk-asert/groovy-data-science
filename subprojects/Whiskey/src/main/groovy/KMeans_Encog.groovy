@@ -19,8 +19,8 @@ import org.encog.ml.kmeans.KMeansClustering
 import org.encog.util.csv.CSVFormat
 import org.encog.util.csv.ReadCSV
 
-def cols = ["Body", "Sweetness", "Smoky", "Medicinal", "Tobacco", "Honey",
-            "Spicy", "Winey", "Nutty", "Malty", "Fruity", "Floral"]
+def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
+            'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def csv = new ReadCSV(file, true, CSVFormat.EG_FORMAT)

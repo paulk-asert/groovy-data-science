@@ -17,7 +17,7 @@
 import tech.tablesaw.plotly.Plot
 import tech.tablesaw.plotly.components.Figure
 
-class TablesawHelper {
+class TablesawUtil {
     private File parent
 
     /**
@@ -27,7 +27,7 @@ class TablesawHelper {
      *
      * @param filename Of a file in a suitable temporary directory
      */
-    TablesawHelper(String filename) {
+    TablesawUtil(String filename) {
         parent = new File(filename).parentFile
     }
 

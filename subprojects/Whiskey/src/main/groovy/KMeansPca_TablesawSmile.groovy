@@ -19,7 +19,7 @@ import tech.tablesaw.api.*
 import tech.tablesaw.plotly.api.*
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
-def helper = new TablesawHelper(file)
+def helper = new TablesawUtil(file)
 def rows = Table.read().csv(file)
 
 def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',

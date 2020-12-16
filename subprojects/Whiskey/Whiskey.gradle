@@ -18,7 +18,6 @@ apply plugin: 'groovy'
 repositories {
     jcenter()
     mavenCentral()
-//    mavenLocal()
 }
 
 tasks.register('checkJdk11Compatibility') {
@@ -27,7 +26,7 @@ tasks.register('checkJdk11Compatibility') {
     }
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper', 'SwingUtil', 'JFreeChartUtil']).each { name ->
+FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
         if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)

@@ -33,4 +33,6 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
     implementation "org.apache.opennlp:opennlp-tools:$opennlpVersion"
+    implementation "com.github.haifengl:smile-nlp:$smileVersion"
+    runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
 }

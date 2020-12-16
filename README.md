@@ -121,7 +121,7 @@ or using a Jupyter/BeakerX notebook.
 
 | | Technologies/libraries covered |
 | --- | --- |
-| NLP | [Apache OpenNLP] |
+| NLP | [Apache OpenNLP], [Smile] |
 | Scaling NLP | [Apache NLPCraft] |
 | Aspects covered | Language detection, sentence detection, named entity detection, parts-of-speech detection |
 

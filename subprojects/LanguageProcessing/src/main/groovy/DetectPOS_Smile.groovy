@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
-import opennlp.tools.postag.*
-import opennlp.tools.tokenize.SimpleTokenizer
+import smile.nlp.pos.HMMPOSTagger
+import smile.nlp.tokenizer.SimpleTokenizer
 
 // use a helper to cache models
 def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
@@ -26,11 +25,9 @@ def sentences = [
     "Light 'em all up",
     'Make it dark downstairs'
 ]
-def tokenizer = SimpleTokenizer.INSTANCE
+def tokenizer = new SimpleTokenizer(true)
 sentences.each {
-    String[] tokens = tokenizer.tokenize(it)
-    def model = new POSModel(helper.load('en-pos-maxent'))
-    def posTagger = new POSTaggerME(model)
-    String[] tags = posTagger.tag(tokens)
+    def tokens = Arrays.stream(tokenizer.split(it)).toArray(String[]::new)
+    def tags = HMMPOSTagger.default.tag(tokens)*.toString()
     println tokens.indices.collect{tags[it] == tokens[it] ? tags[it] : "${tags[it]}(${tokens[it]})" }.join(' ')
 }

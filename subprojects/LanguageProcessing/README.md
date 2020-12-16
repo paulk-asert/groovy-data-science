@@ -202,7 +202,7 @@ def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
 def sentences = [
     'Paul has two sisters, Maree and Christine.',
     'His bark was much worse than his bite',
-    'Turn on the lights to the master bedroom',
+    'Turn on the lights to the main bedroom',
     "Light 'em all up",
     'Make it dark downstairs'
 ]
@@ -221,7 +221,7 @@ When run, the output will be:
 ```text
 NNP(Paul) VBZ(has) CD(two) NNS(sisters) , NNP(Maree) CC(and) NNP(Christine) .
 PRP$(His) NN(bark) VBD(was) RB(much) JJR(worse) IN(than) PRP$(his) NN(bite)
-VB(Turn) IN(on) DT(the) NNS(lights) TO(to) DT(the) NN(master) NN(bedroom)
+VB(Turn) IN(on) DT(the) NNS(lights) TO(to) DT(the) NN(main) NN(bedroom)
 NN(Light) POS(') NN(em) DT(all) IN(up)
 VB(Make) PRP(it) JJ(dark) NN(downstairs)
 ```
@@ -252,7 +252,7 @@ start(LightSwitchModel)
 def cli = new NCTestClientBuilder().newBuilder().build()
 
 cli.open("nlpcraft.lightswitch.ex")
-println cli.ask('Turn on the lights in the master bedroom')
+println cli.ask('Turn on the lights in the main bedroom')
 println cli.ask("Light 'em all up")
 println cli.ask('Make it dark downstairs') // expecting no match
 if (cli) {
@@ -264,7 +264,7 @@ stop()
 
 Running the example gives the following output:
 ```asciidoc
-Lights are [on] in [master bedroom].
+Lights are [on] in [main bedroom].
 Lights are [on] in [entire house].
 No matching intent found.
 ```

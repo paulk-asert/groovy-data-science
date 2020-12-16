@@ -61,6 +61,18 @@ names.toSorted{ e1, e2 -> e1.key[0] <=> e2.key[0] ?: e1.key[1] <=> e2.key[1] }.e
     println "Cluster ${k[0]},${k[1]}: $v"
 }
 
+def lb, ub, sizeX, sizeY
 def tooltip = { i, j -> names[[i, j]] ?: '' } as Hexmap.Tooltip
-new Hexmap(model.umatrix(), Palette.jet(256), tooltip)
-        .canvas().tap { setAxisLabels('', '') }.window()
+new Hexmap(model.umatrix(), Palette.terrain(64, 0.6f), tooltip).tap{
+    lb = lowerBound
+    ub = upperBound
+    sizeX = (ub[0] - lb[0])/ncols*0.95
+    sizeY = (ub[1] - lb[1])/nrows
+}.canvas().tap {
+    setAxisLabels('', '')
+    groups.each{ k, v ->
+        def evenRow = k[0] % 2 == 0
+        double[] coords = [lb[0] + (evenRow ? 0.5 : 1) + k[1]  * sizeX, ub[1] - (k[0] + 0.5) * sizeY]
+        add(Label.of(v.join(' '), coords))
+    }
+}.window()

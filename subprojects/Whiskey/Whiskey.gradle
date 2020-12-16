@@ -21,9 +21,16 @@ repositories {
 //    mavenLocal()
 }
 
+tasks.register('checkJdk11Compatibility') {
+    doLast {
+        assert JavaVersion.current().isJava11Compatible(), "JDK11+ is required but found ${JavaVersion.current()}!"
+    }
+}
+
 FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper', 'SwingUtil', 'JFreeChartUtil']).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
+        if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)
         group 'Script'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath

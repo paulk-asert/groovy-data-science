@@ -21,7 +21,7 @@ The K represents the number of clusters to find.
 This example uses K-Means (and other algorithms) to look at grouping together
 the Whiskey drinks in our case study.
 
-![Clustering](../../docs/images/whiskey2.png)
+![Clustering](../../docs/images/clustering_jfreechart.png)
 
 One of the other aspects which crops up when working with data having many dimensions
 (12 criteria in our case) is how to visualize the data. An approach called

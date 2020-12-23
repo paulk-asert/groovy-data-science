@@ -30,7 +30,7 @@ def loader = new CSVLoader(file: file)
 def model = new LinearRegression()
 def allInstances = loader.dataSet
 def priceIndex = 2
-allInstances.setClassIndex(priceIndex)
+allInstances.classIndex = priceIndex
 // remove "id" and "date" columns
 def rm = new Remove(attributeIndices: '1,2', inputFormat: allInstances)
 def instances = Filter.useFilter(allInstances, rm)
@@ -46,7 +46,7 @@ chart.addSeries("Price", actual as double[], predicted as double[]).with {
 }
 def from = [actual.min(), predicted.min()].min()
 def to = [actual.max(), predicted.max()].min()
-chart.addSeries("exact", [from, to] as double[], [from, to] as double[]).with {
+chart.addSeries("Ideal", [from, to] as double[], [from, to] as double[]).with {
     marker = NONE
     XYSeriesRenderStyle = Line
 }

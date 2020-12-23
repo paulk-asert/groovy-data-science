@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 //@Grab('org.jfree:jfreechart:1.5.1')
-//@Grab('nz.ac.waikato.cms.weka:weka-stable:3.8.4')
+//@Grab('nz.ac.waikato.cms.weka:weka-stable:3.8.5')
 import org.jfree.chart.axis.NumberAxis
 import org.jfree.chart.plot.SpiderWebPlot
 import org.jfree.chart.plot.XYPlot

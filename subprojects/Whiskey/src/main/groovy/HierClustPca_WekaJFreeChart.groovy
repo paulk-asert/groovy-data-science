@@ -16,14 +16,12 @@
 //@Grab('org.jfree:jfreechart:1.5.1')
 //@Grab('nz.ac.waikato.cms.weka:weka-stable:3.8.5')
 import org.jfree.chart.axis.NumberAxis
-import org.jfree.chart.plot.SpiderWebPlot
 import org.jfree.chart.plot.XYPlot
-import org.jfree.data.category.DefaultCategoryDataset
 import org.jfree.data.xy.DefaultXYZDataset
 import weka.attributeSelection.PrincipalComponents
-import weka.clusterers.SimpleKMeans
-import weka.core.Instance
+import weka.clusterers.HierarchicalClusterer
 import weka.core.converters.CSVLoader
+import weka.gui.hierarchyvisualizer.HierarchyVisualizer
 
 import static JFreeChartUtil.bubbleRenderer
 import static JFreeChartUtil.chart
@@ -33,27 +31,18 @@ def file = getClass().classLoader.getResource('whiskey.csv').file as File
 def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
-def numClusters = 4
 def loader = new CSVLoader(file: file)
-def clusterer = new SimpleKMeans(numClusters: numClusters, preserveInstancesOrder: true)
+def clusterer = new HierarchicalClusterer(options: '-N 4 -L COMPLETE'.split(' '))
 def instances = loader.dataSet
+def distilleries = instances.collect{ row -> row.stringValue(1) }
+instances.deleteAttributeAt(1) // remove Distilleries
 instances.deleteAttributeAt(0) // remove RowID
+
 clusterer.buildClusterer(instances)
-println '           ' + cols.join(', ')
-def category = new DefaultCategoryDataset()
-def xyz = new DefaultXYZDataset()
+def numClusters = clusterer.numberOfClusters()
 
-clusterer.clusterCentroids.eachWithIndex{ Instance ctrd, num ->
-    print "Cluster ${num+1}: "
-    println ((1..cols.size()).collect{ sprintf '%.3f', ctrd.value(it) }.join(', '))
-    (1..cols.size()).each { idx ->
-        category.addValue(ctrd.value(idx), "Cluster ${num+1}", cols[idx-1]) }
-}
-
-PrincipalComponents pca = new PrincipalComponents()
+PrincipalComponents pca = new PrincipalComponents(varianceCovered: 0.9, maximumAttributeNames: 3)
 pca.buildEvaluator(instances)
-pca.setVarianceCovered(0.9)
-pca.setMaximumAttributeNames(3)
 //println pca
 def transformed = pca.transformedData(instances)
 def clusters = (0..<numClusters).collectEntries{ [it, []] }
@@ -61,25 +50,28 @@ def (x, y, z) = [[:].withDefault{[]}, [:].withDefault{[]}, [:].withDefault{[]}]
 def zvalues = (0..<transformed.numInstances()).collect{transformed[it].value(2) }
 def (zmin, zmax) = [zvalues.min(), zvalues.max()]
 
-clusterer.assignments.eachWithIndex { cnum, idx ->
-    clusters[cnum] << instances[idx].stringValue(0)
+instances.indices.each { idx ->
+    def cnum = clusterer.clusterInstance(instances[idx])
+    clusters[cnum] << distilleries[idx]
     x[cnum] << transformed[idx].value(0)
     y[cnum] << transformed[idx].value(1)
-    z[cnum] << (transformed[idx].value(2) - zmin + 0.5)/(zmax - zmin) * 2
+    z[cnum] << (transformed[idx].value(2) - zmin + 0.2)/(zmax - zmin) * 1.5
 }
 
+def xyz = new DefaultXYZDataset()
 clusters.each { k, v ->
     println "Cluster ${k+1}:"
     println v.join(', ')
     xyz.addSeries("Cluster ${k+1}:", [x[k], y[k], z[k]] as double[][])
 }
 
-def spiderPlot = new SpiderWebPlot(dataset: category)
-def spiderChart = chart('Centroids spider plot', spiderPlot)
+def hierChart = new HierarchyVisualizer(clusterer.graph())
 
 def xaxis = new NumberAxis(label: 'PCA1', autoRange: false, lowerBound: -5, upperBound: 10)
 def yaxis = new NumberAxis(label: 'PCA2', autoRange: false, lowerBound: -7, upperBound: 5)
 def bubbleChart = chart('PCA bubble plot', new XYPlot(xyz, xaxis, yaxis, bubbleRenderer(0.15f)))
 
-SwingUtil.showH(spiderChart, bubbleChart, size: [800, 400],
+SwingUtil.show(hierChart, size: [1200, 400],
+        title: 'Whiskey clusters: Weka=CSV,KMeans,PCA JFreeChart=plots')
+SwingUtil.show(bubbleChart, size: [600, 600],
         title: 'Whiskey clusters: Weka=CSV,KMeans,PCA JFreeChart=plots')

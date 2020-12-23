@@ -31,7 +31,7 @@ dependencies {
     implementation "com.github.haifengl:smile-io:$smileVersion"
     implementation 'org.apache.commons:commons-math3:3.6.1'
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
-    runtimeOnly "org.bytedeco:openblas-platform:0.3.9-1.5.3"
+    runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
 }
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->

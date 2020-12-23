@@ -58,5 +58,5 @@ dependencies {
     implementation "com.github.haifengl:smile-io:$smileVersion"
     implementation "com.github.haifengl:smile-plot:$smileVersion"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
-    runtimeOnly "org.bytedeco:openblas-platform:0.3.10-1.5.4"
+    runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
 }

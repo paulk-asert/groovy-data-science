@@ -30,17 +30,31 @@ def file = getClass().classLoader.getResource('whiskey.csv').file as File
 def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
-def numClusters = 4
+def desiredClusters = 4
 def loader = new CSVLoader(file: file)
 def instances = loader.dataSet
 def distilleries = instances.collect{ row -> row.stringValue(1) }
 instances.deleteAttributeAt(1) // remove Distilleries
 instances.deleteAttributeAt(0) // remove RowID
 
-def charts = [SimpleKMeans, EM, Canopy, FarthestFirst].collect { algo ->
+def algos = [SimpleKMeans, EM, Canopy, FarthestFirst]
+// There are clustering classes from optional Weka packages
+def packages = ['LVQ', 'CascadeSimpleKMeans', 'GenClustPlusPlus', 'XMeans', 'SelfOrganizingMap']
+packages.each {
+    try {
+        def clazz = Class.forName("weka.clusterers.$it")
+        algos << clazz
+    } catch(ex) {
+        println "Optional package '$it' not found: $ex.message"
+    }
+}
+def charts = algos.collect { algo ->
     def clusterer = algo.getConstructor().newInstance()
-    clusterer.numClusters = numClusters
+    if (NumberOfClustersRequestable.isAssignableFrom(algo) || algo == FarthestFirst) {
+        clusterer.numClusters = desiredClusters
+    }
     clusterer.buildClusterer(instances)
+    def numClusters = clusterer.numberOfClusters()
 
     println "numClusters = $numClusters"
     println clusterer.toString()
@@ -74,5 +88,5 @@ def charts = [SimpleKMeans, EM, Canopy, FarthestFirst].collect { algo ->
     chart("PCA bubble plot (using $algo.simpleName)", new XYPlot(xyz, xaxis, yaxis, bubbleRenderer(0.15f)))
 }
 
-SwingUtil.showH(*charts, size: [400*charts.size(), 400],
+SwingUtil.showGrid(*charts, size: [1000, 900],
         title: 'Whiskey clusters: Weka=CSV,Algos,PCA JFreeChart=plots')

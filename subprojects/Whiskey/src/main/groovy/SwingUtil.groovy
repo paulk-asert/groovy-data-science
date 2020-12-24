@@ -47,4 +47,19 @@ class SwingUtil {
             }
         }
     }
+
+    static void showGrid(Map extraArgs, JComponent component, JComponent... additionalComponents = []) {
+        Map frameArgs = [title: 'Frame', size: [800, 600], show: true, defaultCloseOperation: WindowConstants.DISPOSE_ON_CLOSE]
+        def numCols = Math.ceil(Math.sqrt(1 + additionalComponents.size()))
+        frameArgs.putAll(extraArgs)
+        new SwingBuilder().edt {
+            frame(*:frameArgs) {
+                gridLayout(cols: numCols, rows: 0)
+                widget(component)
+                additionalComponents.each {
+                    widget(it)
+                }
+            }
+        }
+    }
 }

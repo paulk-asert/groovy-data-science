@@ -59,7 +59,10 @@ in relation to each other (and if we wish the centroids) as shown here:
 ![Cluster graph with centroids](../../docs/images/clustering_centroids.png)
 
 The repo illustrates K-Means for numerous data science libraries and
-has additional examples using X-Means and G-Means.
+has additional examples using X-Means and G-Means. The Weka examples include more algorithms.
+Some require you to install Weka along with some of its clustering-related optional packages.
+
+![Cluster graph for various algorithms](../../docs/images/clustering_various.png)
 
 ## PCA
 

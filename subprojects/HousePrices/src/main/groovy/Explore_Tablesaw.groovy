@@ -21,7 +21,7 @@ import static tech.tablesaw.aggregate.AggregateFunctions.*
 
 //def file = '/path/to/kc_house_data.csv' as File
 def file = getClass().classLoader.getResource('kc_house_data.csv').file
-def helper = new TablesawHelper(file)
+def helper = new TablesawUtil(file)
 Table rows = Table.read().csv(file)
 
 println rows.shape()

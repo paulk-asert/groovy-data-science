@@ -26,7 +26,7 @@ tasks.register('checkJdk8Compatibility') {
     }
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each { name ->
+FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
         // current version of GroovyFX requires JDK8

@@ -39,7 +39,7 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
 
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
-    implementation "nz.ac.waikato.cms.weka:weka-stable:$wekaVersion"
+    implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     // If Weka is installed along with some optional packages, add the respective Jars to classpath
     // TODO can we get Weka library to autodownload these
     implementation files(['SelfOrganizingMap', 'LVQ', 'GenClustPlusPlus', 'XMeans', 'cascadeKMeans'].collect{

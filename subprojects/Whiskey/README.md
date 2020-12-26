@@ -64,6 +64,13 @@ Some require you to install Weka along with some of its clustering-related optio
 
 ![Cluster graph for various algorithms](../../docs/images/clustering_various.png)
 
+The example above with 9 different clustering algorithms uses some
+classes which aren't built-in to Weka or available in a Maven repo.
+They belong to packages which can optionally be downloaded when using the Weka package manager.
+The script will still run without those classes but will show fewer bubble plots.
+Consider installing Weka and installing those optional packages which interest you
+or run the `installWekaPackages` gradle task.
+
 ## PCA
 
 Principal Component Analysis (PCA) maps many dimensions
@@ -153,7 +160,6 @@ See:
 * The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
 
 __Requirements__:
-* GroovyFX examples require JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
 * Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
 * Some examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
   using Gitpod but will create a file in the `build` folder which you can then open by right-clicking

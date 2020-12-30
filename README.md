@@ -107,7 +107,8 @@ or using a Jupyter/BeakerX notebook.
 | Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki] |
 | Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart] |
 | Scaling clustering | [Apache Ignite], [Apache Spark] |
-| Aspects covered | Reading csv, dataframes, visualization, exploration, kmeans, xmeans, gmeans, PCA, centroids |
+| Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, KMeans, PCA, hierarchical clustering, centroids |
+| Other aspects/algorithms covered | XMeans, GMeans, cascade KMeans, Cobweb, Learning Vector Quantization (LVQ), GenClustPlusPlus, SelfOrganizingMap (SOM) |
 
 ### Natural language processing
 

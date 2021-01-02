@@ -106,7 +106,7 @@ or using a Jupyter/BeakerX notebook.
 | Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV] |
 | Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki] |
 | Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart] |
-| Scaling clustering | [Apache Ignite], [Apache Spark] |
+| Scaling clustering | [Apache Ignite], [Apache Spark], [Rheem] |
 | Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, KMeans, PCA, hierarchical clustering, centroids |
 | Other aspects/algorithms covered | XMeans, GMeans, cascade KMeans, Cobweb, Learning Vector Quantization (LVQ), GenClustPlusPlus, SelfOrganizingMap (SOM) |
 
@@ -251,3 +251,4 @@ __Requirements__:
 [OptaPlanner]: https://www.optaplanner.org/
 [OrTools]: https://developers.google.com/optimization "Google OR Tools"
 [SAS/OR]: https://www.sas.com/en_us/software/or.html
+[Rheem]: https://rheem-ecosystem.github.io/

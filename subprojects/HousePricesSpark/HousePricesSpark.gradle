@@ -37,3 +37,8 @@ dependencies {
     implementation "org.apache.spark:spark-sql_$sparkVariant:$sparkVersion"
     implementation "org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion"
 }
+
+task copyToLib(type: Copy) {
+    into "$buildDir/deps"
+    from configurations.runtimeClasspath
+}

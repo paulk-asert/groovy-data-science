@@ -19,6 +19,7 @@ apply plugin: 'application'
 mainClassName = 'Lights'
 
 repositories {
+//    mavenLocal()
     mavenCentral()
 }
 

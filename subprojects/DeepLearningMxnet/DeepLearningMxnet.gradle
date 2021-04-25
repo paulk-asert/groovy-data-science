@@ -18,6 +18,7 @@ apply plugin: 'application'
 
 ext {
     mxnetVersion = '1.5.1'
+//    mxnetVersion = 'INTERNAL'
 //    commonsIoVersion = '2.6'
 }
 
@@ -37,6 +38,7 @@ application {
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
     implementation "org.apache.mxnet:mxnet-full_2.11-linux-x86_64-cpu:$mxnetVersion"
+//    implementation "org.apache.mxnet:mxnet-full_2.11:$mxnetVersion"
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
     implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
     implementation "commons-io:commons-io:$commonsIoVersion"

@@ -17,6 +17,7 @@
 
 import org.apache.nlpcraft.NCStart
 import groovy.ant.AntBuilder
+//import org.apache.nlpcraft.examples.lightswitch.LightSwitchKotlinModel
 import org.apache.nlpcraft.examples.lightswitch.LightSwitchModel
 import org.apache.nlpcraft.model.tools.test.NCTestClientBuilder
 
@@ -32,9 +33,11 @@ def t = Thread.start { new AntBuilder().with {
 //        }
     }
 }}
-sleep 35000 // allow server to start up
+sleep 45000 // allow server to start up
 
-start(LightSwitchModel)
+//List<String> names = [LightSwitchKotlinModel]*.name
+List<String> names = [LightSwitchModel]*.name
+start(null, names)
 
 def cli = new NCTestClientBuilder().newBuilder().build()
 

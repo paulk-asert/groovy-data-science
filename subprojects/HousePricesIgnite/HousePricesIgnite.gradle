@@ -38,3 +38,8 @@ dependencies {
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
 }
+
+task copyToLib(type: Copy) {
+    into "$buildDir/deps"
+    from configurations.runtimeClasspath
+}

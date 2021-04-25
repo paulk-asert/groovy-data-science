@@ -67,7 +67,7 @@ This example uses linear regression to explore predicting house prices from a nu
 of other features such as number of bedrooms, number of bathrooms,
 living space etc.
 The examples illustrate several alternative dataframe libraries,
-several CVS handling libraries, and a number of visualization options.
+several CSV handling libraries, and a number of visualization options.
 
 ![linear regression house prices](docs/images/houses.png)
 

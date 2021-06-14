@@ -25,7 +25,14 @@ repositories {
 
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    // only required for LightSwitchKotlinModel
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.10'
+
+    // option A: next two lines
     implementation "org.apache.nlpcraft:nlpcraft:$nlpcraftVersion"
+    implementation "org.apache.nlpcraft:nlpcraft-example-lightswitch:$nlpcraftVersion"
+
+    // option B: instead of above two lines
     // If you have trouble running the example in the normal way,
     // first consider running on the command-line using Gradle.
     // If that fails consider downloading the nlpcraft all jar to the lib dir.

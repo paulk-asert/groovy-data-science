@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.apache.nlpcraft:nlpcraft:0.7.2')
+//@Grab('org.apache.nlpcraft:nlpcraft:0.8.0')
+//@Grab('org.apache.nlpcraft:nlpcraft-example-lightswitch:0.8.0')
 
 import org.apache.nlpcraft.NCStart
 import groovy.ant.AntBuilder
-//import org.apache.nlpcraft.examples.lightswitch.LightSwitchKotlinModel
-import org.apache.nlpcraft.examples.lightswitch.LightSwitchModel
+import org.apache.nlpcraft.examples.lightswitch.*
 import org.apache.nlpcraft.model.tools.test.NCTestClientBuilder
 
 import static org.apache.nlpcraft.model.tools.embedded.NCEmbeddedProbe.start
@@ -29,24 +29,33 @@ def t = Thread.start { new AntBuilder().with {
         arg(value: '-server')
         // uncomment if needed if you downloaded the all jar as per instructions in Lights.gradle build file
 //        classpath {
-//            pathelement(location: "lib/apache-nlpcraft-incubating-0.7.2-all-deps.jar")
+//            fileset(dir: 'lib') {
+//                include(name: '**/*.jar')
+//            }
+//            pathelement(location: "lib/apache-nlpcraft-incubating-0.8.0-all-deps.jar")
 //        }
     }
 }}
 sleep 45000 // allow server to start up
+def models = [
+        java: LightSwitchJavaModel,
+        groovy: LightSwitchGroovyModel,
+        scala: LightSwitchScalaModel,
+        kotlin: LightSwitchKotlinModel
+]
 
-//List<String> names = [LightSwitchKotlinModel]*.name
-List<String> names = [LightSwitchModel]*.name
+List<String> names = models.values()*.name
 start(null, names)
 
-def cli = new NCTestClientBuilder().newBuilder().build()
-
-cli.open("nlpcraft.lightswitch.ex")
-println cli.ask('Turn on the lights in the main bedroom')
-println cli.ask("Light 'em all up")
-println cli.ask('Make it dark downstairs') // expecting no match
-if (cli) {
-    cli.close()
+models.keySet().each { key ->
+    def cli = new NCTestClientBuilder().newBuilder().build()
+    cli.open("nlpcraft.lightswitch.ex.$key")
+    println cli.ask('Turn on the lights in the main bedroom')
+    println cli.ask("Light 'em all up")
+    println cli.ask('Make it dark downstairs') // expecting no match
+    if (cli) {
+        cli.close()
+    }
 }
 
 stop()

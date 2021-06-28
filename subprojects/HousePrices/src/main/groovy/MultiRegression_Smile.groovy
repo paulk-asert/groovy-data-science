@@ -35,7 +35,7 @@ def reg = OLS.fit(Formula.lhs('price'), table)
 println reg
 def coeffs = reg.coefficients()
 def predictors = table.drop((int[]) [0]) // remove 'price'
-def predicted = predictors.toArray().collect { Double[] row -> row.indices.collect { i -> coeffs[i + 1] * row[i] }.sum() + coeffs[0] }
+def predicted = predictors.toArray().collect { double[] row -> row.indices.collect { i -> coeffs[i + 1] * row[i] }.sum() + coeffs[0] } as double[]
 double[][] data = [price, predicted].transpose()
 
 def from = [price.toList().min(), predicted.min()].min()

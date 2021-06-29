@@ -50,8 +50,8 @@ def colorMap = new LinkedHashSet(partitions.toList()).toList().reverse().indexed
 Font font = new Font("BitStream Vera Sans", Font.PLAIN, 12)
 
 def dendrogram = new Dendrogram(clusters.tree, clusters.height, FOREST_GREEN).canvas().tap {
-    title = 'Whiskey Dendrogram'
-    setAxisLabels('Distilleries', 'Similarity')
+    title = 'Beer Dendrogram'
+    setAxisLabels('Names', 'Similarity')
     def lb = lowerBounds
     setBound([lb[0] - 1, lb[1] - 20] as double[], upperBounds)
     distilleries.eachWithIndex { String label, int i ->

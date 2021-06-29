@@ -15,7 +15,7 @@
  */
 import org.knowm.xchart.SwingWrapper
 import org.knowm.xchart.XYChartBuilder
-import weka.classifiers.functions.LinearRegression
+import weka.classifiers.functions.SGD
 import weka.core.converters.CSVLoader
 import weka.filters.Filter
 import weka.filters.unsupervised.attribute.Remove
@@ -27,12 +27,13 @@ import static org.knowm.xchart.style.markers.SeriesMarkers.NONE
 def file = getClass().classLoader.getResource('kc_house_data.csv').file as File
 
 def loader = new CSVLoader(file: file)
-def model = new LinearRegression()
+def model = new SGD()
+model.options = ['-F', '4', '-N'] as String[] // Huber loss, unscaled
 def allInstances = loader.dataSet
 def priceIndex = 2
 allInstances.classIndex = priceIndex
-// remove "id" and "date" columns
-def rm = new Remove(attributeIndices: '1,2', inputFormat: allInstances)
+// remove "id", "date", 'zip', 'lat', 'long' columns
+def rm = new Remove(attributeIndices: '1,2,17,18,19', inputFormat: allInstances)
 def instances = Filter.useFilter(allInstances, rm)
 model.buildClassifier(instances)
 println model

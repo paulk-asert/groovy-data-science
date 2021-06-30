@@ -19,6 +19,13 @@ repositories {
     mavenCentral()
 }
 
+task installWekaPackages(type: JavaExec) {
+    group 'Setup'
+    description "Install Weka optional packages"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'InstallWekaPackages'
+}
+
 FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
@@ -37,4 +44,6 @@ dependencies {
     implementation "org.slf4j:slf4j-simple:$slf4jVersion"
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
 //    runtimeOnly 'com.xeiam.xchart:xchart:2.5.1' // older version of org.knowm.xchart:xchart
+    implementation files(['wekaDeeplearning4j'].collect{
+        "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
 }

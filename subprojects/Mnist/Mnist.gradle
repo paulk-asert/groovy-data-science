@@ -25,7 +25,7 @@ ext {
     nd4jVersion = '1.0.0-beta7'
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['MnistInfer', 'Util', 'MnistReader']).each { name ->
+FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['MnistInfer', 'Util', 'MnistReader', 'MnistTrainer']).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
         group 'Script'

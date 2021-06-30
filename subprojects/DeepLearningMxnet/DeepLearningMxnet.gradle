@@ -38,6 +38,8 @@ application {
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
     implementation "org.apache.mxnet:mxnet-full_2.11-linux-x86_64-cpu:$mxnetVersion"
+    // uncomment for macosx
+//    implementation "org.apache.mxnet:mxnet-full_2.11-osx-x86_64-cpu:$mxnetVersion"
 //    implementation "org.apache.mxnet:mxnet-full_2.11:$mxnetVersion"
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
     implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"

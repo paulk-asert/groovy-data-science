@@ -16,25 +16,12 @@
 apply plugin: 'groovy'
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
 tasks.register('checkJdk8Compatibility') {
     doLast {
         assert JavaVersion.current().isJava8(), "JDK8 is required but found ${JavaVersion.current()}!"
-    }
-}
-
-FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
-    task "run$name"(type: JavaExec) {
-        dependsOn compileGroovy
-        // current version of GroovyFX requires JDK8
-        if (name.endsWith('GroovyFX')) dependsOn([checkJdk8Compatibility, 'runFXCheck'])
-        group 'Script'
-        description "Run ${name}.groovy as a JVM application/Groovy script"
-        classpath = sourceSets.main.runtimeClasspath
-        main = name
     }
 }
 
@@ -48,7 +35,6 @@ dependencies {
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
     // https://web.archive.org/web/20140415021609/http://xeiam.com:80/xchart.jsp
     runtimeOnly 'com.xeiam.xchart:xchart:2.5.1' // older version of org.knowm.xchart:xchart
-    implementation 'org.groovyfx:groovyfx:8.0.0'
     implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
@@ -59,4 +45,48 @@ dependencies {
     implementation "com.github.haifengl:smile-plot:$smileVersion"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
+    if (JavaVersion.current().isJava8() && checkForJavaFX()) {
+        implementation 'org.groovyfx:groovyfx:8.0.0'
+    }
+}
+
+sourceSets {
+    main {
+        groovy {
+            if (!JavaVersion.current().isJava8() || !checkForJavaFX()) {
+                println """
+********************************************************
+** Excluding GroovyFX scripts due to incompatible JDK **
+** ${ (JavaVersion.current().isJava8() ? "No JavaFX?" :
+    "Expecting Java 8 but found ${JavaVersion.current()}").padRight(50) } **
+********************************************************
+"""
+                exclude '**/*GroovyFX.groovy'
+                exclude '**/FXCheck.groovy'
+            }
+        }
+    }
+}
+
+// this should really be checking for jfxrt.jar in sourceSets.main.runtimeClasspath
+// but we can't do that prior to configuration and we don't do anything fancy like
+// using toolchains so it will do here
+def checkForJavaFX() {
+    try {
+        Class.forName('javafx.beans.DefaultProperty')
+        return true
+    } catch (Exception ignore) {
+        return false
+    }
+}
+
+FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
+    task "run$name"(type: JavaExec) {
+        // current version of GroovyFX requires JDK8
+        if (name.endsWith('GroovyFX')) dependsOn([checkJdk8Compatibility, 'runFXCheck'])
+        group 'Script'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        main = name
+    }
 }

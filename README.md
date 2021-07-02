@@ -44,6 +44,13 @@ You have 4 options to run many of the examples:
 * [running as a Jupyter/BeakerX](docs/RunningBeakerX.md) notebook
 * [running in the Groovy Console or Groovy Web Console](docs/RunningConsole.md)
 
+### Requirements
+
+Most examples have been tested with at least JDK8 and JDK11.
+Examples which run with JDK11, typically also work with later JDK versions.
+Some examples have more specific requirements, e.g. JDK8 with JavaFX or JDK11+ only.
+Such requirements are noted in the specific README docs for each subproject.
+
 ## Scented candles and COVID-19
 
 When we hypothesize about a trend,
@@ -184,7 +191,18 @@ More details can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxn
 
 ---
 
-## Related examples
+## Companion examples
+
+While not always regarded as data science specific technologies,
+linear programming and constraint programming can be useful in numerous scenarios:
+
+* linear and mixed-integer programming can be used to solve various optimization problems
+
+* constraint programming is useful when problems can be expressed
+in terms of high-level constraints
+  
+Related libraries may cover both these topics and possibly other
+additional problems like scheduling, bin packing and graph algorithms.
 
 ### Diet optimization
 
@@ -224,12 +242,6 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 | Programming language | [Clojure], [Groovy], [Frege], [Java], [Nashorn], [JRuby], [Jython], [Kotlin], [Luaj], [Scala], [tuprolog] |
 
 ---
-
-__Requirements__:
-* Most examples have been tested with at least JDK8 and JDK11.
-  Examples which run with JDK11, typically also work with later JDK versions.
-  Some examples have more specific requirements, e.g. JDK8 with JavaFX or JDK11+ only.
-  Such requirements are noted in the specific README docs for each subproject.
 
 [Weka]: https://www.cs.waikato.ac.nz/ml/weka/
 [Smile]: http://haifengl.github.io/

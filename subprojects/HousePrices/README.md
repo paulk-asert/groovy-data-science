@@ -35,7 +35,7 @@ There are example scripts which:
 * illustrate multi-regression against multiple features (multiple technologies)
 * look at displaying errors (multiple technologies)
 
-You have several options for running the programs:
+You have several options for running the programs (see more details from the main [README](../../README.md):
 
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
@@ -46,8 +46,6 @@ You have several options for running the programs:
   (Hint: `gradlew :HousePrices:tasks --group="Script"` will show you available task names.)
 * If the example has @Grab statements commented out at the top, you can cut and paste the examples into the groovyConsole
 and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.
-
-Alternatively, you can run the main examples online using a Jupyter/Beakerx notebook:
 
 __Requirements__:
 * GroovyFX examples require JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX.

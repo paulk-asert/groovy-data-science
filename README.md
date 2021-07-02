@@ -34,6 +34,8 @@ Topics covered include:
 * Natural language processing
 * Neural networks
 
+### Running the examples
+
 You have 4 options to run many of the examples:
 
 * [running locally](docs/RunningLocal.md) on the command-line or in an IDE
@@ -41,7 +43,7 @@ You have 4 options to run many of the examples:
 * [running as a Jupyter/BeakerX](docs/RunningBeakerX.md) notebook
 * [running in the Groovy Console or Groovy Web Console](docs/RunningConsole.md)
 
-### Scented candles and COVID-19
+## Scented candles and COVID-19
 
 When we hypothesize about a trend,
 it can be interesting to see whether any data backs up our hypothesis.
@@ -59,7 +61,7 @@ Options are available to run the examples on the command-line or in your favouri
 | Visualization | [Tablesaw Plot.ly] |
 | Aspects covered | Reading xlsx, dataframes, visualization |
 
-### House price prediction with linear regression
+## House price prediction with linear regression
 
 Linear regression will enable us to find a "best fit" linear relationship between some properties or features of interest.
 Ordinary least squares finds such a relationship by minimising residual errors.
@@ -83,7 +85,7 @@ or using a Jupyter/BeakerX notebook.
 | Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars] |
 | Aspects covered | Reading csv, dataframes, visualization, exploration, errors, outliers, single and multi linear regression |
 
-### Whiskey clustering with K-means
+## Whiskey clustering with K-means and other algorithms
 
 K-means is the most common form of “centroid” clustering.
 Unlike classification, clustering is an unsupervised learning method.
@@ -110,7 +112,25 @@ or using a Jupyter/BeakerX notebook.
 | Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, KMeans, PCA, hierarchical clustering, centroids |
 | Other aspects/algorithms covered | XMeans, GMeans, cascade KMeans, Cobweb, Learning Vector Quantization (LVQ), GenClustPlusPlus, SelfOrganizingMap (SOM) |
 
-### Natural language processing
+## Iris classification with Naïve Bayes, Decision Trees and other algorithms
+
+Classification is a supervised learning method.
+
+![Clustering](docs/images/iris.png)
+
+All the details can be found in the [Iris subproject](subprojects/Iris/).
+Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
+or using a Jupyter/BeakerX notebook.
+
+| | Technologies/libraries covered |
+| --- | --- |
+| Data manipulation | [Weka] |
+| Classification | [Weka] |
+| Visualization | [XChart] |
+| Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, bayes, logistic regression, decision trees |
+| Other aspects/algorithms covered | multilayer perceptron, PCA |
+
+## Natural language processing
 
 Natural language processing may involve language detection, parsing, part-of-speech tagging and other activities.
 
@@ -126,7 +146,7 @@ or using a Jupyter/BeakerX notebook.
 | Scaling NLP | [Apache NLPCraft] |
 | Aspects covered | Language detection, sentence detection, named entity detection, parts-of-speech detection |
 
-### Digit recognition using neural networks
+## Digit recognition using neural networks
 
 An artificial neural network consists of layers of nodes which talk to other nodes based on weights and thresholds.
 It mimics to some degree the way in which neurons are interconnected in biological neural networks.
@@ -146,7 +166,7 @@ and multilayer perceptron examples using
 | --- | --- |
 | Neural networks | [Apache Commons Math], [Deep Learning4J] |
 
-### Deep-learning with Apache MXNet
+## Deep-learning Object detection with Apache MXNet
 
 Neural networks with numerous layers of nodes allow for more complex, rich and _deeper_ processing and understanding.
 This example detects objects within an image.

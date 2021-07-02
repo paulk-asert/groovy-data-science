@@ -49,6 +49,13 @@ and uncomment the grab statements. Make sure to cut and paste any helper classes
 
 Alternatively, you can run the main examples online using a Jupyter/Beakerx notebook:
 
+__Requirements__:
+* GroovyFX examples require JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
+* Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
+* Some examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
+  using Gitpod but will create a file in the `build` folder which you can then open by right-clicking
+  in the Gitpod browser then "Open With -> Preview".
+
 ## Scaling regression
 
 It can be potentially difficult to scale linear regression.
@@ -71,10 +78,3 @@ for scaling purposes:
 * The [HousePricesBeam](subprojects/HousePricesBeam/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Beam.
 
 * The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars.
-
-__Requirements__:
-* GroovyFX examples require JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
-* Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
-* Some examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
-  using Gitpod but will create a file in the `build` folder which you can then open by right-clicking
-  in the Gitpod browser then "Open With -> Preview".

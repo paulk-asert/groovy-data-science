@@ -35,7 +35,7 @@ There are example scripts which:
 * illustrate multi-regression against multiple features (multiple technologies)
 * look at displaying errors (multiple technologies)
 
-You have several options for running the programs (see more details from the main [README](../../README.md):
+You have several options for running the programs (see more details from the main [README](../../README.md#running-the-examples)):
 
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 

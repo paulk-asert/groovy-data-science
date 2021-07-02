@@ -44,7 +44,7 @@ dependencies {
     implementation "com.opencsv:opencsv:$opencsvVersion"
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation 'joinery:joinery-dataframe:1.9'
+    implementation 'sh.joinery:joinery-dataframe:1.10'
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
     // https://web.archive.org/web/20140415021609/http://xeiam.com:80/xchart.jsp
     runtimeOnly 'com.xeiam.xchart:xchart:2.5.1' // older version of org.knowm.xchart:xchart

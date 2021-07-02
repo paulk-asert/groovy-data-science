@@ -40,6 +40,6 @@ chart.styler.with {
     XAxisLabelRotation = 90
     availableSpaceFill = 0.98
     XAxisMin = 0
-    XAxisMin = 8_000_000
+    XAxisMax = 8_000_000
 }
 new SwingWrapper(chart).displayChart()

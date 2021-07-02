@@ -27,6 +27,14 @@ several CSV handling libraries and a number of visualization options.
 ![linear regression house prices](../../docs/images/houses.png)
 
 Groovy code examples can be found in the [HousePrices](subprojects/HousePrices/src/main/groovy) subproject.
+There are example scripts which:
+* read from CSV files (multiple technologies)
+* explore finding outliers
+* look at displaying histograms showing the value spread for a particular feature (multiple technologies)
+* illustrate simple regression against one feature (multiple technologies)
+* illustrate multi-regression against multiple features (multiple technologies)
+* look at displaying errors (multiple technologies)
+
 You have several options for running the programs:
 
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
@@ -40,6 +48,8 @@ You have several options for running the programs:
 and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.
 
 Alternatively, you can run the main examples online using a Jupyter/Beakerx notebook:
+
+## Scaling regression
 
 It can be potentially difficult to scale linear regression.
 How do you minimise residual errors on data spread across different

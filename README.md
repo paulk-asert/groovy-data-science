@@ -31,8 +31,9 @@ Topics covered include:
 * Dataframes and visualization
 * Linear regression
 * Clustering
+* Classification
 * Natural language processing
-* Neural networks
+* Digit and object detection with neural networks and deep learning
 
 ### Running the examples
 

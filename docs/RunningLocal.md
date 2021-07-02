@@ -10,22 +10,22 @@ Details for cloning and showing available gradle tasks:
 <details open>
 <summary>Linux/MacOS</summary>
 
-```
-$ git clone https://github.com/paulk-asert/groovy-data-science.git
+<pre>
+$ <b>git clone https://github.com/paulk-asert/groovy-data-science.git</b>
 ...
-$ ./gradlew tasks
-```
+$ <b>./gradlew tasks</b>
+</pre>
 </details>
 <details>
 <summary>Windows</summary>
 
 Assuming you have git installed:
 
-```
-> git clone https://github.com/paulk-asert/groovy-data-science.git
+<pre>
+> <b>git clone https://github.com/paulk-asert/groovy-data-science.git</b>
 ...
-> gradlew tasks
-```
+> <b>gradlew tasks</b>
+</pre>
 </details>
 
 Make sure you have Java installed prior to running the examples.

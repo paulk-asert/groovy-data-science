@@ -16,6 +16,8 @@
 import weka.core.WekaPackageManager
 
 def pkgMgr = new WekaPackageManager()
+pkgMgr.startupCheck(false, System.out)
+
 def packages = ['wekaDeeplearning4j']
 packages.each { pkgName ->
     def pkg = pkgMgr.getRepositoryPackageInfo(pkgName)

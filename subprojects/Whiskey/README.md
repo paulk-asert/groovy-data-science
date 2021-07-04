@@ -31,7 +31,8 @@ of the above figure, our twelve dimensions are mapped into 4 dimensions (a 2D ch
 plus color plus bubble size).
 
 Groovy code examples can be found in the [src/main/groovy](src/main/groovy) directory.
-You have several options for running the programs:
+
+You have several options for running the programs (see more details from the main [README](../../README.md#running-the-examples)):
 
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
@@ -149,6 +150,16 @@ Cluster 6,3: Oban
 Cluster 6,4: Ardbeg, Caol Ila, Clynelish, Talisker
 ```
 
+### Requirements
+
+* The Datumbox examples are intended for JDK 11+.
+
+### Troubleshooting
+
+* Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
+* Some examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
+  using Gitpod but will create a file in the `build` folder which you may be able to preview (see earlier comments).
+
 # Scaling clustering
 
 Not all clustering algorithms are amenable to scaling via distribution of data across a farm of processing units.
@@ -159,9 +170,7 @@ See:
 
 * The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
 
-__Requirements__:
-* Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
-* Some examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
-  using Gitpod but will create a file in the `build` folder which you can then open by right-clicking
-  in the Gitpod browser then "Open With -> Preview".
-* The Datumbox examples are intended for JDK 11+.
+If you don't find the algorithm you need available in one of the toolkits,
+you might be able to write a distributed version. As an example, see:
+
+* The [WhiskeyRheem](subprojects/WhiskeyRheen/src/main/groovy) subproject which illustrates scaling up to a cluster using Rheem (currently incubating as Apache Wayang).

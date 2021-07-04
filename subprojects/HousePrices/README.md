@@ -47,12 +47,15 @@ You have several options for running the programs (see more details from the mai
 * If the example has @Grab statements commented out at the top, you can cut and paste the examples into the groovyConsole
 and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.
 
-__Requirements__:
-* GroovyFX examples require JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
+### Requirements
+
+* GroovyFX examples require JDK 8 with JavaFX, e.g.&nbsp;Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
+
+### Troubleshooting
+
 * Numerous examples create a Swing/JavaFX GUI, so aren't suitable for running in the normal way when using Gitpod.
 * Some examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
-  using Gitpod but will create a file in the `build` folder which you can then open by right-clicking
-  in the Gitpod browser then "Open With -> Preview".
+  using Gitpod but will create a file in the `build` folder which you may be able to preview (see earlier comments).
 
 ## Scaling regression
 

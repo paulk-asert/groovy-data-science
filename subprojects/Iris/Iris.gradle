@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import static JavaFXUtil.checkForJavaFX
+
 apply plugin: 'groovy'
 
 repositories {
@@ -27,13 +29,19 @@ task installWekaPackages(type: JavaExec) {
     mainClass = 'InstallWekaPackages'
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
-    task "run$name"(type: JavaExec) {
-        dependsOn compileGroovy
-        group 'Script'
-        description "Run ${name}.groovy as a JVM application/Groovy script"
-        classpath = sourceSets.main.runtimeClasspath
-        mainClass = name
+sourceSets {
+    main {
+        groovy {
+            if (!checkForJavaFX()) {
+                println '''
+******************************************************
+** Excluding JavaFX scripts due to incompatible JDK **
+** No JavaFX?                                       **
+******************************************************
+'''
+                exclude '**/*JavaFX.groovy'
+            }
+        }
     }
 }
 
@@ -50,4 +58,14 @@ dependencies {
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
     implementation files(['wekaDeeplearning4j'].collect{
         "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
+}
+
+FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['InstallWekaPackages']).each { name ->
+    task "run$name"(type: JavaExec) {
+        dependsOn compileGroovy
+        group 'Script'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = name
+    }
 }

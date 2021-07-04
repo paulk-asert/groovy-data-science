@@ -132,9 +132,9 @@ or using a Jupyter/BeakerX notebook.
 
 | | Technologies/libraries covered |
 | --- | --- |
-| Data manipulation | [Weka] [Tablesaw] [Encog] [JSAT] |
-| Classification | [Weka] [Smile] [Encog] [JSAT] |
-| Visualization | [XChart] [JavaFX] |
+| Data manipulation | [Weka], [Tablesaw], [Encog], [JSAT] |
+| Classification | [Weka], [Smile], [Encog], [JSAT] |
+| Visualization | [XChart], [Tablesaw Plot.ly], [JavaFX] |
 | Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, bayes, logistic regression, decision trees |
 | Other aspects/algorithms covered | neural networks, multilayer perceptron, PCA |
 

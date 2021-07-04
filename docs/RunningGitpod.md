@@ -30,9 +30,11 @@ The same also applies for scripts which fire open a browser
 but there is a workaround in some cases.
 
 If you see an error in the Gradle output which mentions a file in your workspace (under the `build/resources/main` directory in our case), e.g.:
+
 ![Gitpod open browser error](images/GitpodFailedToShowImageGradleError.png)
 
 then you should be able to find that file in the Gitpod explorer, e.g.:
+
 ![Gitpod open browser error](images/GitpodFailedToShowImageSavedFile.png)
 
 Earlier versions of Gitpod had an option to preview such files but this

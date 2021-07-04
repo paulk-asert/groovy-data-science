@@ -124,7 +124,7 @@ or using a Jupyter/BeakerX notebook.
 
 Classification is a supervised learning method.
 
-![Clustering](docs/images/iris.png)
+![Classification](docs/images/iris.png)
 
 All the details can be found in the [Iris subproject](subprojects/Iris/).
 Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
@@ -132,11 +132,11 @@ or using a Jupyter/BeakerX notebook.
 
 | | Technologies/libraries covered |
 | --- | --- |
-| Data manipulation | [Weka] |
-| Classification | [Weka] |
-| Visualization | [XChart] |
+| Data manipulation | [Weka] [Tablesaw] [Encog] [JSAT] |
+| Classification | [Weka] [Smile] [Encog] [JSAT] |
+| Visualization | [XChart] [JavaFX] |
 | Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, bayes, logistic regression, decision trees |
-| Other aspects/algorithms covered | multilayer perceptron, PCA |
+| Other aspects/algorithms covered | neural networks, multilayer perceptron, PCA |
 
 ## Natural language processing
 
@@ -272,8 +272,10 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [Groovy]: https://groovy-lang.org/
 [Frege]: https://github.com/Frege/frege "JVM Haskell"
 [Java]: https://www.java.com/
-[Nashorn]: https://docs.oracle.com/javase/10/nashorn/ "JavaScript for JVM up to JDK"
+[JavaFX]: https://openjfx.io/
 [JRuby]: https://www.jruby.org/ "Ruby for the JVM"
+[JSAT]: https://github.com/EdwardRaff/JSAT
+[Nashorn]: https://docs.oracle.com/javase/10/nashorn/ "JavaScript for JVM up to JDK"
 [Jython]: https://www.jython.org/ "Python for the JVM"
 [Kotlin]: https://kotlinlang.org/
 [Luaj]: https://github.com/luaj/luaj "LUA for the JVM"

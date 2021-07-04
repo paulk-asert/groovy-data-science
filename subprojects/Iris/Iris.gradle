@@ -17,22 +17,23 @@ apply plugin: 'groovy'
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 task installWekaPackages(type: JavaExec) {
     group 'Setup'
     description "Install Weka optional packages"
     classpath = sourceSets.main.runtimeClasspath
-    main = 'InstallWekaPackages'
+    mainClass = 'InstallWekaPackages'
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each { name ->
+FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
         group 'Script'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
-        main = name
+        mainClass = name
     }
 }
 
@@ -41,10 +42,12 @@ dependencies {
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
-    implementation "org.slf4j:slf4j-simple:$slf4jVersion"
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
     implementation "com.github.haifengl:smile-core:$smileVersion"
-//    runtimeOnly 'com.xeiam.xchart:xchart:2.5.1' // older version of org.knowm.xchart:xchart
+    implementation "org.encog:encog-core:3.4"
+    implementation "com.edwardraff:JSAT:0.0.9"
+    implementation 'com.github.EdwardRaff:JSATFX:master-SNAPSHOT'
+    runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
     implementation files(['wekaDeeplearning4j'].collect{
         "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
 }

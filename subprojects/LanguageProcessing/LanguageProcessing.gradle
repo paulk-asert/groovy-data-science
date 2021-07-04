@@ -26,7 +26,7 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
         group 'Script'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
-        main = name
+        mainClass = name
     }
 }
 

@@ -24,7 +24,7 @@ task installWekaPackages(type: JavaExec) {
     group 'Setup'
     description "Install Weka optional packages"
     classpath = sourceSets.main.runtimeClasspath
-    main = 'InstallWekaPackages'
+    mainClass = 'InstallWekaPackages'
 }
 
 tasks.register('checkJdk11Compatibility') {
@@ -40,7 +40,7 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['InstallWekaPackages'])
         group 'Script'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
-        main = name
+        mainClass = name
     }
 }
 

@@ -15,6 +15,7 @@
  */
 
 import smile.classification.KNN
+import smile.validation.ConfusionMatrix
 import smile.validation.CrossValidation
 import tech.tablesaw.api.StringColumn
 import tech.tablesaw.api.Table
@@ -45,6 +46,7 @@ def predictions = CrossValidation.classification(10, features, classIndexs, (x, 
 rows = rows.addColumns(StringColumn.create('Result', predictions.indexed().collect{ idx, predictedClass ->
     def (actual, predicted) = [classes[idx], species[predictedClass]]
     actual == predicted ? predicted : "$predicted/$actual".toString() }))
+println ConfusionMatrix.of(classIndexs, predictions)
 
 def title = 'Petal width vs length with predicted[/actual] class'
 helper.show(ScatterPlot.create(title, rows, 'Petal width', 'Petal length', 'Result'), 'KNNClassification')

@@ -40,7 +40,7 @@ Topics covered include:
 You have 4 options to run many of the examples:
 
 * [running locally](docs/RunningLocal.md) on the command-line or in an IDE
-* [running via gitpod](docs/RunningGitpod.md)
+* [running via Gitpod](docs/RunningGitpod.md)
 * [running as a Jupyter/BeakerX](docs/RunningBeakerX.md) notebook
 * [running in the Groovy Console or Groovy Web Console](docs/RunningConsole.md)
 

@@ -18,16 +18,44 @@ limitations under the License.
 
 These examples look at classifying samples of Iris flowers based
 on petal width, petal length, sepal width, sepal length.
+There are three species: Iris-setosa, Iris-versicolor, Iris-virginica.
 
 ![Iris Species](../../docs/images/IrisSpecies.png)
 
-One of the approaches used will be to create a decision tree.
+Some algorithms construct a decision tree we can use to classify samples:
 
 ![Iris decision tree](../../docs/images/IrisDecisionTree.png)
 
-There are three species: Iris-setosa, Iris-versicolor, Iris-virginica. 
+Others associate probabilities with each class:
+
+```
+Sample            Actual         Predicted  Confidence: setosa     versicolor virginica
+    52   Iris-versicolor    Iris-virginica              0.00       0.46       0.54
+    70   Iris-versicolor    Iris-virginica              0.00       0.15       0.85
+    77   Iris-versicolor    Iris-virginica              0.00       0.08       0.92
+   106    Iris-virginica   Iris-versicolor              0.00       0.97       0.03
+   119    Iris-virginica   Iris-versicolor              0.00       0.96       0.04
+   133    Iris-virginica   Iris-versicolor              0.00       0.71       0.29
+6 errors were made, 4.0% error rate
+```
+The Iris-setosa species has a quite distinct range for its
+petal width and length values but the Iris-versicolor and Iris-virginica
+species are harder to distinguish as can be seen in the following chart: 
 
 ![Iris Classes](../../docs/images/IrisClasses.png)
+
+We could also plot class against sepal width and length or apply Principal Component Analysis (PCA):
+
+![Iris Classes](../../docs/images/IrisPCA.png)
+
+And the resulting confusion matrix:
+
+```
+ROW=truth and COL=predicted
+class  0 |      50 |       0 |       0 |
+class  1 |       0 |      47 |       3 |
+class  2 |       0 |       2 |      48 |
+```
 
 Groovy code examples can be found in the [src/main/groovy](src/main/groovy) directory.
 
@@ -46,7 +74,8 @@ You have several options for running the programs (see more details from the mai
 ### Requirements
 
 * Examples should run fine in JDK8 or JDK11.
-* The JSAT JavaFX example requires a JDK with JavaFX included.
+* The JSAT JavaFX example requires a JDK with JavaFX included. It uses JavaFX directly
+rather than GroovyFX, so the earlier JDK8 requirement doesn't apply.
 
 ### Troubleshooting
 

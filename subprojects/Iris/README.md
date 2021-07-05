@@ -44,11 +44,7 @@ species are harder to distinguish as can be seen in the following chart:
 
 ![Iris Classes](../../docs/images/IrisClasses.png)
 
-We could also plot class against sepal width and length or apply Principal Component Analysis (PCA):
-
-![Iris Classes](../../docs/images/IrisPCA.png)
-
-And the resulting confusion matrix:
+This is also shown in the resulting confusion matrix:
 
 ```
 ROW=truth and COL=predicted
@@ -56,6 +52,10 @@ class  0 |      50 |       0 |       0 |
 class  1 |       0 |      47 |       3 |
 class  2 |       0 |       2 |      48 |
 ```
+
+We could also plot class against sepal width and length or apply Principal Component Analysis (PCA):
+
+![Iris Classes](../../docs/images/IrisPCA.png)
 
 Groovy code examples can be found in the [src/main/groovy](src/main/groovy) directory.
 

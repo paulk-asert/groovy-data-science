@@ -18,13 +18,14 @@ import com.datumbox.framework.common.Configuration
 import com.datumbox.framework.core.common.dataobjects.Dataframe
 import com.datumbox.framework.core.machinelearning.MLBuilder
 import com.datumbox.framework.core.machinelearning.classification.SoftMaxRegression
-import com.datumbox.framework.core.machinelearning.featureselection.PCA
 import com.datumbox.framework.core.machinelearning.modelselection.metrics.ClassificationMetrics
 import com.datumbox.framework.core.machinelearning.modelselection.splitters.ShuffleSplitter
-import com.datumbox.framework.core.machinelearning.preprocessing.MinMaxScaler
+import org.knowm.xchart.SwingWrapper
+import org.knowm.xchart.XYChartBuilder
 
 import static com.datumbox.framework.common.dataobjects.TypeInference.DataType.CATEGORICAL
 import static com.datumbox.framework.common.dataobjects.TypeInference.DataType.NUMERICAL
+import static org.knowm.xchart.XYSeries.XYSeriesRenderStyle.Scatter
 
 def file = getClass().classLoader.getResource('iris_data.csv').file as File
 
@@ -42,41 +43,39 @@ def split = new ShuffleSplitter(0.8, 1).split(data).next()
 Dataframe training = split.train
 Dataframe testing = split.test
 
-def scalerParams = new MinMaxScaler.TrainingParameters()
-def scaler = MLBuilder.create(scalerParams, config)
-scaler.fit_transform(training)
-scaler.save("Class")
-
-def pcaParams = new PCA.TrainingParameters(
-        maxDimensions: training.xColumnSize() - 1,
-        whitened: false,
-        variancePercentageThreshold: 0.99999995
-)
-PCA pca = MLBuilder.create(pcaParams, config)
-pca.fit_transform(training)
-pca.save("Class")
-
-def classifierParams = new SoftMaxRegression.TrainingParameters(
-        totalIterations: 200,
-        learningRate: 0.1
-)
-
+def classifierParams = new SoftMaxRegression.TrainingParameters(totalIterations: 200, learningRate: 0.1)
 SoftMaxRegression classifier = MLBuilder.create(classifierParams, config)
 classifier.fit(training)
 classifier.save("Class")
-
-scaler.transform(testing)
-pca.transform(testing)
-
 classifier.predict(testing)
 
 println "Results:"
+def petalL = [:].withDefault{[]}
+def petalW = [:].withDefault{[]}
 testing.entries().each {
-    println "Record $it.key - Real Y: $it.value.y, Predicted Y: $it.value.YPredicted"
+    def key = it.key
+    def predicted = it.value.YPredicted
+    def correct = it.value.y == it.value.YPredicted
+    def probs = it.value.YPredictedProbabilities
+    def prefix = { it == predicted ? (correct ? '*' : '**') : '' }
+    def series = correct ? it.value.y : "$it.value.YPredicted/$it.value.y"
+    petalL[series] << it.value.x.get('Petal length')
+    petalW[series] << it.value.x.get('Petal width')
+    def probsForClass = { klass -> prefix(klass) + sprintf('%5.3f', probs.get(klass)) }
+    def probability = ['Iris-setosa', 'Iris-versicolor', 'Iris-virginica'].collect(probsForClass)
+    println "Record $key - Actual: $it.value.y, Predicted: $predicted (probabilities: $probability)"
 }
 
 def metrics = new ClassificationMetrics(testing)
 println "Classifier Accuracy: $metrics.accuracy"
-
-[scaler, pca, classifier]*.delete()
+classifier.delete()
 [training, testing]*.close()
+
+def chart = new XYChartBuilder().width(900).height(450).title("Species Predicted[/Actual]").
+        xAxisTitle("Petal length").yAxisTitle("Petal width").build()
+petalL.keySet().each {
+    chart.addSeries(it, petalW[it] as double[], petalL[it] as double[]).with {
+        XYSeriesRenderStyle = Scatter
+    }
+}
+new SwingWrapper(chart).displayChart()

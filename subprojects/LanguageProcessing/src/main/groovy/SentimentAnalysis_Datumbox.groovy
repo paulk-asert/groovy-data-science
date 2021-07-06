@@ -29,25 +29,25 @@ def datasets = [
         negative: getClass().classLoader.getResource("rt-polarity.neg").toURI()
 ]
 
-TextClassifier.TrainingParameters trainingParams = new TextClassifier.TrainingParameters(
+def trainingParams = new TextClassifier.TrainingParameters(
         numericalScalerTrainingParameters: null,
         featureSelectorTrainingParametersList: [new ChisquareSelect.TrainingParameters()],
         textExtractorParameters: new NgramsExtractor.Parameters(),
         modelerTrainingParameters: new MultinomialNaiveBayes.TrainingParameters()
 )
 
-TextClassifier textClassifier = MLBuilder.create(trainingParams, config)
-textClassifier.fit(datasets)
-textClassifier.save("SentimentAnalysis")
+TextClassifier classifier = MLBuilder.create(trainingParams, config)
+classifier.fit(datasets)
+classifier.save("SentimentAnalysis")
 
 ['Datumbox is amazing!', 'Groovy is great!', 'Math can be hard.'].each {
-    def r = textClassifier.predict(it)
+    def r = classifier.predict(it)
     def predicted = r.YPredicted
     def probability = r.YPredictedProbabilities.get(predicted)
     println "Classifing: '$it',  Predicted: $predicted,  Probability: ${ sprintf '%4.2f', probability }"
 }
 
-def metrics = textClassifier.validate(datasets)
+def metrics = classifier.validate(datasets)
 println "Classifier Accuracy: $metrics.accuracy"
 
-textClassifier.delete()
+classifier.delete()

@@ -29,6 +29,7 @@ import static com.datumbox.framework.common.dataobjects.TypeInference.DataType.N
 def file = getClass().classLoader.getResource('iris_data.csv').file as File
 
 def cols = ['Sepal length', 'Sepal width', 'Petal length', 'Petal width']
+// RandomGenerator.globalSeed = -1L // for repeatable results
 def config = Configuration.configuration
 def headers = [*: cols.collectEntries { [it, NUMERICAL] }, Class: CATEGORICAL]
 Dataframe data = null

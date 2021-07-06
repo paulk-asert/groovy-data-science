@@ -58,7 +58,7 @@ for (i in 0..<data.sampleSize) {
     }
 }
 
-println "$errors errors were made, ${100.0 * errors / data.sampleSize}% error rate"
+println "$errors errors from $data.sampleSize were made, ${100.0 * errors / data.sampleSize}% error rate"
 
 // normalize data samples
 data.applyTransform(new ZeroMeanTransform(data))

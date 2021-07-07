@@ -1,0 +1,2 @@
+de: https://github.com/datumbox/NaiveBayesClassifier/tree/master/resources/datasets/training.language.de.txt
+en,es,fr,id: derived from https://www.kaggle.com/zarajamshaid/language-identification-datasst

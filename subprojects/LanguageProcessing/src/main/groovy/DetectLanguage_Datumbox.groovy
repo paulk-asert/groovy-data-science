@@ -25,8 +25,11 @@ import com.datumbox.framework.core.machinelearning.featureselection.ChisquareSel
 def config = Configuration.configuration
 
 def datasets = [
-        positive: getClass().classLoader.getResource("rt-polarity.pos").toURI(),
-        negative: getClass().classLoader.getResource("rt-polarity.neg").toURI()
+        English: getClass().classLoader.getResource("training.language.en.txt").toURI(),
+        French: getClass().classLoader.getResource("training.language.fr.txt").toURI(),
+        German: getClass().classLoader.getResource("training.language.de.txt").toURI(),
+        Spanish: getClass().classLoader.getResource("training.language.es.txt").toURI(),
+        Indonesian: getClass().classLoader.getResource("training.language.id.txt").toURI()
 ]
 
 def trainingParams = new TextClassifier.TrainingParameters(
@@ -40,9 +43,12 @@ TextClassifier classifier = MLBuilder.create(trainingParams, config)
 classifier.fit(datasets)
 classifier.save("SentimentAnalysis")
 
-['Datumbox is divine!',
- 'Groovy is great fun!',
- 'Math can be hard!'].each {
+[ 'Bienvenido a Madrid',
+  'Bienvenue à Paris',
+  'Welcome to London',
+  'Willkommen in Berlin',
+  'Selamat Datang di Jakarta'
+].each {
     def r = classifier.predict(it)
     def predicted = r.YPredicted
     def probability = r.YPredictedProbabilities.get(predicted)

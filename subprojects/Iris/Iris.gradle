@@ -58,6 +58,8 @@ dependencies {
     implementation "com.datumbox:datumbox-framework-lib:0.8.2"
     implementation files(['wekaDeeplearning4j'].collect{
         "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
+    implementation "org.nd4j:nd4j-native-platform:$nd4jVersion"
+    implementation "org.deeplearning4j:deeplearning4j-core:$nd4jVersion"
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
 }
 

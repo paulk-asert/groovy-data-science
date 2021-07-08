@@ -132,10 +132,10 @@ or using a Jupyter/BeakerX notebook.
 
 | | Technologies/libraries covered |
 | --- | --- |
-| Data manipulation | [Weka], [Tablesaw], [Encog], [JSAT] |
+| Data manipulation | [Weka], [Tablesaw], [Encog], [JSAT], [Datavec] |
 | Classification | [Weka], [Smile], [Encog], [JSAT], [Deep Learning4J] |
 | Visualization | [XChart], [Tablesaw Plot.ly], [JavaFX] |
-| Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, bayes, logistic regression, decision trees |
+| Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, naive bayes, logistic regression, knn regression, softmax regression, decision trees, support vector machine |
 | Other aspects/algorithms covered | neural networks, multilayer perceptron, PCA |
 
 ## Natural language processing
@@ -187,7 +187,7 @@ More details can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxn
 
 | | Technologies/libraries covered |
 | --- | --- |
-| Image detection | [Apache MXNet] |
+| Image detection, neural networks, deep learning | [Apache MXNet] |
 
 ---
 
@@ -253,6 +253,7 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [Joinery]: https://cardillo.github.io/joinery
 [Apache OpenNLP]: https://opennlp.apache.org/
 [Deep Learning4J]: https://deeplearning4j.org/
+[Datavec]: https://github.com/deeplearning4j/DataVec
 [Choco]: http://www.choco-solver.org/
 [Apache Spark]: https://spark.apache.org/
 [Apache Ignite]: https://ignite.apache.org/

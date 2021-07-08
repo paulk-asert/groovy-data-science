@@ -69,7 +69,7 @@ You have several options for running the programs (see more details from the mai
   (Hint: `gradlew :Iris:tasks --group="Script"` will show you available task names.)
 
 * You can run the main examples online using a Jupyter/Beakerx notebook:
-  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FIris%2Fsrc%2Fmain%2Fnotebook%2FIris.ipynb)
+  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/HEAD?filepath=subprojects%2FIris%2Fsrc%2Fmain%2Fnotebook%2FIris.ipynb)
 
 * If the example has @Grab statements commented out at the top, you can cut and paste the examples into the groovyConsole
   and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.

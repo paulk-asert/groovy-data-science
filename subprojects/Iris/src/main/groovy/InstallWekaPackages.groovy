@@ -18,7 +18,7 @@ import weka.core.WekaPackageManager
 def pkgMgr = new WekaPackageManager()
 pkgMgr.startupCheck(false, System.out)
 
-def packages = ['wekaDeeplearning4j']
+def packages = ['wekaDeeplearning4j', 'SelfOrganizingMap']
 packages.each { pkgName ->
     def pkg = pkgMgr.getRepositoryPackageInfo(pkgName)
     if (pkg.installed) println "$pkgName already installed"

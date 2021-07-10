@@ -17,32 +17,35 @@
 
 import opennlp.tools.doccat.DoccatFactory
 import opennlp.tools.doccat.DocumentCategorizerME
-import opennlp.tools.doccat.DocumentSample
 import opennlp.tools.doccat.DocumentSampleStream
-import opennlp.tools.ml.naivebayes.NaiveBayesTrainer
 import opennlp.tools.util.CollectionObjectStream
-import opennlp.tools.util.ObjectStream
 import opennlp.tools.util.TrainingParameters
+
+import static opennlp.tools.ml.naivebayes.NaiveBayesTrainer.NAIVE_BAYES_VALUE
+import static opennlp.tools.util.TrainingParameters.ALGORITHM_PARAM
+import static opennlp.tools.util.TrainingParameters.CUTOFF_PARAM
 
 def datasets = [
         positive: getClass().classLoader.getResource("rt-polarity.pos").file,
         negative: getClass().classLoader.getResource("rt-polarity.neg").file
 ]
-def training = datasets.collect { k, v ->
+
+// OpenNLP is expecting one dataset with each line containing the category as the first term
+def trainingCollection = datasets.collect { k, v ->
     new File(v).readLines().collect{"$k $it".toString() }
 }.sum()
 
 def variants = [
-        Maxent: new TrainingParameters(),
-        NaiveBayes: new TrainingParameters((TrainingParameters.CUTOFF_PARAM): '0',
-        (TrainingParameters.ALGORITHM_PARAM): NaiveBayesTrainer.NAIVE_BAYES_VALUE)
+        Maxent    : new TrainingParameters(),
+        NaiveBayes: new TrainingParameters((CUTOFF_PARAM): '0', (ALGORITHM_PARAM): NAIVE_BAYES_VALUE)
 ]
 def models = [:]
-variants.each{ key, params ->
-    def trainingStream = new CollectionObjectStream(training)
-    ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(trainingStream)
+
+variants.each{ key, trainingParams ->
+    def trainingStream = new CollectionObjectStream(trainingCollection)
+    def sampleStream = new DocumentSampleStream(trainingStream)
     println "\nTraining using $key"
-    models[key] = DocumentCategorizerME.train('en', sampleStream, params, new DoccatFactory())
+    models[key] = DocumentCategorizerME.train('en', sampleStream, trainingParams, new DoccatFactory())
 }
 
 def sentences = ['Datumbox is divine!',

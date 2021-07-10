@@ -226,6 +226,54 @@ NN(Light) POS(') NN(em) DT(all) IN(up)
 VB(Make) PRP(it) JJ(dark) NN(downstairs)
 ```
 
+## Sentiment analysis
+
+Sentiment analysis attempts to categorize samples according to
+some categories of interest, e.g.&nbsp;is a movie review
+(or a tweet, or some other social media comment)
+predominantly positive or negative.
+
+We can train up our model as follows:
+
+```groovy
+def trainingParams = new TrainingParameters()
+def trainingStream = new CollectionObjectStream(trainingCollection)
+def sampleStream = new DocumentSampleStream(trainingStream)
+def factory = new DoccatFactory()
+def model = DocumentCategorizerME.train('en', sampleStream, trainingParams, factory)
+```
+
+We can use our model as follows:
+
+```groovy
+def sentences = ['Datumbox is divine!',
+                 'Groovy is great fun!',
+                 'Math can be hard!']
+def w = sentences*.size().max()
+
+def categorizer = new DocumentCategorizerME(model)
+sentences.each {
+    def result = categorizer.categorize(it.split('[ !]'))
+    def category = categorizer.getBestCategory(result)
+    def prob = result[categorizer.getIndex(category)]
+    println "${it.padRight(w)} $category (${ sprintf '%4.2f', prob})}"
+}
+```
+
+Running this example for two variants gives:
+
+```text
+Analyzing using Maxent
+Datumbox is divine!  positive (0.74)}
+Groovy is great fun! positive (0.74)}
+Math can be hard!    negative (0.61)}
+
+Analyzing using NaiveBayes
+Datumbox is divine!  positive (0.89)}
+Groovy is great fun! positive (0.81)}
+Math can be hard!    negative (0.72)}
+```
+
 ## Scaling up natural language processing
 
 We have all seen recent advancements in systems like Apple's Siri,

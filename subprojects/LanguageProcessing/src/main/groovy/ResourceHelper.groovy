@@ -1,8 +1,3 @@
-import java.nio.channels.Channel
-import java.nio.channels.Channels
-import java.nio.channels.FileChannel
-import java.nio.channels.ReadableByteChannel
-
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -18,6 +13,9 @@ import java.nio.channels.ReadableByteChannel
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import java.nio.channels.Channels
+import java.nio.channels.ReadableByteChannel
 
 class ResourceHelper {
     private File parent // place to store file

@@ -35,7 +35,7 @@ tasks.register('checkJdk11Compatibility') {
     }
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
+FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['ResourceHelper']).each { name ->
     task "run$name"(type: JavaExec) {
         dependsOn compileGroovy
         group 'Script'

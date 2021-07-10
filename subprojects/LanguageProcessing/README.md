@@ -19,7 +19,22 @@ limitations under the License.
 Natural language processing may involve language detection, parsing, part-of-speech tagging and other activities.
 We'll look at just a few of those and focus on using pre-trained models.
 Groovy code examples can be found in the [src/main/groovy](src/main/groovy) directory
-and make use of the [Apache OpenNLP](https://opennlp.apache.org/) library.
+and make use of the [Apache OpenNLP](https://opennlp.apache.org/) and other libraries.
+
+### Running the examples
+
+
+You have several options for running the programs (see more details from the main [README](../../README.md#running-the-examples)):
+
+* If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
+
+* You can run the main examples online using a Jupyter/Beakerx notebook:
+  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageProcessing%2Fsrc%2Fmain%2Fnotebook%2FLanguageProcessing.ipynb)
+
+* From the command line, invoke a script with gradlew using the appropriate run&lt;_ScriptName_&gt; task.\
+  (Hint: `gradlew :LanguageProcessing:tasks --group="Script"` will show you available task names.)
+* If the example has @Grab statements commented out at the top, you can cut and paste the examples into the groovyConsole
+  and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.
 
 ## Language Detection
 
@@ -45,10 +60,6 @@ languages.each { k, v ->
     assert detector.predictLanguage(v).lang == k
 }
 ```
-If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
-
-Alternatively, you can run the example online using a Jupyter/Beakerx notebook:
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FLanguageProcessing%2Fsrc%2Fmain%2Fnotebook%2FLanguageProcessing.ipynb)
 
 ## Sentence Detection
 

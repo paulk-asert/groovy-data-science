@@ -41,7 +41,7 @@ def models = [:]
 variants.each{ key, params ->
     def trainingStream = new CollectionObjectStream(training)
     ObjectStream<DocumentSample> sampleStream = new DocumentSampleStream(trainingStream)
-    println "Training using $key"
+    println "\nTraining using $key"
     models[key] = DocumentCategorizerME.train('en', sampleStream, params, new DoccatFactory())
 }
 

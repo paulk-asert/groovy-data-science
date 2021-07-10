@@ -257,7 +257,7 @@ def model = DocumentCategorizerME.train('en', sampleStream, trainingParams, fact
 We can use our model as follows:
 
 ```groovy
-def sentences = ['Datumbox is divine!',
+def sentences = ['OpenNLP is fantastic!',
                  'Groovy is great fun!',
                  'Math can be hard!']
 def w = sentences*.size().max()
@@ -275,14 +275,14 @@ Running this example for two variants gives:
 
 ```text
 Analyzing using Maxent
-Datumbox is divine!  positive (0.74)}
-Groovy is great fun! positive (0.74)}
-Math can be hard!    negative (0.61)}
+OpenNLP is fantastic! positive (0.64)}
+Groovy is great fun!  positive (0.74)}
+Math can be hard!     negative (0.61)}
 
 Analyzing using NaiveBayes
-Datumbox is divine!  positive (0.89)}
-Groovy is great fun! positive (0.81)}
-Math can be hard!    negative (0.72)}
+OpenNLP is fantastic! positive (0.72)}
+Groovy is great fun!  positive (0.81)}
+Math can be hard!     negative (0.72)}
 ```
 
 ## Scaling up natural language processing

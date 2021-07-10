@@ -48,7 +48,7 @@ variants.each{ key, trainingParams ->
     models[key] = DocumentCategorizerME.train('en', sampleStream, trainingParams, new DoccatFactory())
 }
 
-def sentences = ['Datumbox is divine!',
+def sentences = ['OpenNLP is fantastic!',
                  'Groovy is great fun!',
                  'Math can be hard!']
 def w = sentences*.size().max()

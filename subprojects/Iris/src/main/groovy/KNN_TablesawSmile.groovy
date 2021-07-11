@@ -15,7 +15,7 @@
  */
 
 import smile.classification.KNN
-import smile.validation.ConfusionMatrix
+import smile.validation.metric.ConfusionMatrix
 import smile.validation.CrossValidation
 import tech.tablesaw.api.StringColumn
 import tech.tablesaw.api.Table
@@ -23,30 +23,48 @@ import tech.tablesaw.plotly.api.ScatterPlot
 
 import static tech.tablesaw.aggregate.AggregateFunctions.*
 
-def cols = ['Sepal length', 'Sepal width', 'Petal length', 'Petal width']
+def features = ['Sepal length', 'Sepal width', 'Petal length', 'Petal width']
 def species = ['Iris-setosa', 'Iris-versicolor', 'Iris-virginica']
 def file = getClass().classLoader.getResource('iris_data.csv').file
-Table rows = Table.read().csv(file)
+Table table = Table.read().csv(file)
 def helper = new TablesawUtil(file)
 
-println rows.shape()
+println """
+Shape: ${table.shape()}
 
-println rows.structure()
-println rows.xTabCounts('Class')
-(0..3).each {
-    println rows.summarize(cols[it], mean, min, max).by('Class')
+${table.structure()}
+
+Frequency analysis:
+${table.xTabCounts('Class')}
+
+Feature stats by species:"""
+
+(0..<features.size()).each {
+    println table.summarize(features[it], mean, min, max).by('Class')
 }
 
-def iris = rows.smile().toDataFrame()
+def dataFrame = table.smile().toDataFrame()
 
-def features = iris.drop("Class").toArray()
-def classes = iris.column("Class").toStringArray()
-int[] classIndexs = classes.collect{species.indexOf(it) }
-def predictions = CrossValidation.classification(10, features, classIndexs, (x, y) -> KNN.fit(x, y, 3))
-rows = rows.addColumns(StringColumn.create('Result', predictions.indexed().collect{ idx, predictedClass ->
-    def (actual, predicted) = [classes[idx], species[predictedClass]]
+def featureCols = dataFrame.drop('Class').toArray()
+def classNames = dataFrame.column('Class').toStringArray()
+int[] classes = classNames.collect{species.indexOf(it) }
+
+// train and predict on complete data set to show graph
+def knn = KNN.fit(featureCols, classes, 3)
+def predictions = knn.predict(featureCols)
+println """
+Confusion matrix:
+${ConfusionMatrix.of(classes, predictions)}
+"""
+
+table = table.addColumns(StringColumn.create('Result', predictions.indexed().collect{ idx, predictedClass ->
+    def (actual, predicted) = [classNames[idx], species[predictedClass]]
     actual == predicted ? predicted : "$predicted/$actual".toString() }))
-println ConfusionMatrix.of(classIndexs, predictions)
 
 def title = 'Petal width vs length with predicted[/actual] class'
-helper.show(ScatterPlot.create(title, rows, 'Petal width', 'Petal length', 'Result'), 'KNNClassification')
+helper.show(ScatterPlot.create(title, table, 'Petal width', 'Petal length', 'Result'), 'KNNClassification')
+
+// use cross validation to get accuracy
+CrossValidation.classification(10, featureCols, classes, (x, y) -> KNN.fit(x, y, 3)).with {
+    printf 'Accuracy: %.2f%% +/- %.2f\n', 100 * avg.accuracy, 100 * sd.accuracy
+}

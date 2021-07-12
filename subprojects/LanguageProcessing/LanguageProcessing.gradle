@@ -25,7 +25,8 @@ dependencies {
     implementation "org.apache.opennlp:opennlp-tools:$opennlpVersion"
     implementation "com.github.haifengl:smile-nlp:$smileVersion"
 //    implementation "com.datumbox:datumbox-framework-lib:0.8.3-SNAPSHOT"
-    implementation "com.datumbox:datumbox-framework-lib:0.8.2"
+    implementation 'com.datumbox:datumbox-framework-lib:0.8.2'
+    implementation 'org.apache.tika:tika-parsers:1.27'
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
 }
 

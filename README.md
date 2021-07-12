@@ -150,9 +150,10 @@ or using a Jupyter/BeakerX notebook.
 
 | | Technologies/libraries covered |
 | --- | --- |
-| NLP | [Apache OpenNLP], [Smile] |
+| NLP | [Apache OpenNLP], [Smile], [Datumbox] |
+| Content extraction | [Apache Tika] |
 | Scaling NLP | [Apache NLPCraft] |
-| Aspects covered | Language detection, sentence detection, named entity detection, parts-of-speech detection |
+| Aspects covered | Language detection, sentence detection, named entity detection, parts-of-speech detection, PDF extraction |
 
 ## Digit recognition using neural networks
 
@@ -252,6 +253,7 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [Tablesaw]: https://tablesaw.tech/
 [Joinery]: https://cardillo.github.io/joinery
 [Apache OpenNLP]: https://opennlp.apache.org/
+[Apache Tika]: https://tika.apache.org/
 [Deep Learning4J]: https://deeplearning4j.org/
 [Datavec]: https://github.com/deeplearning4j/DataVec
 [Choco]: http://www.choco-solver.org/

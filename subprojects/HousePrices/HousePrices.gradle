@@ -33,6 +33,9 @@ dependencies {
     implementation "com.opencsv:opencsv:$opencsvVersion"
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation "org.apache.camel:camel-core:$camelVersion"
+    implementation "org.apache.camel:camel-csv:$camelVersion"
+    implementation "org.apache.camel:camel-groovy:$camelVersion"
     implementation 'sh.joinery:joinery-dataframe:1.10'
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
     // https://web.archive.org/web/20140415021609/http://xeiam.com:80/xchart.jsp

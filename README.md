@@ -116,9 +116,10 @@ or using a Jupyter/BeakerX notebook.
 | Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV] |
 | Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki] |
 | Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart] |
+| Enterprise Integration | [Apache Camel] |
 | Scaling clustering | [Apache Ignite], [Apache Spark], [Rheem] |
 | Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, KMeans, PCA, hierarchical clustering, centroids |
-| Other aspects/algorithms covered | XMeans, GMeans, cascade KMeans, Cobweb, Learning Vector Quantization (LVQ), GenClustPlusPlus, SelfOrganizingMap (SOM) |
+| Other aspects/algorithms covered | XMeans, GMeans, cascade KMeans, Cobweb, Learning Vector Quantization (LVQ), GenClustPlusPlus, SelfOrganizingMap (SOM), integration, outliers |
 
 ## Iris classification with Naïve Bayes, Decision Trees and other algorithms
 
@@ -254,6 +255,7 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [Joinery]: https://cardillo.github.io/joinery
 [Apache OpenNLP]: https://opennlp.apache.org/
 [Apache Tika]: https://tika.apache.org/
+[Apache Camel]: https://camel.apache.org/
 [Deep Learning4J]: https://deeplearning4j.org/
 [Datavec]: https://github.com/deeplearning4j/DataVec
 [Choco]: http://www.choco-solver.org/

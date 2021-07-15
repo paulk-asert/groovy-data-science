@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import org.tribuo.MutableDataset
 import org.tribuo.classification.LabelFactory
 import org.tribuo.classification.dtree.CARTClassificationTrainer
@@ -27,6 +28,7 @@ import org.tribuo.common.libsvm.SVMParameters
 import org.tribuo.data.csv.CSVLoader
 import org.tribuo.evaluation.TrainTestSplitter
 
+import static com.oracle.labs.mlrg.olcut.provenance.ProvenanceUtil.formattedProvenanceString
 import static org.tribuo.classification.libsvm.SVMClassificationType.SVMMode.C_SVC
 import static org.tribuo.common.libsvm.KernelType.LINEAR
 
@@ -55,4 +57,10 @@ trainers.each { trainer ->
     summary[trainer.getClass().simpleName.padRight(35)] = sprintf('%4.2f', result.accuracy())
     println "\n$trainer\n$result"
 }
+
+// example of Provenance
+def model = trainers[0].train(train)
+println "\n${formattedProvenanceString(model.provenance.datasetProvenance.sourceProvenance)}"
+println "\n${formattedProvenanceString(model.provenance.trainerProvenance)}"
+
 println "\nSummary of results:\n${summary.collect{"$it.key $it.value" }.join('\n')}"

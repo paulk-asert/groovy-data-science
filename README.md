@@ -133,8 +133,8 @@ or using a Jupyter/BeakerX notebook.
 
 | | Technologies/libraries covered |
 | --- | --- |
-| Data manipulation | [Weka], [Tablesaw], [Encog], [JSAT], [Datavec] |
-| Classification | [Weka], [Smile], [Encog], [JSAT], [Deep Learning4J] |
+| Data manipulation | [Weka], [Tablesaw], [Encog], [JSAT], [Datavec], [Tribuo] |
+| Classification | [Weka], [Smile], [Encog], [Tribuo], [JSAT], [Deep Learning4J] |
 | Visualization | [XChart], [Tablesaw Plot.ly], [JavaFX] |
 | Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, naive bayes, logistic regression, knn regression, softmax regression, decision trees, support vector machine |
 | Other aspects/algorithms covered | neural networks, multilayer perceptron, PCA |
@@ -252,6 +252,7 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [Encog]: https://github.com/jeffheaton/encog-java-core
 [Jupyter/BeakerX]: http://beakerx.com/ "Jupyter/BeakerX notebooks"
 [Tablesaw]: https://tablesaw.tech/
+[Tribuo]: https://tribuo.org/
 [Joinery]: https://cardillo.github.io/joinery
 [Apache OpenNLP]: https://opennlp.apache.org/
 [Apache Tika]: https://tika.apache.org/

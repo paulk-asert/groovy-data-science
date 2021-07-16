@@ -88,7 +88,7 @@ or using a Jupyter/BeakerX notebook.
 | | Technologies/libraries covered |
 | --- | --- |
 | Data manipulation | [Tablesaw], [Joinery], [Apache Commons CSV], [OpenCSV] |
-| Regression, math | [Smile], [Apache Commons Math], [Weka] |
+| Regression, math | [Smile], [Apache Commons Math], [Weka], [Tribuo] |
 | Outlier detection | [Apache Commons Math], [Tribuo] |
 | Visualization | [GroovyFX], [XChart], [Tablesaw Plot.ly] |
 | Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars] |

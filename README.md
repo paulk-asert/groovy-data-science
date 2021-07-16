@@ -89,6 +89,7 @@ or using a Jupyter/BeakerX notebook.
 | --- | --- |
 | Data manipulation | [Tablesaw], [Joinery], [Apache Commons CSV], [OpenCSV] |
 | Regression, math | [Smile], [Apache Commons Math], [Weka] |
+| Outlier detection | [Apache Commons Math], [Tribuo] |
 | Visualization | [GroovyFX], [XChart], [Tablesaw Plot.ly] |
 | Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars] |
 | Aspects covered | Reading csv, dataframes, visualization, exploration, errors, outliers, single and multi linear regression |
@@ -113,8 +114,8 @@ or using a Jupyter/BeakerX notebook.
 
 | | Technologies/libraries covered |
 | --- | --- |
-| Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV] |
-| Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki] |
+| Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV], [Tribuo] |
+| Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki], [Tribuo] |
 | Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart] |
 | Enterprise Integration | [Apache Camel] |
 | Scaling clustering | [Apache Ignite], [Apache Spark], [Rheem] |

@@ -46,4 +46,4 @@ for (int idx = 0; idx < ds.N; idx++) {
 }
 println augmented.findAll{it.zscore > 10 || it.surv == 0 }.join('\n')
 augmented.each{if (it.zscore > 10) exclusions.bad_zscore += it.recordNumber }
-println '\nRecommended exclusions:\n' + exclusions
+println '\nRecommended exclusions:\n' + exclusions.entrySet().join('\n')

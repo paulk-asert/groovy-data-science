@@ -51,7 +51,7 @@ println "\nFinding anomalies with: ${formattedProvenanceString(model.provenance.
 
 def predictions = model.predict(data)
 def anomalies = predictions.indexed().collectMany{ i, prediction ->
-    prediction.output.type == ANOMALOUS ? [data.getExample(i)] : []
+    prediction.output.type == ANOMALOUS ? [data.getExample(i).toList()] : []
 }
 if (anomalies) {
     println "\nPotential anomalies:\n${anomalies.join('\n')}"

@@ -40,6 +40,7 @@ def splitter = new TrainTestSplitter<>(data, 0.8, seed) // train with 80%
 def train = new MutableDataset(splitter.train)
 def test = new MutableDataset(splitter.test)
 def evaluator = new LabelEvaluator()
+println "\nTraining data provenance: ${formattedProvenanceString(train.provenance)}"
 
 def svmParams = [new SVMParameters(new SVMClassificationType(C_SVC), LINEAR)]
 def summary = [:]
@@ -57,10 +58,5 @@ trainers.each { trainer ->
     summary[trainer.getClass().simpleName.padRight(35)] = sprintf('%4.2f', result.accuracy())
     println "\n$trainer\n$result"
 }
-
-// example of Provenance
-def model = trainers[0].train(train)
-println "\n${formattedProvenanceString(model.provenance.datasetProvenance.sourceProvenance)}"
-println "\n${formattedProvenanceString(model.provenance.trainerProvenance)}"
 
 println "\nSummary of results:\n${summary.collect{"$it.key $it.value" }.join('\n')}"

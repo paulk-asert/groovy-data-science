@@ -175,6 +175,7 @@ and multilayer perceptron examples using
 
 | | Technologies/libraries covered |
 | --- | --- |
+| Logistic regression (SGD) | [Tribuo] |
 | Neural networks | [Apache Commons Math], [Deep Learning4J] |
 
 ## Deep-learning Object detection with Apache MXNet

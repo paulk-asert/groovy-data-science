@@ -48,7 +48,7 @@ dependencies {
     implementation "com.github.haifengl:smile-math:$smileVersion"
     implementation "com.github.haifengl:smile-io:$smileVersion"
     implementation "com.github.haifengl:smile-plot:$smileVersion"
-    implementation "org.tribuo:tribuo-all:4.1.0"
+    implementation "org.tribuo:tribuo-all:$tribuoVersion"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
     if (JavaVersion.current().isJava8() && checkForJavaFX()) {

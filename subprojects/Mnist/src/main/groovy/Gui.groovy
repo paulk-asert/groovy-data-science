@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import static Util.*
+import static GroovyFXUtil.*
 import static MnistInfer.*
+import static Util.displayResult
 import static groovyx.javafx.GroovyFX.start
 import static javafx.scene.paint.Color.WHITE
 

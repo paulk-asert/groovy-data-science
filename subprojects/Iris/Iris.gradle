@@ -60,7 +60,7 @@ dependencies {
         "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
     implementation "org.nd4j:nd4j-native-platform:$nd4jVersion"
     implementation "org.deeplearning4j:deeplearning4j-core:$nd4jVersion"
-    implementation "org.tribuo:tribuo-all:4.1.0"
+    implementation "org.tribuo:tribuo-all:$tribuoVersion"
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
 }
 

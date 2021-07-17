@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 import groovy.transform.CompileStatic
-import javafx.embed.swing.SwingFXUtils
-import javafx.scene.canvas.Canvas
-import javafx.scene.canvas.GraphicsContext
-import javafx.scene.image.Image
-import javafx.scene.image.PixelFormat
-import javafx.scene.paint.Color
 import org.apache.commons.math3.linear.RealMatrix
 import org.apache.commons.math3.linear.RealMatrixChangingVisitor
 
-import javax.imageio.ImageIO
 import java.util.function.Function
 
 import static org.apache.commons.math3.linear.MatrixUtils.checkAdditionCompatible
@@ -31,22 +24,7 @@ import static org.apache.commons.math3.linear.MatrixUtils.createRealMatrix
 
 @CompileStatic
 class Util {
-    static clear(GraphicsContext g, double size) {
-        g.fill = Color.WHITE; g.fillRect(0, 0, size, size); g.fill = Color.BLACK
-    }
-
-    static int[] imageToArray(Image img) {
-        def (w, h) = [img.width as int, img.height as int]
-        int[] buf = new int[h * w]
-        img.pixelReader.getPixels(0, 0, w, h, PixelFormat.intArgbInstance, buf, 0, w)
-        buf
-    }
-
-    static Image snapshot(Canvas canvas) {
-        def baos = new ByteArrayOutputStream()
-        ImageIO.write(SwingFXUtils.fromFXImage(canvas.snapshot(null, null), null), "png", baos)
-        new Image(new ByteArrayInputStream(baos.toByteArray()), 28, 28, true, true)
-    }
+    private Util() {}
 
     static displayResult(List<Double> items, Integer predict) {
         items.indexed().collect { idx, val ->

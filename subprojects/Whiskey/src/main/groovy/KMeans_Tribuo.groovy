@@ -17,33 +17,41 @@
 import org.tribuo.MutableDataset
 import org.tribuo.classification.LabelFactory
 import org.tribuo.clustering.kmeans.KMeansTrainer
-import org.tribuo.data.csv.CSVLoader
+import org.tribuo.data.columnar.RowProcessor
+import org.tribuo.data.columnar.extractors.IdentityExtractor
+import org.tribuo.data.columnar.processors.field.DoubleFieldProcessor
+import org.tribuo.data.columnar.processors.response.EmptyResponseProcessor
+import org.tribuo.data.csv.CSVDataSource
 
 import static org.tribuo.clustering.kmeans.KMeansTrainer.Distance.EUCLIDEAN
 
 def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
+def fieldProcessors = cols.collectEntries{ [it, new DoubleFieldProcessor(it)] }
+def responseProcessor = new EmptyResponseProcessor(new LabelFactory())
+def metadataExtractors = [new IdentityExtractor('Distillery')]
+def rowProcessor = new RowProcessor(metadataExtractors, responseProcessor, fieldProcessors)
 
-def url = getClass().classLoader.getResource('whiskey.csv').toURI().toURL()
-def dataSource = new CSVLoader<>(new LabelFactory()).loadDataSource(url, ['RowID', 'Distillery'] as Set)
+def uri = getClass().classLoader.getResource('whiskey.csv').toURI()
+def dataSource = new CSVDataSource(uri, rowProcessor, false)
+
 def data = new MutableDataset(dataSource)
 
 def trainer = new KMeansTrainer(3, 10, EUCLIDEAN, 1, 1)
 def model = trainer.train(data)
 
-model.centroids.eachWithIndex{ centroid, i ->
-    println """Cluster $i: ${centroid.collect{
-        def v = sprintf '%5.3f', it.value
-        "$it.name: $v"
-    }.join(',')}"""
+def centroids = model.centroids.indexed().collectEntries{ i,centroid ->
+    [i, centroid.collect{"${it.name - '@value'}: ${sprintf '%5.3f', it.value}" }]
 }
+
 def clusters = model.predict(data)
 def groups = [:].withDefault{ [] }
-
 clusters.eachWithIndex{ prediction, i ->
     groups[prediction.output.ID] << data.getExample(i)
 }
+
 groups.keySet().sort().each { group ->
-    println "Cluster $group:"
-    println groups[group].collect{ it.output.label.replaceAll(/.*Distillery=(\w+)\W.*/,/$1/) }.join(', ')
+    println "\nCluster $group:"
+    println "Centroid: ${centroids[group].join(', ')}"
+    println 'Distilleries: ' + groups[group].collect{ it.getMetadataValue('Distillery').get() }.join(', ')
 }

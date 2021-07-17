@@ -40,7 +40,7 @@ def eval = new AnomalyEvaluator()
 
 def params = new SVMParameters(new SVMAnomalyType(ONE_CLASS), RBF)
 params.gamma = 0.04
-params.nu = 0.00075
+params.nu = 0.0008
 def trainer = new LibSVMAnomalyTrainer(params)
 
 def model = trainer.train(data)

@@ -31,19 +31,17 @@ import static org.knowm.xchart.style.markers.SeriesMarkers.NONE
 def cols = ['bedrooms','bathrooms','sqft_living','sqft_lot','floors','waterfront','view','condition','grade',
             'sqft_above','sqft_basement','yr_built','yr_renovated','zipcode','lat','long','sqft_living15','sqft_lot15']
 def fieldProcessors = cols.collectEntries{ [it, new DoubleFieldProcessor(it)] }
-
 def responseProcessor = new FieldResponseProcessor('price', '0', new RegressionFactory())
 def rowProcessor = new RowProcessor(responseProcessor, fieldProcessors)
+
 def uri = getClass().classLoader.getResource('kc_house_data.csv').toURI()
 def dataSource = new CSVDataSource(uri, rowProcessor, true)
 def data = new MutableDataset(dataSource)
-def actuals = data.toList().collect{ it.output.values[0] }
+def actuals = data.collect{ it.output.values[0] }
 
 def trainer = new CARTRegressionTrainer(6)
 def model = trainer.train(data)
 def predictions = model.predict(data).collect{it.output.values[0] }
-println actuals.take(5).join('\n')
-println predictions.take(5).join('\n')
 
 def chart = new XYChartBuilder().width(900).height(450).title("Actual vs predicted price").xAxisTitle("Actual").yAxisTitle("Predicted").build()
 chart.addSeries("Price", actuals as double[], predictions as double[]).with {

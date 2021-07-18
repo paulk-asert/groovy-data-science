@@ -47,9 +47,10 @@ def chart = new XYChartBuilder().width(900).height(450).title("Actual vs predict
 chart.addSeries("Price", actuals as double[], predictions as double[]).with {
     XYSeriesRenderStyle = Scatter
 }
-def from = [actuals.min(), predictions.min()].min()
-def to = [actuals.max(), predictions.max()].max()
-chart.addSeries("Ideal", [from, to] as double[], [from, to] as double[]).with {
+def min = [actuals.min(), predictions.min()].min()
+def max = [actuals.max(), predictions.max()].max()
+def range = [min, max] as double[]
+chart.addSeries("Ideal", range, range).with {
     marker = NONE
     XYSeriesRenderStyle = Line
 }

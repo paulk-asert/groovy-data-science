@@ -50,7 +50,7 @@ start(null, names)
 models.keySet().each { key ->
     def cli = new NCTestClientBuilder().newBuilder().build()
     cli.open("nlpcraft.lightswitch.ex.$key")
-    println cli.ask('Turn on the lights in the main bedroom')
+    println cli.ask('Turn on the lights in the master bedroom')
     println cli.ask("Light 'em all up")
     println cli.ask('Make it dark downstairs') // expecting no match
     if (cli) {

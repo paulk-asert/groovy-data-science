@@ -91,6 +91,7 @@ or using a Jupyter/BeakerX notebook.
 | Regression, math | [Smile], [Apache Commons Math], [Weka], [Tribuo] |
 | Outlier detection | [Apache Commons Math], [Tribuo] |
 | Visualization | [GroovyFX], [XChart], [Tablesaw Plot.ly] |
+| Enterprise Integration | [Apache Camel] |
 | Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars] |
 | Aspects covered | Reading csv, dataframes, visualization, exploration, errors, outliers, single and multi linear regression |
 
@@ -117,7 +118,6 @@ or using a Jupyter/BeakerX notebook.
 | Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV], [Tribuo] |
 | Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki], [Tribuo] |
 | Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart] |
-| Enterprise Integration | [Apache Camel] |
 | Scaling clustering | [Apache Ignite], [Apache Spark], [Rheem] |
 | Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, KMeans, PCA, hierarchical clustering, centroids |
 | Other aspects/algorithms covered | XMeans, GMeans, cascade KMeans, Cobweb, Learning Vector Quantization (LVQ), GenClustPlusPlus, SelfOrganizingMap (SOM), integration, outliers |

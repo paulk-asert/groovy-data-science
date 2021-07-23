@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 //@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
-//@Grab('org.apache.tika:tika-parsers:1.27')
+//@Grab('org.apache.tika:tika-parsers-standard-package:2.0.0')
 import opennlp.tools.postag.*
 import opennlp.tools.tokenize.SimpleTokenizer
 import org.apache.tika.metadata.Metadata
@@ -45,7 +45,7 @@ pdf.withInputStream {is ->
     }
 
     // extract some metadata
-    def metadataOfInterest = ['dc:creator', 'Content-Type', 'pdf:encrypted', 'title']
+    def metadataOfInterest = ['dc:creator', 'Content-Type', 'pdf:encrypted', 'dc:title']
     def expectedMetadataValues = ['Paul King', 'application/pdf', 'false', 'POS.txt']
     assert metadataOfInterest.every{ it in metadata.names() }
     assert metadataOfInterest.collect{metadata.get(it) } == expectedMetadataValues

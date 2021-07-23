@@ -26,7 +26,9 @@ dependencies {
     implementation "com.github.haifengl:smile-nlp:$smileVersion"
 //    implementation "com.datumbox:datumbox-framework-lib:0.8.3-SNAPSHOT"
     implementation 'com.datumbox:datumbox-framework-lib:0.8.2'
-    implementation 'org.apache.tika:tika-parsers:1.27'
+    implementation('org.apache.tika:tika-parsers-standard-package:2.0.0') {
+        exclude(group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl')
+    }
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
 }
 

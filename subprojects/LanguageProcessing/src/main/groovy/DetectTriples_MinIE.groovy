@@ -36,13 +36,8 @@ sentences.each { sentence ->
     println 'Extractions:'
     for (ap in minie.propositions) {
         println "\tTriple: $ap.tripleAsString"
-        print "\tFactuality: $ap.factualityAsString"
-        if (ap.attribution.attributionPhrase)
-            print "\tAttribution: ${ap.attribution.toStringCompact()}"
-        else
-            print '\tAttribution: NONE'
-        println '\n\t----------'
+        def attr = ap.attribution.attributionPhrase ? ap.attribution.toStringCompact() : 'NONE'
+        println "\tFactuality: $ap.factualityAsString\tAttribution: $attr"
+        println '\t----------'
     }
 }
-
-println '\n\nDONE!'

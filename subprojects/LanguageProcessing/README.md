@@ -206,7 +206,7 @@ Some of the common tags are:
 | VBD | verb, past tense |
 | VBZ | verb, third person singular present |
 
-Here, we use OpenNLP's POS detection capabilities to detect the parts of speech for a nyumber of sentences.
+Here, we use OpenNLP's POS detection capabilities to detect the parts of speech for a number of sentences.
 
 ```groovy
 def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
@@ -237,6 +237,46 @@ NN(Light) POS(') NN(em) DT(all) IN(up)
 VB(Make) PRP(it) JJ(dark) NN(downstairs)
 ```
 
+## Information extraction
+
+Information extraction systems aim to extract arbitrary relations and their arguments
+from unstructured text without supervision. Given a sentence, they extract information
+in the form of a triple, consisting of a subject, relation and object.
+
+Here, we use MinIE's information extraction capabilities to extract information triples.
+
+```groovy
+def sentence = 'The conference wrapped up yesterday at 5:30 p.m. in Copenhagen, Denmark.'
+def parser = CoreNLPUtils.StanfordDepNNParser()
+def minie = new MinIE(sentence, parser, MinIE.Mode.SAFE)
+
+println "\nInput sentence: $sentence"
+println '============================='
+println 'Extractions:'
+for (ap in minie.propositions) {
+  println "\tTriple: $ap.tripleAsString"
+  def attr = ap.attribution.attributionPhrase ? ap.attribution.toStringCompact() : 'NONE'
+  println "\tFactuality: $ap.factualityAsString\tAttribution: $attr"
+  println '\t----------'
+}
+```
+
+When run, the output will be:
+
+```text
+Input sentence: The conference wrapped up yesterday at 5:30 p.m. in Copenhagen, Denmark.
+=============================
+Extractions:
+        Triple: "conference"    "wrapped up yesterday at"       "5:30 p.m."
+        Factuality: (+,CT)      Attribution: NONE
+        ----------
+        Triple: "conference"    "wrapped up yesterday in"       "Copenhagen"
+        Factuality: (+,CT)      Attribution: NONE
+        ----------
+        Triple: "conference"    "wrapped up"    "yesterday"
+        Factuality: (+,CT)      Attribution: NONE
+        ----------
+```
 ## Sentiment analysis
 
 Sentiment analysis attempts to categorize samples according to

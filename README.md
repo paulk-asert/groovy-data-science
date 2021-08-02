@@ -152,10 +152,10 @@ or using a Jupyter/BeakerX notebook.
 
 | | Technologies/libraries covered |
 | --- | --- |
-| NLP | [Apache OpenNLP], [Smile], [Datumbox] |
+| NLP | [Apache OpenNLP], [Smile], [Datumbox], [MinIE], [CoreNLP] |
 | Content extraction | [Apache Tika] |
 | Scaling NLP | [Apache NLPCraft] |
-| Aspects covered | Language detection, sentence detection, named entity detection, parts-of-speech detection, PDF extraction |
+| Aspects covered | Language detection, sentence detection, named entity detection, information extraction, parts-of-speech detection, PDF extraction |
 
 ## Digit recognition using neural networks
 
@@ -257,6 +257,8 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [Tribuo]: https://tribuo.org/
 [Joinery]: https://cardillo.github.io/joinery
 [Apache OpenNLP]: https://opennlp.apache.org/
+[MinIE]: https://github.com/uma-pi1/minie
+[CoreNLP]: https://stanfordnlp.github.io/CoreNLP/
 [Apache Tika]: https://tika.apache.org/
 [Apache Camel]: https://camel.apache.org/
 [Deep Learning4J]: https://deeplearning4j.org/

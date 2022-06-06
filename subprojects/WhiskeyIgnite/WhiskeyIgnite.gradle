@@ -17,7 +17,6 @@ apply plugin: 'groovy'
 apply plugin: 'application'
 
 repositories {
-    jcenter()
     mavenCentral()
     // snapshot installed in local maven repo
 //    mavenLocal()
@@ -31,7 +30,7 @@ application {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.apache.groovy:groovy-all:$groovy4Version"
     implementation "org.apache.ignite:ignite-core:$igniteVersion"
     implementation "org.apache.ignite:ignite-ml:$igniteVersion"
     runtimeOnly "org.apache.ignite:ignite-spring:$igniteVersion"

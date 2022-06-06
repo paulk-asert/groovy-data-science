@@ -16,6 +16,7 @@
 import static GroovyFXUtil.*
 import static MnistInfer.*
 import static Util.displayResult
+import static Util.maxIndex
 import static groovyx.javafx.GroovyFX.start
 import static javafx.scene.paint.Color.WHITE
 

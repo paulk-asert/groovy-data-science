@@ -25,7 +25,7 @@ dependencies {
     implementation "org.apache.beam:beam-sdks-java-core:$beamVersion"
     implementation "org.apache.beam:beam-runners-direct-java:$beamVersion"
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
-    implementation "org.codehaus.groovy:groovy:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy:$groovy3Version"
     implementation "com.github.haifengl:smile-core:$smileVersion"
     implementation "com.github.haifengl:smile-math:$smileVersion"
     implementation "com.github.haifengl:smile-io:$smileVersion"

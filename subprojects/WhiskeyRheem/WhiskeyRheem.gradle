@@ -34,7 +34,7 @@ ext {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy-all:$groovy3Version"
     implementation "org.qcri.rheem:rheem-api_$scalaMajorVersion:$rheemVersion"
     implementation "org.qcri.rheem:rheem-java:$rheemVersion"
     implementation("org.qcri.rheem:rheem-spark_$scalaMajorVersion:$rheemVersion") {

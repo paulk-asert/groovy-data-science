@@ -28,7 +28,7 @@ tasks.register('checkJdk8Compatibility') {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy-all:$groovy3Version"
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     implementation "com.opencsv:opencsv:$opencsvVersion"
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"

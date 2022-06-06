@@ -22,19 +22,18 @@ repositories {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.apache.groovy:groovy-all:$groovy4Version"
     implementation "org.apache.opennlp:opennlp-tools:$opennlpVersion"
     implementation "com.github.haifengl:smile-nlp:$smileVersion"
 //    implementation "com.datumbox:datumbox-framework-lib:0.8.3-SNAPSHOT"
     implementation 'com.datumbox:datumbox-framework-lib:0.8.2'
-    implementation('org.apache.tika:tika-parsers-standard-package:2.0.0') {
-        exclude(group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl')
-    }
+    implementation "org.apache.tika:tika-core:$tikaVersion"
+    implementation "org.apache.tika:tika-parser-pdf-module:$tikaVersion"
     //implementation 'com.github.Lambda-3:Graphene:v4.0.0-beta.1'
     implementation('com.github.uma-pi1:minie:master') {
         exclude(group: 'org.glassfish.jersey.*')
     }
-    implementation 'edu.stanford.nlp:stanford-corenlp:4.2.2'
+    implementation 'edu.stanford.nlp:stanford-corenlp:4.4.0'
     //implementation 'cc.mallet:mallet:2.0.8'
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
 }

@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
-//@Grab('org.apache.tika:tika-parsers-standard-package:2.0.0')
+//@Grab('org.apache.opennlp:opennlp-tools:1.9.4')
+//@Grab('org.apache.tika:tika-parsers-standard-package:2.4.0')
 import opennlp.tools.postag.*
 import opennlp.tools.tokenize.SimpleTokenizer
 import org.apache.tika.metadata.Metadata

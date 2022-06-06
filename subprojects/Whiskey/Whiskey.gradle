@@ -44,7 +44,7 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['InstallWekaPackages'])
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.apache.groovy:groovy-all:$groovy4Version"
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     // If Weka is installed along with some optional packages, add the respective Jars to classpath
     // TODO can we get Weka library to autodownload these

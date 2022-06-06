@@ -17,7 +17,6 @@ apply plugin: 'groovy'
 apply plugin: 'application'
 
 repositories {
-    jcenter()
     mavenCentral()
 //    mavenLocal()
 }
@@ -32,7 +31,7 @@ ext {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.apache.groovy:groovy-all:$groovy4Version"
     implementation "org.apache.spark:spark-core_$sparkVariant:$sparkVersion"
     implementation "org.apache.spark:spark-sql_$sparkVariant:$sparkVersion"
     implementation "org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion"

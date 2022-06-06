@@ -16,7 +16,6 @@
 apply plugin: 'groovy'
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
@@ -31,7 +30,7 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.apache.groovy:groovy-all:$groovy4Version"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-excel:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"

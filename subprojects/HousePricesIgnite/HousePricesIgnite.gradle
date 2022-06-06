@@ -31,7 +31,7 @@ application {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy-all:$groovy3Version"
     implementation "org.apache.ignite:ignite-core:$igniteVersion"
     implementation "org.apache.ignite:ignite-ml:$igniteVersion"
     runtimeOnly "org.apache.ignite:ignite-spring:$igniteVersion"

@@ -36,7 +36,7 @@ application {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy-all:$groovy3Version"
     implementation "org.apache.mxnet:mxnet-full_2.11-linux-x86_64-cpu:$mxnetVersion"
     // uncomment for macosx
 //    implementation "org.apache.mxnet:mxnet-full_2.11-osx-x86_64-cpu:$mxnetVersion"

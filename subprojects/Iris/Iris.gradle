@@ -46,7 +46,7 @@ sourceSets {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovyVersion"
+    implementation "org.apache.groovy:groovy-all:$groovy4Version"
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"

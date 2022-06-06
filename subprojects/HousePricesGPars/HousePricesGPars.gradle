@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy:$groovyVersion"
+    implementation "org.codehaus.groovy:groovy:$groovy3Version"
     implementation 'org.codehaus.gpars:gpars:1.2.1'
     implementation "com.github.haifengl:smile-core:$smileVersion"
     implementation "com.github.haifengl:smile-math:$smileVersion"

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 plugins {
-    id 'org.kordamp.gradle.project' version '0.46.0'
-    id 'com.github.ben-manes.versions' version '0.39.0'
+    id 'org.kordamp.gradle.project' version '0.47.0'
+    id 'com.github.ben-manes.versions' version '0.42.0'
 }
 
 config {
@@ -44,7 +44,8 @@ ext.UNSTABLE = /^([0-9,.-]+[.-](alpha|beta|rc)[.\d-]*)|20030203.000550$/
 // ignore non-stable releases
 allprojects {
     tasks.named("dependencyUpdates").configure {
-        gradleReleaseChannel='current'
+        gradleReleaseChannel = 'current'
+        outputFormatter = 'plain'
         rejectVersionIf {
             !(it.currentVersion.toLowerCase() ==~ UNSTABLE) && it.candidate.version.toLowerCase() ==~ UNSTABLE
         }

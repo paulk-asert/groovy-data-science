@@ -54,7 +54,7 @@ class SwingUtil {
         frameArgs.putAll(extraArgs)
         new SwingBuilder().edt {
             frame(*:frameArgs) {
-                gridLayout(cols: numCols, rows: 0)
+                gridLayout(columns: numCols, rows: 0)
                 widget(component)
                 additionalComponents.each {
                     widget(it)

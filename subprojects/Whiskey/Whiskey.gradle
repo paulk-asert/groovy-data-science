@@ -19,7 +19,7 @@ repositories {
     mavenCentral()
 }
 
-task installWekaPackages(type: JavaExec) {
+tasks.register('installWekaPackages', JavaExec) {
     group 'Setup'
     description "Install Weka optional packages"
     classpath = sourceSets.main.runtimeClasspath
@@ -33,7 +33,7 @@ tasks.register('checkJdk11Compatibility') {
 }
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['InstallWekaPackages']).each { name ->
-    task "run$name"(type: JavaExec) {
+    tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
         if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)
         group 'Script'
@@ -44,7 +44,8 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['InstallWekaPackages'])
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy-all:$groovy4Version"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.groovy:groovy-swing:$groovy4Version"
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     // If Weka is installed along with some optional packages, add the respective Jars to classpath
     // TODO can we get Weka library to autodownload these
@@ -61,11 +62,14 @@ dependencies {
     implementation "com.github.haifengl:smile-plot:$smileVersion"
     implementation "org.jfree:jfreechart:$jfreechartVersion"
     implementation "de.lmu.ifi.dbs.elki:elki:0.7.5"
-    implementation "org.tribuo:tribuo-all:$tribuoVersion"
+    implementation("org.tribuo:tribuo-all:$tribuoVersion") {
+        exclude(group: 'org.bytedeco', module: 'javacpp')
+    }
     implementation("de.lmu.ifi.dbs.elki:elki-batik-visualization:0.7.5") {
         exclude(group: 'xml-apis', module: 'xml-apis')
     }
     implementation "com.datumbox:datumbox-framework-lib:0.8.2"
+    // used by tribuo and smile
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
     runtimeOnly "org.bytedeco:arpack-ng-platform:$arpackNgPlatformVersion"
 }

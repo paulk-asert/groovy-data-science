@@ -56,20 +56,18 @@ dependencies {
     }
 }
 
-sourceSets {
-    main {
-        groovy {
-            if (!JavaVersion.current().isJava8() || !checkForJavaFX()) {
-                println """
-********************************************************
-** Excluding GroovyFX scripts due to incompatible JDK **
-** ${ (JavaVersion.current().isJava8() ? "No JavaFX?" :
-    "Expecting Java 8 but found ${JavaVersion.current()}").padRight(50) } **
-********************************************************
-"""
-                exclude '**/*GroovyFX.groovy'
-                exclude '**/FXCheck.groovy'
-            }
+tasks.withType(GroovyCompile).configureEach {
+    if (!checkForJavaFX()) {
+        exclude '**/*GroovyFX.groovy'
+        exclude '**/FXCheck.groovy'
+        doLast {
+            println """
+            ********************************************************
+            ** Excluding GroovyFX scripts due to incompatible JDK **
+            ** ${ (JavaVersion.current().isJava8() ? "No JavaFX?" :
+                        "Expecting Java 8 but found ${JavaVersion.current()}").padRight(50) } **
+            ********************************************************
+            """.stripIndent()
         }
     }
 }

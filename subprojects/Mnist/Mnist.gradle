@@ -39,28 +39,32 @@ dependencies {
     implementation "org.tribuo:tribuo-all:$tribuoVersion"
 }
 
-sourceSets {
-    main {
-        groovy {
-            if (!JavaVersion.current().isJava8() || !checkForJavaFX()) {
-                println """
-********************************************************
-** Excluding GroovyFX scripts due to incompatible JDK **
-** ${ (JavaVersion.current().isJava8() ? "No JavaFX?" :
+tasks.withType(GroovyCompile).configureEach {
+    if (!checkForJavaFX()) {
+        exclude '**/GroovyFXUtil.groovy'
+        exclude '**/Gui.groovy'
+        doLast {
+            println """
+            ********************************************************
+            ** Excluding GroovyFX scripts due to incompatible JDK **
+            ** ${ (JavaVersion.current().isJava8() ? "No JavaFX?" :
                         "Expecting Java 8 but found ${JavaVersion.current()}").padRight(50) } **
-********************************************************
-"""
-                exclude '**/GroovyFXUtil.groovy'
-                exclude '**/Gui.groovy'
-            }
+            ********************************************************
+            """.stripIndent()
         }
+    }
+}
+
+tasks.register('checkJavaFXCompatibility') {
+    doLast {
+        assert checkForJavaFX(), "Expecting a JDK with JavaFX included but none found! Java: ${System.getProperty('java.home')}"
     }
 }
 
 FileUtil.baseNames(sourceSets.main.allSource.files, ['MnistInfer', 'MnistReader', 'MnistTrainer']).each { name ->
     task "run$name"(type: JavaExec) {
         // current version of GroovyFX requires JDK8
-        if (name.endsWith('Gui')) dependsOn([checkJdk8Compatibility])
+        if (name.endsWith('Gui')) dependsOn([checkJdk8Compatibility, checkJavaFXCompatibility])
         group 'Script'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath

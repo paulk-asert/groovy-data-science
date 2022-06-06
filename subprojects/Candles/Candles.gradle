@@ -20,7 +20,7 @@ repositories {
 }
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each { name ->
-    task "run$name"(type: JavaExec) {
+    tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
         group 'Script'
         description "Run ${name}.groovy as a JVM application/Groovy script"
@@ -30,7 +30,7 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy-all:$groovy4Version"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-excel:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"

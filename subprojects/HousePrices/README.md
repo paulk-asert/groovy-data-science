@@ -50,6 +50,7 @@ and uncomment the grab statements. Make sure to cut and paste any helper classes
 ### Requirements
 
 * GroovyFX examples require JDK 8 with JavaFX, e.g.&nbsp;Oracle JDK8 or Zulu JDK8 bundled with JavaFX.
+* Other scripts should run on JDK8, JDK11 or JDK17.
 
 ### Troubleshooting
 

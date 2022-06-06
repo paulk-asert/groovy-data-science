@@ -23,7 +23,6 @@ ext {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
 //    maven {
 //        url 'https://repository.apache.org/content/groups/snapshots'

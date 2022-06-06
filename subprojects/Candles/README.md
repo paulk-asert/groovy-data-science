@@ -61,7 +61,7 @@ Alternatively, you can use a Jupyter/Beakerx notebook:
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FCandles%2Fsrc%2Fmain%2Fnotebook%2FCandles.ipynb)
 
 __Requirements__:
-* Examples should run fine in JDK8 or JDK11.
-* These examples use Tablesaw Plot.ly integration which fires open a browser. These will give an error if run
+* Examples should run fine in JDK8, JDK11 or JDK17.
+* These examples use Tablesaw Plot.ly integration which opens in a browser. These will give an error if run
   using Gitpod but will create a file in the `build` folder which you can then open by right-clicking in the
   Gitpod browser then "Open With -> Preview".

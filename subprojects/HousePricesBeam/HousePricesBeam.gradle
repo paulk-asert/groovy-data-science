@@ -36,7 +36,7 @@ dependencies {
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
     if (name.startsWith('House')) {
-        task "run$name"(type: JavaExec) {
+        tasks.register("run$name", JavaExec) {
             dependsOn compileGroovy
             group 'Script'
             description "Run ${name}.groovy as a JVM application/Groovy script"

@@ -35,4 +35,5 @@ dependencies {
     implementation "tech.tablesaw:tablesaw-excel:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
     implementation "org.slf4j:slf4j-simple:$slf4jVersion"
+    runtimeOnly "org.apache.logging.log4j:log4j-core:$log4j2Version"
 }

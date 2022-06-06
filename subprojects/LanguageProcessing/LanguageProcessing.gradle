@@ -45,7 +45,7 @@ tasks.register('checkJdk11Compatibility') {
 }
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['ResourceHelper']).each { name ->
-    task "run$name"(type: JavaExec) {
+    tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
         group 'Script'
         if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)

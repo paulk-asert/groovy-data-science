@@ -18,7 +18,7 @@ apply plugin: 'groovy'
 sourceCompatibility = 1.8
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
-    task "run$name"(type: JavaExec) {
+    tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
         group 'Script'
         description "Run ${name}.groovy as a JVM application/Groovy script"

@@ -73,7 +73,7 @@ tasks.withType(GroovyCompile).configureEach {
 }
 
 FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
-    task "run$name"(type: JavaExec) {
+    tasks.register("run$name", JavaExec) {
         // current version of GroovyFX requires JDK8
         if (name.endsWith('GroovyFX')) dependsOn([checkJdk8Compatibility, 'runFXCheck'])
         group 'Script'

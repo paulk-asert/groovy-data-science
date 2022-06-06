@@ -76,7 +76,7 @@ You have several options for running the programs (see more details from the mai
 
 ### Requirements
 
-* Examples should run fine in JDK8 or JDK11.
+* Examples should run fine in JDK8, JDK11 or JDK17.
 * The JSAT JavaFX example requires a JDK with JavaFX included. It uses JavaFX directly
 rather than GroovyFX, so the earlier JDK8 requirement doesn't apply.
 

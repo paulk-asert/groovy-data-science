@@ -32,4 +32,4 @@ Pharmacology at Washington University in St. Louis for 29 years.
 def sentences = SimpleSentenceSplitter.instance.split(SimpleNormalizer.instance.normalize(text.trim()))
 assert text.count('.') == 28
 assert sentences.size() == 6                // 2 cases detected by OpenNLP not handled here
-println sentences.join('\n\n')
+println "Found ${sentences.size()} sentences:\n" + sentences.join('\n\n')

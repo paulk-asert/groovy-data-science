@@ -23,7 +23,6 @@ and make use of the [Apache OpenNLP](https://opennlp.apache.org/) and other libr
 
 ### Running the examples
 
-
 You have several options for running the programs (see more details from the main [README](../../README.md#running-the-examples)):
 
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
@@ -33,8 +32,16 @@ You have several options for running the programs (see more details from the mai
 
 * From the command line, invoke a script with gradlew using the appropriate run&lt;_ScriptName_&gt; task.\
   (Hint: `gradlew :LanguageProcessing:tasks --group="Script"` will show you available task names.)
+
 * If the example has @Grab statements commented out at the top, you can cut and paste the examples into the groovyConsole
   and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.
+
+### Requirements
+
+* Examples with the suffix "_JDK11" should work on JDK11 and above (tested with JDK11 and JDK17).
+* Apache OpenNLP examples use 1.9.4 on JDK8 and 2.0.0 on JDK11+. Where newer code is used for 2.0.0 both "_JDK8only"
+  and "_JDK11" variants are provided.
+* Other examples should run on JDK8 and above (tested with JDK8, JDK11 and JDK17).
 
 ## Language Detection
 

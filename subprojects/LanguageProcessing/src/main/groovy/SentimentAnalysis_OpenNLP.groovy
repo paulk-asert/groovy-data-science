@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
+//@Grab('org.apache.opennlp:opennlp-tools:1.9.4')
 
 import opennlp.tools.doccat.DoccatFactory
 import opennlp.tools.doccat.DocumentCategorizerME

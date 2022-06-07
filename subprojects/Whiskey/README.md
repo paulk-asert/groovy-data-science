@@ -152,7 +152,8 @@ Cluster 6,4: Ardbeg, Caol Ila, Clynelish, Talisker
 
 ### Requirements
 
-* The Datumbox examples are intended for JDK 11+.
+* Examples with the suffix "_JDK11" should work on JDK11 and above (tested with JDK11 and JDK17).
+* Other examples should run on JDK8 and above (tested with JDK8, JDK11 and JDK17).
 
 ### Troubleshooting
 

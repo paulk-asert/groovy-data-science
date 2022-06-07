@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
+//@Grab('org.apache.opennlp:opennlp-tools:2.0.0') // or 1.9.4 on JDK8
 import opennlp.tools.langdetect.*
 
-u = "http://apache.forsale.plus/opennlp/models/langdetect/1.8.3/langdetect-183.bin"
+u = "https://dlcdn.apache.org/opennlp/models/langdetect/1.8.3/langdetect-183.bin"
 d = new LanguageDetectorME(new LanguageDetectorModel(new URL(u)))
 a = 'Bienvenue à Paris'
 b = 'Velkommen til København'

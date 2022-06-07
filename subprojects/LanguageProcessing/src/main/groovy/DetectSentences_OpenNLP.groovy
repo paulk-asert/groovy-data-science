@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
+//@Grab('org.apache.opennlp:opennlp-tools:2.0.0')
+
+import groovy.test.GroovyAssert
 import opennlp.tools.sentdetect.*
 
 def text = '''
@@ -36,4 +38,11 @@ def detector = new SentenceDetectorME(model)
 def sentences = detector.sentDetect(text)
 assert text.count('.') == 28
 assert sentences.size() == 4
-println sentences.join('\n\n')
+println "Found ${sentences.size()} sentences:\n" + sentences.join('\n\n')
+
+if (GroovyAssert.isAtLeastJdk('11.0')) {
+    // also try the built-in model
+    detector = new SentenceDetectorME('en')
+    sentences = detector.sentDetect(text)
+    println "\nThe built-in model found ${sentences.size()} sentences:\n" + sentences.join('\n\n')
+}

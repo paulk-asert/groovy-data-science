@@ -22,8 +22,9 @@ repositories {
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy-all:$groovy4Version"
-    implementation "org.apache.opennlp:opennlp-tools:$opennlpVersion"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.groovy:groovy-test:$groovy4Version"
+    implementation "org.apache.opennlp:opennlp-tools:${JavaVersion.current().isJava8() ? opennlpLegacyVersion : opennlpVersion}"
     implementation "com.github.haifengl:smile-nlp:$smileVersion"
 //    implementation "com.datumbox:datumbox-framework-lib:0.8.3-SNAPSHOT"
     implementation 'com.datumbox:datumbox-framework-lib:0.8.2'
@@ -44,11 +45,18 @@ tasks.register('checkJdk11Compatibility') {
     }
 }
 
+tasks.register('checkJdk8Exactly') {
+    doLast {
+        assert JavaVersion.current().isJava8(), "JDK8 is required but found ${JavaVersion.current()}!"
+    }
+}
+
 FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['ResourceHelper']).each { name ->
     tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
         group 'Script'
-        if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)
+        if (name.endsWith('JDK11')) dependsOn(checkJdk11Compatibility)
+        if (name.endsWith('JDK8only')) dependsOn(checkJdk8Exactly)
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name

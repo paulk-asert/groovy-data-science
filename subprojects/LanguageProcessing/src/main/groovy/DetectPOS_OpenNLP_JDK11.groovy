@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.apache.opennlp:opennlp-tools:1.9.3')
+//@Grab('org.apache.opennlp:opennlp-tools:2.0.0')
 import opennlp.tools.postag.*
 import opennlp.tools.tokenize.SimpleTokenizer
 
 // use a helper to cache models
-def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
 def sentences = [
     'Paul has two sisters, Maree and Christine.',
     'No wise fish would go anywhere without a porpoise',
@@ -30,8 +29,7 @@ def sentences = [
 def tokenizer = SimpleTokenizer.INSTANCE
 sentences.each {
     String[] tokens = tokenizer.tokenize(it)
-    def model = new POSModel(helper.load('en-pos-maxent'))
-    def posTagger = new POSTaggerME(model)
+    def posTagger = new POSTaggerME('en')
     String[] tags = posTagger.tag(tokens)
     println tokens.indices.collect{tags[it] == tokens[it] ? tags[it] : "${tags[it]}(${tokens[it]})" }.join(' ')
 }

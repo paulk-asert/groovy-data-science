@@ -79,4 +79,4 @@ for scaling purposes:
 
 * The [HousePricesBeam](subprojects/HousePricesBeam/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Beam. It has been tested on JDK8, JDK11 and JDK17.
 
-* The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars.
+* The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars. It has been tested on JDK8, JDK11 and JDK17.

@@ -169,9 +169,9 @@ See:
 
 * The [WhiskeyIgnite](subprojects/WhiskeyIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite. It has been tested on JDK8, JDK11 and JDK17.
 
-* The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
+* The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark. It has been tested on JDK8 and JDK11. The current Spark versions are not compatible with JDK17.
 
 If you don't find the algorithm you need available in one of the toolkits,
 you might be able to write a distributed version. As an example, see:
 
-* The [WhiskeyRheem](subprojects/WhiskeyRheen/src/main/groovy) subproject which illustrates scaling up to a cluster using Rheem (currently incubating as Apache Wayang).
+* The [WhiskeyRheem](subprojects/WhiskeyRheem/src/main/groovy) subproject which illustrates scaling up to a cluster using Rheem (currently incubating as Apache Wayang).

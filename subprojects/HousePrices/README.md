@@ -69,7 +69,7 @@ with special support for scaling linear regression:
 
 * The [HousePricesIgnite](subprojects/HousePricesIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite. It has been tested on JDK8, JDK11 and JDK17.
 
-* The [HousePricesSpark](subprojects/HousePricesSpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
+* The [HousePricesSpark](subprojects/HousePricesSpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark. It has been tested on JDK8 and JDK11. The current Spark versions are not compatible with JDK17.
 
 If you find that your algorithm isn't directly amenable to scaling
 you can often tweak it or apply it in some fashion to ensure certain

@@ -26,13 +26,23 @@ application {
 }
 
 ext {
-    sparkVariant = '2.11'
-    sparkVersion = '2.4.8'
+    sparkVariant = '2.12'
+    sparkVersion = '3.2.1'
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy-all:$groovy4Version"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "org.apache.spark:spark-core_$sparkVariant:$sparkVersion"
     implementation "org.apache.spark:spark-sql_$sparkVariant:$sparkVersion"
     implementation "org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion"
 }
+
+tasks.register('jdkVersion') {
+    doLast {
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+        assert JavaVersion.current().isJava8() || JavaVersion.current().isJava11(), "JDK8 or JDK11 is required but found ${JavaVersion.current()}!"
+    }
+}
+
+run.dependsOn jdkVersion

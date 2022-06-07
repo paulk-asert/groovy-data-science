@@ -113,13 +113,13 @@ All the details can be found in the [Whiskey subproject](subprojects/Whiskey/).
 Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
 or using a Jupyter/BeakerX notebook.
 
-| | Technologies/libraries covered |
-| --- | --- |
-| Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV], [Tribuo] |
-| Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki], [Tribuo] |
-| Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart] |
-| Scaling clustering | [Apache Ignite], [Apache Spark], [Rheem] |
-| Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, KMeans, PCA, hierarchical clustering, centroids |
+| | Technologies/libraries covered                                                                                                               |
+| --- |----------------------------------------------------------------------------------------------------------------------------------------------|
+| Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV], [Tribuo]                                                                                       |
+| Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki], [Tribuo]                                                                |
+| Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart]                                                                            |
+| Scaling clustering | [Apache Ignite], [Apache Spark], [Apache Wayang]                                                                                             |
+| Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, KMeans, PCA, hierarchical clustering, centroids                                         |
 | Other aspects/algorithms covered | XMeans, GMeans, cascade KMeans, Cobweb, Learning Vector Quantization (LVQ), GenClustPlusPlus, SelfOrganizingMap (SOM), integration, outliers |
 
 ## Iris classification with Naïve Bayes, Decision Trees and other algorithms
@@ -296,4 +296,4 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [OptaPlanner]: https://www.optaplanner.org/
 [OrTools]: https://developers.google.com/optimization "Google OR Tools"
 [SAS/OR]: https://www.sas.com/en_us/software/or.html
-[Rheem]: https://rheem-ecosystem.github.io/
+[Apache Wayang]: https://wayang.apache.org/

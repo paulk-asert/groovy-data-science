@@ -1,0 +1,64 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+apply plugin: 'groovy'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'WhiskeyWayang'
+}
+
+ext {
+    wayangVersion = '0.6.0'
+    hadoopVersion = '3.3.3'
+    scalaMajorVersion = '2.12'
+    sparkVersion = '3.2.1'
+}
+
+dependencies {
+    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.wayang:wayang-api-scala-java_$scalaMajorVersion:$wayangVersion"
+    implementation "org.apache.wayang:wayang-java:$wayangVersion"
+    implementation("org.apache.wayang:wayang-spark_$scalaMajorVersion:$wayangVersion") {
+        transitive = false
+    }
+    runtimeOnly("org.apache.spark:spark-core_$scalaMajorVersion:$sparkVersion") {
+        exclude(group: 'org.slf4j')
+    }
+    runtimeOnly("org.apache.hadoop:hadoop-common:$hadoopVersion") {
+        transitive = false
+    }
+    runtimeOnly("org.apache.hadoop:hadoop-hdfs:$hadoopVersion") {
+        transitive = false
+    }
+}
+
+tasks.register('jdkVersion') {
+    doLast {
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+        if (!JavaVersion.current().isJava8() && !JavaVersion.current().isJava11()) {
+            logger.lifecycle "WARNING! Apache Wayang automates selection of the data processing platform."
+            logger.lifecycle "WARNING! The current application nominates either a Java or Spark platform."
+            logger.lifecycle "WARNING! The application may fail if Spark is selected and the JDK is not 8 or 11!"
+        }
+    }
+}
+
+run.dependsOn jdkVersion

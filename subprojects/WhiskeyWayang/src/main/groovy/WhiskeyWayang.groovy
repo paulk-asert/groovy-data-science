@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import groovy.transform.Canonical
-import org.qcri.rheem.core.api.Configuration
-import org.qcri.rheem.core.api.RheemContext
-import org.qcri.rheem.core.function.ExecutionContext
-import org.qcri.rheem.core.function.FunctionDescriptor
-//import org.qcri.rheem.core.optimizer.cardinality.CardinalityEstimate
-//import org.qcri.rheem.core.optimizer.cardinality.CardinalityEstimator
-import org.qcri.rheem.java.Java
-import org.qcri.rheem.api.JavaPlanBuilder
-import org.qcri.rheem.spark.Spark
+import org.apache.wayang.core.api.Configuration
+import org.apache.wayang.core.api.WayangContext
+import org.apache.wayang.core.function.ExecutionContext
+import org.apache.wayang.core.function.FunctionDescriptor
+//import org.apache.wayang.core.optimizer.cardinality.CardinalityEstimate
+//import org.apache.wayang.core.optimizer.cardinality.CardinalityEstimator
+import org.apache.wayang.java.Java
+import org.apache.wayang.api.JavaPlanBuilder
+import org.apache.wayang.spark.Spark
 
 import static java.lang.Math.sqrt
 
@@ -46,11 +45,11 @@ int k = 5
 Integer iterations = 20
 def configuration = new Configuration()
 
-def url = WhiskeyRheem.classLoader.getResource('whiskey.csv').file
-def rheemContext = new RheemContext(configuration)
+def url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file
+def context = new WayangContext(configuration)
         .withPlugin(Java.basicPlugin())
         .withPlugin(Spark.basicPlugin())
-def planBuilder = new JavaPlanBuilder(rheemContext)
+def planBuilder = new JavaPlanBuilder(context)
         .withJobName("KMeans ($url, k=$k, iterations=$iterations)")
 
 def points = new File(url).readLines()[1..-1].collect{ new Point(pts: it.split(",")[2..-1]*.toDouble()) }

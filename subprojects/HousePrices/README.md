@@ -77,6 +77,6 @@ constraints hold. This can enable you to still scale up.
 The following subprojects highlight tweaking linear regression
 for scaling purposes:
 
-* The [HousePricesBeam](subprojects/HousePricesBeam/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Beam.
+* The [HousePricesBeam](subprojects/HousePricesBeam/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Beam. It has been tested on JDK8, JDK11 and JDK17.
 
 * The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars.

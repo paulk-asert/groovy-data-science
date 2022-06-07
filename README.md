@@ -150,12 +150,12 @@ All the details can be found in the [LanguageProcessing](subprojects/LanguagePro
 Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
 or using a Jupyter/BeakerX notebook.
 
-| | Technologies/libraries covered |
-| --- | --- |
-| NLP | [Apache OpenNLP], [Smile], [Datumbox], [MinIE], [CoreNLP] |
-| Content extraction | [Apache Tika] |
-| Scaling NLP | [Apache NLPCraft] |
-| Aspects covered | Language detection, sentence detection, named entity detection, information extraction, parts-of-speech detection, PDF extraction |
+| | Technologies/libraries covered                                                                                                                        |
+| --- |---------------------------------------------------------------------------------------------------------------------------------------------------|
+| NLP | [Apache OpenNLP], [Smile], [Datumbox], [MinIE], [CoreNLP]                                                                                         |
+| Content extraction | [Apache Tika]                                                                                                                      |
+| Scaling NLP | [Apache NLPCraft]                                                                                                                         |
+| Aspects covered | Language detection, sentence detection, named entity detection, information extraction, parts-of-speech detection, sentiment analysis, PDF extraction |
 
 ## Digit recognition using neural networks
 

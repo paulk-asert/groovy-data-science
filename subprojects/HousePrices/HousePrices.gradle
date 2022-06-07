@@ -27,15 +27,17 @@ tasks.register('checkJdk8Compatibility') {
     }
 }
 
+ext.camel = JavaVersion.current().isJava8() ? camelLegacyVersion : camelVersion
+
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:$groovy3Version"
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     implementation "com.opencsv:opencsv:$opencsvVersion"
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation "org.apache.camel:camel-core:$camelVersion"
-    implementation "org.apache.camel:camel-csv:$camelVersion"
-    implementation "org.apache.camel:camel-groovy:$camelVersion"
+    implementation "org.apache.camel:camel-core:$camel"
+    implementation "org.apache.camel:camel-csv:$camel"
+    implementation "org.apache.camel:camel-groovy:$camel"
     implementation 'sh.joinery:joinery-dataframe:1.10'
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
     // https://web.archive.org/web/20140415021609/http://xeiam.com:80/xchart.jsp
@@ -57,7 +59,7 @@ dependencies {
 }
 
 tasks.withType(GroovyCompile).configureEach {
-    if (!checkForJavaFX()) {
+    if (!checkForJavaFX() || !JavaVersion.current().isJava8()) {
         exclude '**/*GroovyFX.groovy'
         exclude '**/FXCheck.groovy'
         doLast {
@@ -74,9 +76,12 @@ tasks.withType(GroovyCompile).configureEach {
 
 FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
     tasks.register("run$name", JavaExec) {
+        group 'Script'
         // current version of GroovyFX requires JDK8
         if (name.endsWith('GroovyFX')) dependsOn([checkJdk8Compatibility, 'runFXCheck'])
-        group 'Script'
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+        if (name.contains('Camel')) logger.lifecycle "Using Camel version $camel"
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name

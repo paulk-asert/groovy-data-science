@@ -80,3 +80,5 @@ for scaling purposes:
 * The [HousePricesBeam](subprojects/HousePricesBeam/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Beam. It has been tested on JDK8, JDK11 and JDK17.
 
 * The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars. It has been tested on JDK8, JDK11 and JDK17.
+
+When collecting data, it can be useful to use integration technologies like Apache Camel. The `ExploreOutlier_ApacheCamelCSV` example illustrates gathering data and finding outliers using this technology. This example works on JDK8, JDK11 and JDK17. An older version of Apache Camel is used on JDK8.

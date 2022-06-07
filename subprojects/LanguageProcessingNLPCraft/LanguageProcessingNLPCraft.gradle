@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovy4Version"
+    implementation "org.codehaus.groovy:groovy:$groovy3Version"
     // only required for LightSwitchKotlinModel
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.20'
 

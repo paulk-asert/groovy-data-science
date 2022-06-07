@@ -20,6 +20,7 @@ import org.knowm.xchart.XYChartBuilder
 import org.tribuo.Dataset
 import org.tribuo.Example
 import org.tribuo.MutableDataset
+import org.tribuo.data.columnar.FieldProcessor
 import org.tribuo.data.columnar.RowProcessor
 import org.tribuo.data.columnar.processors.field.DoubleFieldProcessor
 import org.tribuo.data.columnar.processors.response.FieldResponseProcessor
@@ -42,7 +43,7 @@ import static org.knowm.xchart.style.markers.SeriesMarkers.NONE
 List regress(URI uri) {
     var cols = ['bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'floors', 'waterfront', 'view', 'condition', 'grade',
                 'sqft_above', 'sqft_basement', 'yr_built', 'yr_renovated', 'zipcode', 'lat', 'long', 'sqft_living15', 'sqft_lot15']
-    var fieldProcessors = cols.collectEntries { [it, new DoubleFieldProcessor(it)] }
+    Map<String, FieldProcessor> fieldProcessors = cols.collectEntries { [it, new DoubleFieldProcessor(it)] }
     var responseProcessor = new FieldResponseProcessor('price', '0', new RegressionFactory())
     var rowProcessor = new RowProcessor(responseProcessor, fieldProcessors)
     var dataSource = new CSVDataSource(uri, rowProcessor, true)

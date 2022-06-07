@@ -54,11 +54,13 @@ tasks.register('checkJdk8Exactly') {
 
 FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['ResourceHelper']).each { name ->
     tasks.register("run$name", JavaExec) {
-        dependsOn compileGroovy
         group 'Script'
-        if (name.contains('OpenNLP')) logger.lifecycle "Using OpenNLP version $opennlp"
+        dependsOn compileGroovy
         if (name.endsWith('JDK11')) dependsOn(checkJdk11Compatibility)
         if (name.endsWith('JDK8only')) dependsOn(checkJdk8Exactly)
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+        if (name.contains('OpenNLP')) logger.lifecycle "Using OpenNLP version $opennlp"
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name

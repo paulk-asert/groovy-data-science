@@ -67,7 +67,7 @@ Some regression algorithm variants like stochastic gradient descent are amenable
 And some frameworks support such algorithms. The following subprojects highlight frameworks
 with special support for scaling linear regression:
 
-* The [HousePricesIgnite](subprojects/HousePricesIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite.
+* The [HousePricesIgnite](subprojects/HousePricesIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite. It has been tested on JDK8, JDK11 and JDK17.
 
 * The [HousePricesSpark](subprojects/HousePricesSpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
 

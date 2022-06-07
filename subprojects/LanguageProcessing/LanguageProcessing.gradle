@@ -21,10 +21,12 @@ repositories {
 //    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
+ext.opennlp = JavaVersion.current().isJava8() ? opennlpLegacyVersion : opennlpVersion
+
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "org.apache.groovy:groovy-test:$groovy4Version"
-    implementation "org.apache.opennlp:opennlp-tools:${JavaVersion.current().isJava8() ? opennlpLegacyVersion : opennlpVersion}"
+    implementation "org.apache.opennlp:opennlp-tools:$opennlp"
     implementation "com.github.haifengl:smile-nlp:$smileVersion"
 //    implementation "com.datumbox:datumbox-framework-lib:0.8.3-SNAPSHOT"
     implementation 'com.datumbox:datumbox-framework-lib:0.8.2'
@@ -54,6 +56,7 @@ FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['ResourceHelper']).each
     tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
         group 'Script'
+        if (name.contains('OpenNLP')) logger.lifecycle "Using OpenNLP version $opennlp"
         if (name.endsWith('JDK11')) dependsOn(checkJdk11Compatibility)
         if (name.endsWith('JDK8only')) dependsOn(checkJdk8Exactly)
         description "Run ${name}.groovy as a JVM application/Groovy script"

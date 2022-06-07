@@ -27,13 +27,30 @@ repositories {
 
 application {
     mainClass = 'WhiskeyIgnite'
+    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+        applicationDefaultJvmArgs = [
+                '--add-opens=java.base/java.io=ALL-UNNAMED',
+                '--add-opens=java.base/java.lang=ALL-UNNAMED',
+                '--add-opens=java.base/java.nio=ALL-UNNAMED',
+                '--add-opens=java.base/java.util=ALL-UNNAMED'
+        ]
+    }
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy-all:$groovy4Version"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "org.apache.ignite:ignite-core:$igniteVersion"
     implementation "org.apache.ignite:ignite-ml:$igniteVersion"
     runtimeOnly "org.apache.ignite:ignite-spring:$igniteVersion"
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
 }
+
+tasks.register('jdkVersion') {
+    doLast {
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+    }
+}
+
+run.dependsOn jdkVersion

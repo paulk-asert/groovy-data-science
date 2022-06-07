@@ -27,10 +27,18 @@ repositories {
 
 application {
     mainClass = 'HousePricesIgnite'
+    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
+        applicationDefaultJvmArgs = [
+                '--add-opens=java.base/java.io=ALL-UNNAMED',
+                '--add-opens=java.base/java.lang=ALL-UNNAMED',
+                '--add-opens=java.base/java.nio=ALL-UNNAMED',
+                '--add-opens=java.base/java.util=ALL-UNNAMED'
+        ]
+    }
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovy3Version"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "org.apache.ignite:ignite-core:$igniteVersion"
     implementation "org.apache.ignite:ignite-ml:$igniteVersion"
     runtimeOnly "org.apache.ignite:ignite-spring:$igniteVersion"
@@ -42,3 +50,12 @@ task copyToLib(type: Copy) {
     into "$buildDir/deps"
     from configurations.runtimeClasspath
 }
+
+tasks.register('jdkVersion') {
+    doLast {
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+    }
+}
+
+run.dependsOn jdkVersion

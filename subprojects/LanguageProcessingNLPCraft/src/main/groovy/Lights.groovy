@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.apache.nlpcraft:nlpcraft:0.8.0')
-//@Grab('org.apache.nlpcraft:nlpcraft-example-lightswitch:0.8.0')
+//@Grab('org.apache.nlpcraft:nlpcraft:0.9.0')
+//@Grab('org.apache.nlpcraft:nlpcraft-example-lightswitch:0.9.0')
 
 import org.apache.nlpcraft.NCStart
 import groovy.ant.AntBuilder

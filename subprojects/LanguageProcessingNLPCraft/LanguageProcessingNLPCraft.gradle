@@ -24,9 +24,10 @@ repositories {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy:$groovy3Version"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.groovy:groovy-ant:$groovy4Version"
     // only required for LightSwitchKotlinModel
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.20'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.32'
 
     // option A: next two lines
     implementation "org.apache.nlpcraft:nlpcraft:$nlpcraftVersion"

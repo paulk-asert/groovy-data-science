@@ -52,12 +52,11 @@ def detection = criteria.loadModel().withCloseable { model ->
 }
 
 detection.items().each{ println it }
-def image = ImageIO.read(localImage.toFile())
-def (w, h) = image.with{ [it.width, it.height] }
 img.drawBoundingBoxes(detection)
 imageSaved.withOutputStream { os -> img.save(os, 'png') }
 
 def saved = ImageIO.read(imageSaved.toFile())
+def (w, h) = saved.with{ [it.width, it.height] }
 new SwingBuilder().edt {
     frame(title: "$detection.numberOfObjects detected objects", size: [w, h],
             show: true, defaultCloseOperation: DISPOSE_ON_CLOSE) {

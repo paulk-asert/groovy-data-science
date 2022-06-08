@@ -16,12 +16,6 @@
 apply plugin: 'groovy'
 apply plugin: 'application'
 
-ext {
-    mxnetVersion = '1.5.1'
-//    mxnetVersion = 'INTERNAL'
-//    commonsIoVersion = '2.6'
-}
-
 repositories {
     mavenCentral()
 //    maven {
@@ -35,9 +29,9 @@ application {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy:$groovy3Version"
-    implementation "org.codehaus.groovy:groovy-swing:$groovy3Version"
-    implementation "org.codehaus.groovy:groovy-nio:$groovy3Version"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.groovy:groovy-swing:$groovy4Version"
+    implementation "org.apache.groovy:groovy-nio:$groovy4Version"
     implementation "ai.djl:api:$djlVersion"
     implementation "ai.djl:model-zoo:$djlVersion"
     implementation "ai.djl.mxnet:mxnet-model-zoo:$djlVersion"

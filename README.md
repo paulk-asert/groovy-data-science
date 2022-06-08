@@ -190,8 +190,8 @@ It uses a pre-trained model and the
 More details can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxnet/) subproject.
 
 | | Technologies/libraries covered |
-| --- | --- |
-| Image detection, neural networks, deep learning | [Apache MXNet] |
+| --- |--------------------------------|
+| Image detection, neural networks, deep learning | [DJL], [Apache MXNet]          |
 
 ---
 
@@ -266,6 +266,7 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [Choco]: http://www.choco-solver.org/
 [Apache Spark]: https://spark.apache.org/
 [Apache Ignite]: https://ignite.apache.org/
+[DJL]: https://djl.ai/
 [Apache MXNet]: https://mxnet.apache.org/
 [GPars]: http://gpars.org/
 [Apache Beam]: https://beam.apache.org/

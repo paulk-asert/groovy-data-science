@@ -35,12 +35,13 @@ application {
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:$groovy3Version"
-    implementation "org.apache.mxnet:mxnet-full_2.11-linux-x86_64-cpu:$mxnetVersion"
-    // uncomment for macosx
-//    implementation "org.apache.mxnet:mxnet-full_2.11-osx-x86_64-cpu:$mxnetVersion"
-//    implementation "org.apache.mxnet:mxnet-full_2.11:$mxnetVersion"
-    implementation "org.slf4j:slf4j-api:$slf4jVersion"
-    implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
-    implementation "commons-io:commons-io:$commonsIoVersion"
+    implementation "org.codehaus.groovy:groovy:$groovy3Version"
+    implementation "org.codehaus.groovy:groovy-swing:$groovy3Version"
+    implementation "org.codehaus.groovy:groovy-nio:$groovy3Version"
+    implementation "ai.djl:api:$djlVersion"
+    implementation "ai.djl:model-zoo:$djlVersion"
+    implementation "ai.djl.mxnet:mxnet-model-zoo:$djlVersion"
+    runtimeOnly "ai.djl.mxnet:mxnet-engine:$djlVersion"
+    runtimeOnly "ai.djl.mxnet:mxnet-native-auto:1.8.0"
+    runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
 }

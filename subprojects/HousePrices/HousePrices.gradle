@@ -79,11 +79,13 @@ FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
         group 'Script'
         // current version of GroovyFX requires JDK8
         if (name.endsWith('GroovyFX')) dependsOn([checkJdk8Compatibility, 'runFXCheck'])
-        File javaHome = new File(System.getProperty('java.home'))
-        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
-        if (name.contains('Camel')) logger.lifecycle "Using Camel version $camel"
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name
+        doLast {
+            File javaHome = new File(System.getProperty('java.home'))
+            logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+            if (name.contains('Camel')) logger.lifecycle "Using Camel version $camel"
+        }
     }
 }

@@ -15,54 +15,51 @@
  */
 import ai.djl.Application
 import ai.djl.engine.Engine
+import ai.djl.modality.cv.Image
+import ai.djl.modality.cv.ImageFactory
 import ai.djl.modality.cv.output.DetectedObjects
 import ai.djl.repository.zoo.Criteria
+import ai.djl.training.util.DownloadUtils
 import ai.djl.training.util.ProgressBar
 import groovy.swing.SwingBuilder
 import javax.imageio.ImageIO
-import ai.djl.modality.cv.*
 
 import java.nio.file.Files
 import java.nio.file.Path
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
-Path baseDir = Files.createTempDirectory("resnetssd")
 def imageName = 'dog-ssd.jpg'
-String imgURL = "https://s3.amazonaws.com/model-server/inputs/"
-println "Downloading image to ${baseDir}..."
-def imagePath = baseDir.resolve(imageName)
-def imageSaved = baseDir.resolve('detected.png')
-imagePath.bytes = new URL(imgURL + imageName).bytes
+Path tempDir = Files.createTempDirectory("resnetssd")
+Path localImage = tempDir.resolve(imageName)
+Path imageSaved = tempDir.resolve('detected.png')
+def url = new URL("https://s3.amazonaws.com/model-server/inputs/$imageName")
+DownloadUtils.download(url, localImage, new ProgressBar())
 
-Image img = ImageFactory.instance.fromFile(imagePath)
+def criteria = Criteria.builder()
+        .optApplication(Application.CV.OBJECT_DETECTION)
+        .setTypes(Image, DetectedObjects)
+        .optFilter("backbone", "resnet50")
+        .optEngine(Engine.defaultEngineName)
+        .optProgress(new ProgressBar())
+        .build()
 
-def criteria =
-        Criteria.builder()
-                .optApplication(Application.CV.OBJECT_DETECTION)
-                .setTypes(Image, DetectedObjects)
-                .optFilter("backbone", "resnet50")
-                .optEngine(Engine.defaultEngineName)
-                .optProgress(new ProgressBar())
-                .build()
-
-def image = ImageIO.read(imagePath.toFile())
-def (w, h) = image.with{ [it.width, it.height] }
-def resultCount
-
-criteria.loadModel().withCloseable { model ->
+Image img = ImageFactory.instance.fromFile(localImage)
+def detection = criteria.loadModel().withCloseable { model ->
     model.newPredictor().withCloseable { predictor ->
-        def detection = predictor.predict(img)
-        resultCount = detection.numberOfObjects
-        detection.items().each{ println it }
-        img.drawBoundingBoxes(detection)
-        imageSaved.withOutputStream { os -> img.save(os, 'png') }
+        predictor.predict(img)
     }
 }
 
+detection.items().each{ println it }
+def image = ImageIO.read(localImage.toFile())
+def (w, h) = image.with{ [it.width, it.height] }
+img.drawBoundingBoxes(detection)
+imageSaved.withOutputStream { os -> img.save(os, 'png') }
+
 def saved = ImageIO.read(imageSaved.toFile())
 new SwingBuilder().edt {
-    frame(title: "$resultCount detected objects", size: [w, h],
+    frame(title: "$detection.numberOfObjects detected objects", size: [w, h],
             show: true, defaultCloseOperation: DISPOSE_ON_CLOSE) {
         label(icon: imageIcon(image: saved))
     }

@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+plugins {
+    // avoids "The filename or extension is too long" issue on windows
+    id "com.github.ManifestClasspath" version "0.1.0-RELEASE"
+}
 apply plugin: 'groovy'
 apply plugin: 'application'
 
@@ -24,16 +28,16 @@ repositories {
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy:$groovy4Version"
-    implementation "org.apache.groovy:groovy-ant:$groovy4Version"
+    // Using Groovy 3 because model is compiled with Groovy 3 and calls super
+    implementation "org.codehaus.groovy:groovy:$groovy3Version"
+    implementation "org.codehaus.groovy:groovy-ant:$groovy3Version"
     // only required for LightSwitchKotlinModel
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.32'
 
-    // option A: next two lines
     implementation "org.apache.nlpcraft:nlpcraft:$nlpcraftVersion"
     implementation "org.apache.nlpcraft:nlpcraft-example-lightswitch:$nlpcraftVersion"
 
-    // option B: instead of above two lines
+    // Alternative: instead of above two lines
     // If you have trouble running the example in the normal way,
     // first consider running on the command-line using Gradle.
     // If that fails consider downloading the nlpcraft all jar to the lib dir.
@@ -43,20 +47,8 @@ dependencies {
 
 tasks.register('checkCompatibility') {
     doLast {
-        assert JavaVersion.current().isJava11Compatible(), "JDK11+ is required but found ${JavaVersion.current()}!"
+        assert JavaVersion.current().isJava11(), "JDK11 is required but found ${JavaVersion.current()}!"
     }
 }
 
 run.dependsOn('checkCompatibility')
-/*
-
-FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
-    tasks.register("run$name", JavaExec) {
-        dependsOn compileGroovy
-        group 'Script'
-        description "Run ${name}.groovy as a JVM application/Groovy script"
-        classpath = sourceSets.main.runtimeClasspath
-        mainClass = name
-    }
-}
-*/

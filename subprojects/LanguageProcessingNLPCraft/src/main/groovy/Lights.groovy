@@ -24,35 +24,41 @@ import org.apache.nlpcraft.model.tools.test.NCTestClientBuilder
 import static org.apache.nlpcraft.model.tools.embedded.NCEmbeddedProbe.start
 import static org.apache.nlpcraft.model.tools.embedded.NCEmbeddedProbe.stop
 
+def stars = '*' * 40
+println "\n$stars\n* ${'Starting Server'.center(36)} *\n$stars\n"
+sleep 1000
+
 def t = Thread.start { new AntBuilder().with {
     java(classname: NCStart.name, fork: true, clonevm: true) {
         arg(value: '-server')
-        // uncomment if needed if you downloaded the all jar as per instructions in Lights.gradle build file
+        // uncomment below only if you downloaded the "all" jar as per instructions in Lights.gradle build file
 //        classpath {
 //            fileset(dir: 'lib') {
 //                include(name: '**/*.jar')
 //            }
-//            pathelement(location: "lib/apache-nlpcraft-incubating-0.8.0-all-deps.jar")
 //        }
     }
 }}
 sleep 45000 // allow server to start up
 def models = [
-        java: LightSwitchJavaModel,
-        groovy: LightSwitchGroovyModel,
-        scala: LightSwitchScalaModel,
-        kotlin: LightSwitchKotlinModel
+        java   : LightSwitchJavaModel,
+        groovy : LightSwitchGroovyModel,
+        scala  : LightSwitchScalaModel,
+        kotlin : LightSwitchKotlinModel
 ]
 
 List<String> names = models.values()*.name
 start(null, names)
 
-models.keySet().each { key ->
+models.each { k, v ->
     def cli = new NCTestClientBuilder().newBuilder().build()
-    cli.open("nlpcraft.lightswitch.ex.$key")
-    println cli.ask('Turn on the lights in the master bedroom')
-    println cli.ask("Light 'em all up")
-    println cli.ask('Make it dark downstairs') // expecting no match
+    sleep 1000
+    println "\n$stars\n* Using model: ${v.simpleName.padRight(24)}*\n$stars\n"
+    sleep 1000
+    cli.open("nlpcraft.lightswitch.ex.$k")
+    println cli.ask('Turn on the lights in the master bedroom').result
+    println cli.ask("Light 'em all up").result
+    println cli.ask('Make it dark downstairs').result // expecting no match
     if (cli) {
         cli.close()
     }

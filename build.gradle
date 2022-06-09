@@ -31,7 +31,8 @@ config {
     }
 
     licensing {
-        excludes = ['*_source.txt', '*.csv', '*/work/*', 'dummy.txt']
+        excludes = ['*/rt-*', '*/training.*.txt', 'weights', '*.pdf',
+                    '*.xlsx', '*.csv', '*_source.txt', '*/work/*', 'dummy.txt']
         licenses {
             license {
                 id = 'Apache-2.0'

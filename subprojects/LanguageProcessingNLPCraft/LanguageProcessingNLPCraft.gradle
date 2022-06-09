@@ -40,7 +40,7 @@ dependencies {
     // Alternative: instead of above two lines
     // If you have trouble running the example in the normal way,
     // first consider running on the command-line using Gradle.
-    // If that fails consider downloading the nlpcraft all jar to the lib dir.
+    // If that fails consider downloading the nlpcraft "all" jar to the lib dir.
     // Comment out the above nlpcraft line and uncomment the next line instead.
 //    implementation fileTree(dir: 'lib', include: '*.jar')
 }

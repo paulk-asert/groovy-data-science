@@ -31,7 +31,7 @@ sleep 1000
 def t = Thread.start { new AntBuilder().with {
     java(classname: NCStart.name, fork: true, clonevm: true) {
         arg(value: '-server')
-        // uncomment below only if you downloaded the "all" jar as per instructions in Lights.gradle build file
+        // uncomment below only if you downloaded the "all" jar as per instructions in LanguageProcessingNLPCraft.gradle build file
 //        classpath {
 //            fileset(dir: 'lib') {
 //                include(name: '**/*.jar')

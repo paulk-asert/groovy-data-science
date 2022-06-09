@@ -170,15 +170,15 @@ This example looks at using neural networks for digit recognition.
 More details can be found in the [Mnist](subprojects/Mnist/) subproject.
 It contains examples using hand-written neural networks with
 [Apache Commons Math] used for matrix calculations
-and multilayer perceptron examples using
-[Deep Learning4J].
+and multilayer perceptron examples using [Deep Learning4J].
+There is also a logistic regression example using [Tribuo].
 
 | | Technologies/libraries covered |
 | --- | --- |
 | Logistic regression (SGD) | [Tribuo] |
 | Neural networks | [Apache Commons Math], [Deep Learning4J] |
 
-## Deep-learning Object detection with Apache MXNet
+## Deep-learning Object detection with DJL and Apache MXNet
 
 Neural networks with numerous layers of nodes allow for more complex, rich and _deeper_ processing and understanding.
 This example detects objects within an image.

@@ -70,3 +70,4 @@ __Requirements__:
 
 * The `Gui` example is using a JDK 8 only version of GroovyFX.
   It requires JDK 8 with JavaFX, e.g. Oracle JDK8 or Zulu JDK8 bundled with JavaFX
+* Other examples have been tested on JDK8, JDK11 and JDK17.

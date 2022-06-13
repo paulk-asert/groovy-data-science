@@ -247,6 +247,21 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 
 ---
 
+### Genetic algorithms
+
+This example uses genetic algorithms to explore the
+[infinite monkey theorem](https://en.wikipedia.org/wiki/Infinite_monkey_theorem).
+
+![Chimpanzee at keyboard](docs/images/Chimpanzee.png)
+
+Details can be found in the related website: [groovy-constraint-programming/Monkeys](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/Monkeys)
+
+|                    | Technologies/libraries covered |
+|--------------------| --- |
+| Genetic Algorithms | [Apache Commons Math], [Jenetics] |
+
+---
+
 [Weka]: https://www.cs.waikato.ac.nz/ml/weka/
 [Smile]: http://haifengl.github.io/
 [Datumbox]: https://github.com/datumbox/datumbox-framework
@@ -279,6 +294,7 @@ Details can be found in the related website: [groovy-constraint-programming/Send
 [OpenCSV]: http://opencsv.sourceforge.net/
 [Apache Commons CSV]: https://commons.apache.org/proper/commons-csv/
 [Apache Commons Math]: https://commons.apache.org/proper/commons-math/
+[Jenetics]: https://jenetics.io/
 [Clojure]: https://clojure.org/
 [Groovy]: https://groovy-lang.org/
 [Frege]: https://github.com/Frege/frege "JVM Haskell"

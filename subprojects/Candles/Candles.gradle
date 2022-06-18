@@ -19,7 +19,7 @@ repositories {
     mavenCentral()
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy"), ['TablesawHelper']).each { name ->
+FileUtil.baseNames(sourceSets.main.allSource.files, ['TablesawHelper']).each { name ->
     tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
         group 'Script'

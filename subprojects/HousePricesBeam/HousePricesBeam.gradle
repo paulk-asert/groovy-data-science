@@ -34,7 +34,7 @@ dependencies {
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
 }
 
-FileUtil.baseNames(file("$projectDir/src/main/groovy")).each { name ->
+FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
     if (name.startsWith('House')) {
         tasks.register("run$name", JavaExec) {
             dependsOn compileGroovy

@@ -27,7 +27,7 @@ application {
 
 ext {
     sparkVariant = '2.12'
-    sparkVersion = '3.2.1'
+    sparkVersion = '3.3.0'
 }
 
 dependencies {

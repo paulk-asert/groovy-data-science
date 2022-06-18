@@ -13,31 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import groovy.transform.Canonical
+import groovy.transform.CompileStatic
+import groovy.transform.TupleConstructor
+import org.apache.wayang.api.DataQuantaBuilder
+import org.apache.wayang.api.LoadCollectionDataQuantaBuilder
 import org.apache.wayang.core.api.Configuration
 import org.apache.wayang.core.api.WayangContext
 import org.apache.wayang.core.function.ExecutionContext
-import org.apache.wayang.core.function.FunctionDescriptor
+import org.apache.wayang.core.function.FunctionDescriptor.ExtendedSerializableFunction
 //import org.apache.wayang.core.optimizer.cardinality.CardinalityEstimate
 //import org.apache.wayang.core.optimizer.cardinality.CardinalityEstimator
-import org.apache.wayang.java.Java
+
 import org.apache.wayang.api.JavaPlanBuilder
+//import org.apache.wayang.java.Java
+import org.apache.wayang.java.Java
 import org.apache.wayang.spark.Spark
+
+import java.util.function.Function
+import java.util.stream.IntStream
 
 import static java.lang.Math.sqrt
 
-class Point { double[] pts }
+record Point(double[] pts) implements Serializable { }
 
-class TaggedPoint extends Point { int cluster }
-
-@Canonical(includeSuperProperties=true)
-class TaggedPointCounter extends TaggedPoint {
-    long count
-    TaggedPointCounter plus(TaggedPointCounter other) {
-        new TaggedPointCounter((0..<pts.size()).collect{ pts[it] + other.pts[it] } as double[], cluster, count + other.count)
+record TaggedPointCounter(double[] pts, int cluster, long count) implements Serializable {
+    TaggedPointCounter plus(TaggedPointCounter that) {
+        new TaggedPointCounter(Util.sumPairs(this, that), cluster, this.count + that.count)
     }
+
+
     TaggedPointCounter average() {
-        new TaggedPointCounter(pts.collect{it/count } as double[], cluster, 0)
+        new TaggedPointCounter(Util.averagedPoint(this), cluster, 0)
+    }
+}
+
+@CompileStatic
+class Util implements Serializable {
+    static double[] averagedPoint(TaggedPointCounter tpc) {
+        Arrays.stream(tpc.pts).mapToObj(d -> d / tpc.count).mapToDouble(d -> d).toArray()
+    }
+
+    static double[] sumPairs(TaggedPointCounter tpc1, TaggedPointCounter tpc2) {
+        IntStream.range(0, tpc1.pts.size()).mapToDouble(idx -> tpc1.pts[idx] + tpc2.pts[idx]).toArray()
+    }
+
+    static double calcDistance(Point pt, TaggedPointCounter centroid) {
+        sqrt(IntStream.range(0, pt.pts.size())
+                .mapToDouble(idx -> pt.pts[idx] - centroid.pts[idx])
+                .map(d -> d * d).sum())
     }
 }
 
@@ -49,25 +72,25 @@ def url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file
 def context = new WayangContext(configuration)
         .withPlugin(Java.basicPlugin())
         .withPlugin(Spark.basicPlugin())
-def planBuilder = new JavaPlanBuilder(context)
-        .withJobName("KMeans ($url, k=$k, iterations=$iterations)")
+def planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
 
-def points = new File(url).readLines()[1..-1].collect{ new Point(pts: it.split(",")[2..-1]*.toDouble()) }
+def points = new File(url).readLines()[1..-1].collect{ new Point(it.split(",")[2..-1]*.toDouble() as double[]) }
+def dims = points[0].pts.size()
 def pointsBuilder = planBuilder.loadCollection(points)
 
 def random = new Random()
-double[][] initPts = (1..k).collect{ (0..<points[0].pts.size()).collect{ random.nextGaussian() * 4 } }
+double[][] initPts = (1..k).collect{ (0..<dims).collect{ random.nextGaussian() * 4 } }
 def initialCentroidsBuilder = planBuilder
         .loadCollection((0..<k).collect{new TaggedPointCounter(initPts[it], it, 0)})
         .withName("Load random centroids")
 //println initialCentroidsBuilder.collect()
 
-class SelectNearestCentroid implements FunctionDescriptor.ExtendedSerializableFunction<Point, TaggedPointCounter> {
+class SelectNearestCentroid implements ExtendedSerializableFunction<Point, TaggedPointCounter> {
     Iterable<TaggedPointCounter> centroids
 
     @Override
-    void open(ExecutionContext executionCtx) {
-        centroids = executionCtx.getBroadcast("centroids")
+    void open(ExecutionContext context) {
+        centroids = context.getBroadcast("centroids")
     }
 
     @Override
@@ -75,7 +98,7 @@ class SelectNearestCentroid implements FunctionDescriptor.ExtendedSerializableFu
         def minDistance = Double.POSITIVE_INFINITY
         def nearestCentroidId = -1
         for (centroid in centroids) {
-            def distance = sqrt((0..<point.pts.size()).collect{ point.pts[it] - centroid.pts[it] }.sum{ it ** 2 })
+            def distance = Util.calcDistance(point, centroid)
             if (distance < minDistance) {
                 minDistance = distance
                 nearestCentroidId = centroid.cluster
@@ -85,14 +108,21 @@ class SelectNearestCentroid implements FunctionDescriptor.ExtendedSerializableFu
     }
 }
 
-//CardinalityEstimator kest = { ctx, inp -> new CardinalityEstimate(k, k, 1d) }
-def finalCentroids = initialCentroidsBuilder.repeat(iterations, { currentCentroids ->
-    pointsBuilder.map(new SelectNearestCentroid())
-            .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")
-            .reduceByKey(TaggedPointCounter::getCluster, TaggedPointCounter::plus).withName("Add up points")
-            //.withCardinalityEstimator(kest)
-            .map(TaggedPointCounter::average).withName("Average points").withOutputClass(TaggedPointCounter)
-}).withName("Loop").collect()
+//org.codehaus.groovy.runtime.MethodClosure.ALLOW_RESOLVE = true
+
+@CompileStatic @TupleConstructor
+class KMeansStep implements Function<DataQuantaBuilder, DataQuantaBuilder>, Serializable {
+    LoadCollectionDataQuantaBuilder builder
+
+    DataQuantaBuilder apply(DataQuantaBuilder currentCentroids) {
+        builder.map(new SelectNearestCentroid())
+                .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")
+                .reduceByKey(TaggedPointCounter::cluster, TaggedPointCounter::plus).withName("Add up points")
+                .map(TaggedPointCounter::average).withName("Average points").withOutputClass(TaggedPointCounter)
+    }
+}
+
+def finalCentroids = initialCentroidsBuilder.repeat(iterations, new KMeansStep(pointsBuilder)).withName("Loop").collect()
 
 println 'Centroids:'
 finalCentroids.each {

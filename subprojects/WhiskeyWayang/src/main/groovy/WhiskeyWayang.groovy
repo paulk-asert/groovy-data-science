@@ -110,6 +110,6 @@ def finalCentroids = initialCentroids
             .withOutputClass(TaggedPointCounter)).withName("Loop").collect()
 
 println 'Centroids:'
-finalCentroids.each {
-    println "Cluster$it.cluster: ${it.pts.collect{ d -> sprintf('%.3f', d) }.join(', ')}"
+finalCentroids.each { c ->
+    println "Cluster$c.cluster: ${c.pts.collect{ sprintf('%.3f', it) }.join(', ')}"
 }

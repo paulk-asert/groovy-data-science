@@ -81,7 +81,7 @@ int iterations = 20
 // read in data from our file
 def url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file
 def pointsData = new File(url).readLines()[1..-1].collect{ Point.fromLine(it) }
-def dims = pointsData[0].pts().size()
+def dims = pointsData[0].pts.size()
 
 // create some random points as initial centroids
 def r = new Random()

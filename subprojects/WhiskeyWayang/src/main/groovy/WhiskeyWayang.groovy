@@ -17,7 +17,6 @@
 // inspired by the Apache Wayang Scala example here:
 // https://github.com/apache/incubator-wayang/blob/main/README.md#k-means
 
-import groovy.transform.CompileStatic
 import org.apache.wayang.api.JavaPlanBuilder
 import org.apache.wayang.core.api.Configuration
 import org.apache.wayang.core.api.WayangContext
@@ -43,7 +42,6 @@ record TaggedPointCounter(double[] pts, int cluster, long count) implements Seri
     }
 }
 
-@CompileStatic
 class SelectNearestCentroid implements ExtendedSerializableFunction<Point, TaggedPointCounter> {
     Iterable<TaggedPointCounter> centroids
 
@@ -65,17 +63,14 @@ class SelectNearestCentroid implements ExtendedSerializableFunction<Point, Tagge
     }
 }
 
-@CompileStatic
 class Cluster implements SerializableFunction<TaggedPointCounter, Integer> {
     Integer apply(TaggedPointCounter tpc) { tpc.cluster() }
 }
 
-@CompileStatic
 class Average implements SerializableFunction<TaggedPointCounter, TaggedPointCounter> {
     TaggedPointCounter apply(TaggedPointCounter tpc) { tpc.average() }
 }
 
-@CompileStatic
 class Plus implements SerializableBinaryOperator<TaggedPointCounter> {
     TaggedPointCounter apply(TaggedPointCounter tpc1, TaggedPointCounter tpc2) { tpc1.plus(tpc2) }
 }

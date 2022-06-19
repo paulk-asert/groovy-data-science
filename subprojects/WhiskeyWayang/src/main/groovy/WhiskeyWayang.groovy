@@ -77,22 +77,28 @@ class Plus implements SerializableBinaryOperator<TaggedPointCounter> {
 
 int k = 5
 int iterations = 20
-def configuration = new Configuration()
 
+// read in data from our file
 def url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file
+def pointsData = new File(url).readLines()[1..-1].collect {  Point.fromLine(it) }
+def dims = pointsData[0].pts().size()
+
+// create some random points as initial centroids
+def r = new Random()
+def initPts = (1..k).collect { (0..<dims).collect(row -> r.nextGaussian() + 2) as double[] }
+
+// create planbuilder with Java and Spark enabled
+def configuration = new Configuration()
 def context = new WayangContext(configuration)
     .withPlugin(Java.basicPlugin())
     .withPlugin(Spark.basicPlugin())
 def planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
 
-def pointsData = new File(url).readLines()[1..-1].collect(line -> Point.fromLine(line))
-def dims = pointsData[0].pts().size()
-def points = planBuilder.loadCollection(pointsData).withName('Load points')
+def points = planBuilder
+    .loadCollection(pointsData).withName('Load points')
 
-def r = new Random()
-def initPts = (1..k).collect(cluster -> (0..<dims).collect(row -> r.nextGaussian() + 2) as double[])
 def initialCentroids = planBuilder
-    .loadCollection((0..<k).collect(idx -> new TaggedPointCounter(initPts[idx], idx, 0)))
+    .loadCollection((0..<k).collect { idx -> new TaggedPointCounter(initPts[idx], idx, 0) })
     .withName("Load random centroids")
 
 def finalCentroids = initialCentroids
@@ -105,5 +111,5 @@ def finalCentroids = initialCentroids
 
 println 'Centroids:'
 finalCentroids.each {
-    println "Cluster${it.cluster()}: ${it.pts().collect { d -> sprintf('%.3f', d) }.join(', ')}"
+    println "Cluster$it.cluster: ${it.pts.collect { d -> sprintf('%.3f', d) }.join(', ')}"
 }

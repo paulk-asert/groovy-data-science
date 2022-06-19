@@ -14,54 +14,79 @@
  * limitations under the License.
  */
 import groovy.transform.CompileStatic
-import groovy.transform.TupleConstructor
 import org.apache.wayang.api.DataQuantaBuilder
-import org.apache.wayang.api.LoadCollectionDataQuantaBuilder
 import org.apache.wayang.core.api.Configuration
 import org.apache.wayang.core.api.WayangContext
-import org.apache.wayang.core.function.ExecutionContext
-import org.apache.wayang.core.function.FunctionDescriptor.ExtendedSerializableFunction
-//import org.apache.wayang.core.optimizer.cardinality.CardinalityEstimate
-//import org.apache.wayang.core.optimizer.cardinality.CardinalityEstimator
-
 import org.apache.wayang.api.JavaPlanBuilder
+import org.apache.wayang.core.function.ExecutionContext
+import org.apache.wayang.core.function.FunctionDescriptor.SerializableFunction
+import org.apache.wayang.core.function.FunctionDescriptor.SerializableBinaryOperator
+import org.apache.wayang.core.function.FunctionDescriptor.ExtendedSerializableFunction
+
 //import org.apache.wayang.java.Java
 import org.apache.wayang.java.Java
+
 import org.apache.wayang.spark.Spark
 
-import java.util.function.Function
 import java.util.stream.IntStream
 
-import static java.lang.Math.sqrt
-
-record Point(double[] pts) implements Serializable { }
+record Point(double[] pts) implements Serializable {
+    static Point fromLine(String line) { new Point(line.split(',')[2..-1]*.toDouble() as double[]) }
+}
 
 record TaggedPointCounter(double[] pts, int cluster, long count) implements Serializable {
     TaggedPointCounter plus(TaggedPointCounter that) {
-        new TaggedPointCounter(Util.sumPairs(this, that), cluster, this.count + that.count)
+        new TaggedPointCounter(
+                IntStream.range(0, pts.size()).mapToDouble(idx -> pts[idx] + that.pts[idx]).toArray(),
+                cluster,
+                this.count + that.count)
     }
 
-
     TaggedPointCounter average() {
-        new TaggedPointCounter(Util.averagedPoint(this), cluster, 0)
+        new TaggedPointCounter(
+                Arrays.stream(pts).mapToObj(d -> d / count).mapToDouble(d -> d).toArray(),
+                cluster,
+                0)
     }
 }
 
 @CompileStatic
-class Util implements Serializable {
-    static double[] averagedPoint(TaggedPointCounter tpc) {
-        Arrays.stream(tpc.pts).mapToObj(d -> d / tpc.count).mapToDouble(d -> d).toArray()
+class SelectNearestCentroid implements ExtendedSerializableFunction<Point, TaggedPointCounter> {
+    Iterable<TaggedPointCounter> centroids
+
+    void open(ExecutionContext context) {
+        centroids = context.getBroadcast("centroids")
     }
 
-    static double[] sumPairs(TaggedPointCounter tpc1, TaggedPointCounter tpc2) {
-        IntStream.range(0, tpc1.pts.size()).mapToDouble(idx -> tpc1.pts[idx] + tpc2.pts[idx]).toArray()
+    TaggedPointCounter apply(Point point) {
+        def minDistance = Double.POSITIVE_INFINITY
+        def nearestCentroidId = -1
+        for (centroid in centroids) {
+            def distance = Math.sqrt(IntStream.range(0, point.pts.size())
+                    .mapToDouble(idx -> point.pts[idx] - centroid.pts[idx])
+                    .map(d -> d * d).sum())
+            if (distance < minDistance) {
+                minDistance = distance
+                nearestCentroidId = centroid.cluster
+            }
+        }
+        new TaggedPointCounter(point.pts, nearestCentroidId, 1)
     }
+}
 
-    static double calcDistance(Point pt, TaggedPointCounter centroid) {
-        sqrt(IntStream.range(0, pt.pts.size())
-                .mapToDouble(idx -> pt.pts[idx] - centroid.pts[idx])
-                .map(d -> d * d).sum())
-    }
+@CompileStatic
+class Cluster implements SerializableFunction<TaggedPointCounter, Integer> {
+    Integer apply(TaggedPointCounter tpc) { tpc.cluster() }
+}
+
+@CompileStatic
+class Average implements SerializableFunction<TaggedPointCounter, TaggedPointCounter> {
+    TaggedPointCounter apply(TaggedPointCounter tpc) { tpc.average() }
+}
+
+@CompileStatic
+class Plus implements SerializableBinaryOperator<TaggedPointCounter> {
+    TaggedPointCounter apply(TaggedPointCounter tpc1, TaggedPointCounter tpc2) { tpc1.plus(tpc2) }
 }
 
 int k = 5
@@ -74,57 +99,27 @@ def context = new WayangContext(configuration)
         .withPlugin(Spark.basicPlugin())
 def planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
 
-def points = new File(url).readLines()[1..-1].collect{ new Point(it.split(",")[2..-1]*.toDouble() as double[]) }
-def dims = points[0].pts.size()
-def pointsBuilder = planBuilder.loadCollection(points)
+def pointsData = new File(url).readLines()[1..-1].collect(line -> Point.fromLine(line))
+def dims = pointsData[0].pts().size()
+def points = planBuilder.loadCollection(pointsData).withName('Load points')
 
-def random = new Random()
-double[][] initPts = (1..k).collect{ (0..<dims).collect{ random.nextGaussian() * 4 } }
-def initialCentroidsBuilder = planBuilder
-        .loadCollection((0..<k).collect{new TaggedPointCounter(initPts[it], it, 0)})
+def r = new Random()
+def initPts = (1..k).collect(cluster -> (0..<dims).collect(row -> r.nextGaussian() + 2) as double[])
+def initialCentroids = planBuilder
+        .loadCollection((0..<k).collect(idx -> new TaggedPointCounter(initPts[idx], idx, 0)))
         .withName("Load random centroids")
-//println initialCentroidsBuilder.collect()
 
-class SelectNearestCentroid implements ExtendedSerializableFunction<Point, TaggedPointCounter> {
-    Iterable<TaggedPointCounter> centroids
-
-    @Override
-    void open(ExecutionContext context) {
-        centroids = context.getBroadcast("centroids")
-    }
-
-    @Override
-    TaggedPointCounter apply(Point point) {
-        def minDistance = Double.POSITIVE_INFINITY
-        def nearestCentroidId = -1
-        for (centroid in centroids) {
-            def distance = Util.calcDistance(point, centroid)
-            if (distance < minDistance) {
-                minDistance = distance
-                nearestCentroidId = centroid.cluster
-            }
-        }
-        new TaggedPointCounter(point.pts, nearestCentroidId, 1)
-    }
-}
-
-//org.codehaus.groovy.runtime.MethodClosure.ALLOW_RESOLVE = true
-
-@CompileStatic @TupleConstructor
-class KMeansStep implements Function<DataQuantaBuilder, DataQuantaBuilder>, Serializable {
-    LoadCollectionDataQuantaBuilder builder
-
-    DataQuantaBuilder apply(DataQuantaBuilder currentCentroids) {
-        builder.map(new SelectNearestCentroid())
+def next = currentCentroids ->
+        points.map(new SelectNearestCentroid())
                 .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")
-                .reduceByKey(TaggedPointCounter::cluster, TaggedPointCounter::plus).withName("Add up points")
-                .map(TaggedPointCounter::average).withName("Average points").withOutputClass(TaggedPointCounter)
-    }
-}
+                .reduceByKey(new Cluster(), new Plus()).withName("Add up points")
+                .map(new Average()).withName("Average points")
+                .withOutputClass(TaggedPointCounter)
 
-def finalCentroids = initialCentroidsBuilder.repeat(iterations, new KMeansStep(pointsBuilder)).withName("Loop").collect()
+def finalCentroids = initialCentroids
+        .repeat(iterations, next).withName("Loop").collect()
 
 println 'Centroids:'
 finalCentroids.each {
-    println "Cluster$it.cluster: ${it.pts.collect{ d -> sprintf('%.3f', d)}.join(', ')}"
+    println "Cluster${it.cluster()}: ${it.pts().collect { d -> sprintf('%.3f', d) }.join(', ')}"
 }

@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 import groovy.transform.CompileStatic
-import org.apache.wayang.api.DataQuantaBuilder
+import org.apache.wayang.api.JavaPlanBuilder
 import org.apache.wayang.core.api.Configuration
 import org.apache.wayang.core.api.WayangContext
-import org.apache.wayang.api.JavaPlanBuilder
 import org.apache.wayang.core.function.ExecutionContext
-import org.apache.wayang.core.function.FunctionDescriptor.SerializableFunction
-import org.apache.wayang.core.function.FunctionDescriptor.SerializableBinaryOperator
 import org.apache.wayang.core.function.FunctionDescriptor.ExtendedSerializableFunction
-
-//import org.apache.wayang.java.Java
+import org.apache.wayang.core.function.FunctionDescriptor.SerializableBinaryOperator
+import org.apache.wayang.core.function.FunctionDescriptor.SerializableFunction
 import org.apache.wayang.java.Java
-
 import org.apache.wayang.spark.Spark
-
 import java.util.stream.IntStream
 
 record Point(double[] pts) implements Serializable {
@@ -90,7 +85,7 @@ class Plus implements SerializableBinaryOperator<TaggedPointCounter> {
 }
 
 int k = 5
-Integer iterations = 20
+int iterations = 20
 def configuration = new Configuration()
 
 def url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file

@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// inspired by the Apache Wayang Scala example here:
+// https://github.com/apache/incubator-wayang/blob/main/README.md#k-means
+
 import groovy.transform.CompileStatic
 import org.apache.wayang.api.JavaPlanBuilder
 import org.apache.wayang.core.api.Configuration
@@ -23,7 +27,7 @@ import org.apache.wayang.core.function.FunctionDescriptor.SerializableBinaryOper
 import org.apache.wayang.core.function.FunctionDescriptor.SerializableFunction
 import org.apache.wayang.java.Java
 import org.apache.wayang.spark.Spark
-import java.util.stream.IntStream
+import static java.lang.Math.sqrt
 
 record Point(double[] pts) implements Serializable {
     static Point fromLine(String line) { new Point(line.split(',')[2..-1]*.toDouble() as double[]) }
@@ -47,19 +51,17 @@ class SelectNearestCentroid implements ExtendedSerializableFunction<Point, Tagge
         centroids = context.getBroadcast("centroids")
     }
 
-    TaggedPointCounter apply(Point point) {
+    TaggedPointCounter apply(Point p) {
         def minDistance = Double.POSITIVE_INFINITY
         def nearestCentroidId = -1
-        for (centroid in centroids) {
-            def distance = Math.sqrt(IntStream.range(0, point.pts.size())
-                    .mapToDouble(idx -> point.pts[idx] - centroid.pts[idx])
-                    .map(d -> d * d).sum())
+        for (c in centroids) {
+            def distance = sqrt((0..<p.pts.size()).collect{ p.pts[it] - c.pts[it] }.sum{ it ** 2 } as double)
             if (distance < minDistance) {
                 minDistance = distance
-                nearestCentroidId = centroid.cluster
+                nearestCentroidId = c.cluster
             }
         }
-        new TaggedPointCounter(point.pts, nearestCentroidId, 1)
+        new TaggedPointCounter(p.pts, nearestCentroidId, 1)
     }
 }
 
@@ -84,8 +86,8 @@ def configuration = new Configuration()
 
 def url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file
 def context = new WayangContext(configuration)
-        .withPlugin(Java.basicPlugin())
-        .withPlugin(Spark.basicPlugin())
+    .withPlugin(Java.basicPlugin())
+    .withPlugin(Spark.basicPlugin())
 def planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
 
 def pointsData = new File(url).readLines()[1..-1].collect(line -> Point.fromLine(line))
@@ -95,16 +97,16 @@ def points = planBuilder.loadCollection(pointsData).withName('Load points')
 def r = new Random()
 def initPts = (1..k).collect(cluster -> (0..<dims).collect(row -> r.nextGaussian() + 2) as double[])
 def initialCentroids = planBuilder
-        .loadCollection((0..<k).collect(idx -> new TaggedPointCounter(initPts[idx], idx, 0)))
-        .withName("Load random centroids")
+    .loadCollection((0..<k).collect(idx -> new TaggedPointCounter(initPts[idx], idx, 0)))
+    .withName("Load random centroids")
 
 def finalCentroids = initialCentroids
-        .repeat(iterations, currentCentroids ->
-                points.map(new SelectNearestCentroid())
-                        .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")
-                        .reduceByKey(new Cluster(), new Plus()).withName("Add up points")
-                        .map(new Average()).withName("Average points")
-                        .withOutputClass(TaggedPointCounter)).withName("Loop").collect()
+    .repeat(iterations, currentCentroids ->
+        points.map(new SelectNearestCentroid())
+            .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")
+            .reduceByKey(new Cluster(), new Plus()).withName("Add up points")
+            .map(new Average()).withName("Average points")
+            .withOutputClass(TaggedPointCounter)).withName("Loop").collect()
 
 println 'Centroids:'
 finalCentroids.each {

@@ -85,7 +85,7 @@ def dims = pointsData[0].pts().size()
 
 // create some random points as initial centroids
 def r = new Random()
-def initPts = (1..k).collect { (0..<dims).collect {  r.nextGaussian() + 2 } as double[] }
+def initPts = (1..k).collect { (0..<dims).collect { r.nextGaussian() + 2 } as double[] }
 
 // create planbuilder with Java and Spark enabled
 def configuration = new Configuration()

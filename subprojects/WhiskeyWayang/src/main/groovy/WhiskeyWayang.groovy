@@ -31,17 +31,11 @@ record Point(double[] pts) implements Serializable {
 
 record TaggedPointCounter(double[] pts, int cluster, long count) implements Serializable {
     TaggedPointCounter plus(TaggedPointCounter that) {
-        new TaggedPointCounter(
-                IntStream.range(0, pts.size()).mapToDouble(idx -> pts[idx] + that.pts[idx]).toArray(),
-                cluster,
-                this.count + that.count)
+        new TaggedPointCounter((0..<pts.size()).collect{ pts[it] + that.pts[it] } as double[], cluster, count + that.count)
     }
 
     TaggedPointCounter average() {
-        new TaggedPointCounter(
-                Arrays.stream(pts).mapToObj(d -> d / count).mapToDouble(d -> d).toArray(),
-                cluster,
-                0)
+        new TaggedPointCounter(pts.collect{ double d -> d/count } as double[], cluster, 0)
     }
 }
 

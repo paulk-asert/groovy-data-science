@@ -104,15 +104,13 @@ def initialCentroids = planBuilder
         .loadCollection((0..<k).collect(idx -> new TaggedPointCounter(initPts[idx], idx, 0)))
         .withName("Load random centroids")
 
-def next = currentCentroids ->
-        points.map(new SelectNearestCentroid())
-                .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")
-                .reduceByKey(new Cluster(), new Plus()).withName("Add up points")
-                .map(new Average()).withName("Average points")
-                .withOutputClass(TaggedPointCounter)
-
 def finalCentroids = initialCentroids
-        .repeat(iterations, next).withName("Loop").collect()
+        .repeat(iterations, currentCentroids ->
+                points.map(new SelectNearestCentroid())
+                        .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")
+                        .reduceByKey(new Cluster(), new Plus()).withName("Add up points")
+                        .map(new Average()).withName("Average points")
+                        .withOutputClass(TaggedPointCounter)).withName("Loop").collect()
 
 println 'Centroids:'
 finalCentroids.each {

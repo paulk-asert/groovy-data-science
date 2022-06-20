@@ -25,7 +25,7 @@ to be executed by one or more nominated underlying processing platforms.
 ## Implementation overview
 
 K-Means is the most common form of _centroid_ clustering
-and is described further in the main [Whiskey](../Whiskey/) project.
+and is described further in the main [Whiskey](../Whiskey#kmeans) project.
 This example uses K-Means centroids to look at grouping together
 the Whiskey drinks in our case study.
 We have our own hand-crafted K-Means algorithm which will be executed

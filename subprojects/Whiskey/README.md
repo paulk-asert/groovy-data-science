@@ -167,16 +167,16 @@ Not all clustering algorithms are amenable to scaling via distribution of data a
 Toolkits specialising in distribution often have specialised variants of clustering algorithms.
 See:
 
-* The [WhiskeyIgnite](subprojects/WhiskeyIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite.
+* The [WhiskeyIgnite](../WhiskeyIgnite/) subproject which illustrates scaling up to a cluster using Apache Ignite.
   It has been tested on JDK8, JDK11 and JDK17.
 
-* The [WhiskeySpark](subprojects/WhiskeySpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark.
+* The [WhiskeySpark](../WhiskeySpark/) subproject which illustrates scaling up to a cluster using Apache Spark.
   It has been tested on JDK8 and JDK11. The current Spark versions are not compatible with JDK17.
 
 If you don't find the algorithm you need available in one of the toolkits,
 you might be able to write a distributed version. As an example, see:
 
-* The [WhiskeyWayang](subprojects/WhiskeyWayang/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Wayang.
+* The [WhiskeyWayang](../WhiskeyWayang/) subproject which illustrates scaling up to a cluster using Apache Wayang.
   It has been tested on JDK8 and JDK11. The application nominates possible Java and Spark platforms for processing. 
   Apache Wayang automatically selects between these platforms.
   The application will succeed if the Java platform is selected when using JDK17.

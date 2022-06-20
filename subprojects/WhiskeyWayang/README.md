@@ -1,6 +1,6 @@
 # Whiskey cluster centroids with Apache Wayang
 
-This project looks at scaling up the [Whiskey](../subprojects/Whiskey/)
+This project looks at scaling up the [Whiskey](../Whiskey/)
 project using [Apache Wayang](https://wayang.apache.org/).
 
 ![Clustering](../../docs/images/clustering_bottles.jpg)

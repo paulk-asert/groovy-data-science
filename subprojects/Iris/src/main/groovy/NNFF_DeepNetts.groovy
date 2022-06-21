@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import deepnetts.data.DataSets
 import deepnetts.data.TabularDataSet
 import deepnetts.eval.ClassifierEvaluator
 import deepnetts.net.FeedForwardNetwork

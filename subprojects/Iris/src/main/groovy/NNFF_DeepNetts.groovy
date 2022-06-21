@@ -33,10 +33,10 @@ int numOutputs = species.size()
 
 // Deep Netts readCsv assumes normalized data, so we roll our own
 var dataSet = new TabularDataSet(numInputs, numOutputs).tap{ columnNames = cols + species }
-var url = getClass().classLoader.getResource('iris_data.csv').file
-new File(url).readLines()[1..-1].each { line -> line.split(',').with {
+var data = getClass().classLoader.getResource('iris_data.csv').readLines()*.split(',')
+data[1..-1].each {
     dataSet.add(new TabularDataSet.Item(it[0..3]*.toFloat() as float[], oneHotEncode(it[4], species)))
-}}
+}
 DataSets.scaleMax(dataSet)
 
 var (train, test) = dataSet.split(0.6, 0.4) // 60/40% split

@@ -44,9 +44,9 @@ dependencies {
         exclude(group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl')
     }
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
-    runtimeOnly 'org.apache.commons:commons-configuration2:2.1.1'
-    runtimeOnly 'com.fasterxml.woodstox:woodstox-core:5.3.0'
-    runtimeOnly 'com.google.re2j:re2j:1.1'
+    runtimeOnly 'org.apache.commons:commons-configuration2:2.7'
+    runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.2.8'
+    runtimeOnly 'com.google.re2j:re2j:1.6'
     runtimeOnly("org.apache.hadoop:hadoop-common:$hadoopVersion") {
         transitive = false
     }

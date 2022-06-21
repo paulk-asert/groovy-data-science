@@ -20,7 +20,7 @@ import deepnetts.net.FeedForwardNetwork
 import deepnetts.net.layers.activation.ActivationType
 import deepnetts.net.loss.LossType
 import deepnetts.net.train.opt.OptimizerType
-import static deepnetts.data.DataSets.oneHotEncode
+import static deepnetts.data.DataSets.*
 
 // inspired by:
 // https://github.com/deepnetts/deepnetts-communityedition/blob/community-visrec/deepnetts-examples/src/main/java/deepnetts/examples/IrisFlowersClassifier.java
@@ -37,7 +37,7 @@ var data = getClass().classLoader.getResource('iris_data.csv').readLines()*.spli
 data[1..-1].each {
     dataSet.add(new TabularDataSet.Item(it[0..3]*.toFloat() as float[], oneHotEncode(it[4], species)))
 }
-DataSets.scaleMax(dataSet)
+scaleMax(dataSet)
 
 var (train, test) = dataSet.split(0.6, 0.4) // 60/40% split
 

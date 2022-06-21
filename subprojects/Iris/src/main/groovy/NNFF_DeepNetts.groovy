@@ -32,9 +32,9 @@ int numInputs = cols.size()
 int numOutputs = species.size()
 
 // Deep Netts readCsv assumes normalized data, so we roll our own
-var dataSet = new TabularDataSet(numInputs, numOutputs).tap{columnNames = cols + species }
+var dataSet = new TabularDataSet(numInputs, numOutputs).tap{ columnNames = cols + species }
 var url = getClass().classLoader.getResource('iris_data.csv').file
-new File(url).readLines()[1..-1].each{ line -> line.split(',').with{
+new File(url).readLines()[1..-1].each { line -> line.split(',').with {
     dataSet.add(new TabularDataSet.Item(it[0..3]*.toFloat() as float[], oneHotEncode(it[4], species)))
 }}
 DataSets.scaleMax(dataSet)
@@ -49,7 +49,7 @@ var neuralNet = FeedForwardNetwork.builder()
     .randomSeed(456)
     .build()
 
-neuralNet.trainer.with{
+neuralNet.trainer.with {
     maxError = 0.04f
     learningRate = 0.01f
     momentum = 0.9f

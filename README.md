@@ -132,13 +132,13 @@ All the details can be found in the [Iris subproject](subprojects/Iris/).
 Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
 or using a Jupyter/BeakerX notebook.
 
-| | Technologies/libraries covered |
-| --- | --- |
-| Data manipulation | [Weka], [Tablesaw], [Encog], [JSAT], [Datavec], [Tribuo] |
-| Classification | [Weka], [Smile], [Encog], [Tribuo], [JSAT], [Deep Learning4J] |
-| Visualization | [XChart], [Tablesaw Plot.ly], [JavaFX] |
-| Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, naive bayes, logistic regression, knn regression, softmax regression, decision trees, support vector machine |
-| Other aspects/algorithms covered | neural networks, multilayer perceptron, PCA |
+|                                  | Technologies/libraries covered                                                                                                                                    |
+|----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Data manipulation                | [Weka], [Tablesaw], [Encog], [JSAT], [Datavec], [Tribuo]                                                                                                          |
+| Classification                   | [Weka], [Smile], [Encog], [Tribuo], [JSAT], [Deep Learning4J], [Deep Netts]                                                                                       |
+| Visualization                    | [XChart], [Tablesaw Plot.ly], [JavaFX]                                                                                                                            |
+| Main aspects/algorithms covered  | Reading csv, dataframes, visualization, exploration, naive bayes, logistic regression, knn regression, softmax regression, decision trees, support vector machine |
+| Other aspects/algorithms covered | neural networks, multilayer perceptron, PCA                                                                                                                       |
 
 ## Natural language processing
 
@@ -173,10 +173,10 @@ It contains examples using hand-written neural networks with
 and multilayer perceptron examples using [Deep Learning4J].
 There is also a logistic regression example using [Tribuo].
 
-| | Technologies/libraries covered |
-| --- | --- |
-| Logistic regression (SGD) | [Tribuo] |
-| Neural networks | [Apache Commons Math], [Deep Learning4J] |
+|                           | Technologies/libraries covered           |
+|---------------------------|------------------------------------------|
+| Logistic regression (SGD) | [Tribuo]                                 |
+| Neural networks           | [Apache Commons Math], [Deep Learning4J] |
 
 ## Deep-learning Object detection with DJL and Apache MXNet
 
@@ -189,8 +189,8 @@ It uses a pre-trained model and the
 
 More details can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxnet/) subproject.
 
-| | Technologies/libraries covered |
-| --- |--------------------------------|
+|                                                 | Technologies/libraries covered |
+|-------------------------------------------------|--------------------------------|
 | Image detection, neural networks, deep learning | [DJL], [Apache MXNet]          |
 
 ---
@@ -220,8 +220,8 @@ health requirements for the diet.
 
 Details can be found in the related website: [groovy-constraint-programming/Diet](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/Diet)
 
-| | Technologies/libraries covered |
-| --- | --- |
+|                                            | Technologies/libraries covered                                                        |
+|--------------------------------------------|---------------------------------------------------------------------------------------|
 | Constraint-programming, Linear programming | [Apache Commons Math], [Choco], [JaCoP], [Ojalgo], [OptaPlanner], [OrTools], [SAS/OR] |
 
 ---
@@ -240,10 +240,10 @@ The Groovy solution is contrasted with brute-force approaches and solutions in o
 
 Details can be found in the related website: [groovy-constraint-programming/SendMoreMoney](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/SendMoreMoney)
 
-| | Technologies/libraries covered |
-| --- | --- |
-| Constraint-programming | [Choco] |
-| Programming language | [Clojure], [Groovy], [Frege], [Java], [Nashorn], [JRuby], [Jython], [Kotlin], [Luaj], [Scala], [tuprolog] |
+|                        | Technologies/libraries covered                                                                            |
+|------------------------|-----------------------------------------------------------------------------------------------------------|
+| Constraint-programming | [Choco]                                                                                                   |
+| Programming language   | [Clojure], [Groovy], [Frege], [Java], [Nashorn], [JRuby], [Jython], [Kotlin], [Luaj], [Scala], [tuprolog] |
 
 ---
 
@@ -256,8 +256,8 @@ This example uses genetic algorithms to explore the
 
 Details can be found in the related website: [groovy-constraint-programming/Monkeys](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/Monkeys)
 
-|                    | Technologies/libraries covered |
-|--------------------| --- |
+|                    | Technologies/libraries covered    |
+|--------------------|-----------------------------------|
 | Genetic Algorithms | [Apache Commons Math], [Jenetics] |
 
 ---
@@ -314,3 +314,4 @@ Details can be found in the related website: [groovy-constraint-programming/Monk
 [OrTools]: https://developers.google.com/optimization "Google OR Tools"
 [SAS/OR]: https://www.sas.com/en_us/software/or.html
 [Apache Wayang]: https://wayang.apache.org/
+[Deep Netts]: https://www.deepnetts.com/blog/deep-netts-community-edition

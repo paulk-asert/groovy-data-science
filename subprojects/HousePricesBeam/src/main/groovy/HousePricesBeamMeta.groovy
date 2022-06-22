@@ -28,24 +28,14 @@ import smile.data.DataFrame
 import smile.data.formula.Formula
 import smile.io.Read
 import smile.regression.OLS
-import util.Log
 
 import static java.lang.Math.sqrt
+import static java.util.logging.Level.INFO
+import static java.util.logging.Level.SEVERE
+import static java.util.logging.Logger.getLogger
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
 import static smile.math.MathEx.dot
-
-//interface Options extends PipelineOptions {
-//    @Description("Input file path")
-//    @Default.String('/path/to/kc_house_data.csv')
-//    String getInputFile()
-//    void setInputFile(String value)
-//
-//    @Description("Output directory")
-//    @Required
-//    String getOutputDir()
-//    void setOutputDir(String value)
-//}
 
 static buildPipeline(Pipeline p, String filename) {
     def features = [
@@ -65,7 +55,6 @@ static buildPipeline(Pipeline p, String filename) {
                 def all = table.toArray().toList()
                 receiver.output(all[nextChunkIdxs] as double[][])
             }
-            sleep 2000
         }
     }
 
@@ -89,7 +78,6 @@ static buildPipeline(Pipeline p, String filename) {
     def model2out = new DoFn<double[], String>() {
         @ProcessElement
         void processElement(@Element double[] ds, OutputReceiver<String> out) {
-            sleep 6000 // push to end of log so easier to find
             out.output("** intercept: ${ds[0]}, coeffs: ${ds[1..-1].join(', ')}".toString())
         }
     }
@@ -97,7 +85,6 @@ static buildPipeline(Pipeline p, String filename) {
     def stats2out = new DoFn<double[], String>() {
         @ProcessElement
         void processElement(@Element double[] ds, OutputReceiver<String> out) {
-            sleep 4000 // push to end of log so easier to find
             out.output("** rmse: ${ds[0]}, mean: ${ds[1]}, count: ${ds[2]}".toString())
         }
     }
@@ -127,7 +114,10 @@ PCollection.metaClass.or = { PTransform arg -> delegate.apply(arg) }
 String.metaClass.rightShift = { PTransform arg -> [delegate, arg] }
 Pipeline.metaClass.or = { PTransform arg -> delegate.apply(arg) }
 
+getLogger(getClass().name).info 'Creating pipeline ...'
 def pipeline = Pipeline.create()
-//buildPipeline(pipeline, '/path/to/kc_house_data.csv')
+getLogger('').level = SEVERE // quieten root logging
+
 buildPipeline(pipeline, getClass().classLoader.getResource('kc_house_data.csv').path)
+getLogger(Log.name).level = INFO // logging on for us
 pipeline.run().waitUntilFinish()

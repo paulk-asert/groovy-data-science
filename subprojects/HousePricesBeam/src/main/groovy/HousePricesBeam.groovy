@@ -26,7 +26,6 @@ import smile.data.DataFrame
 import smile.data.formula.Formula
 import smile.io.Read
 import smile.regression.OLS
-import util.Log
 
 import static java.lang.Math.sqrt
 import static java.util.logging.Level.*
@@ -53,7 +52,6 @@ static buildPipeline(Pipeline p, String filename) {
                 def all = table.toArray().toList()
                 receiver.output(all[nextChunkIdxs] as double[][])
             }
-            sleep 2000
         }
     }
 
@@ -104,10 +102,10 @@ static buildPipeline(Pipeline p, String filename) {
             .apply('Log model', ParDo.of(model2out)).apply(Log.ofElements())
 }
 
+getLogger(getClass().name).info 'Creating pipeline ...'
 def pipeline = Pipeline.create()
 getLogger('').level = SEVERE // quieten root logging
 
 buildPipeline(pipeline, getClass().classLoader.getResource('kc_house_data.csv').path)
 getLogger(Log.name).level = INFO // logging on for us
-
 pipeline.run().waitUntilFinish()

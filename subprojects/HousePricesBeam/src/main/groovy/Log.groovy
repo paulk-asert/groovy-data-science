@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package util;
-
 import org.apache.beam.sdk.transforms.DoFn;
 import org.apache.beam.sdk.transforms.PTransform;
 import org.apache.beam.sdk.transforms.ParDo;
@@ -22,22 +20,22 @@ import org.apache.beam.sdk.values.PCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Log {
+class Log {
     private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
     private Log() { }
 
-    public static <T> PTransform<PCollection<T>, PCollection<T>> ofElements() {
-        return new LoggingTransform<>();
+    static <T> PTransform<PCollection<T>, PCollection<T>> ofElements() {
+        return new LoggingTransform<>()
     }
 
     private static class LoggingTransform<T> extends PTransform<PCollection<T>, PCollection<T>> {
         @Override
-        public PCollection<T> expand(PCollection<T> input) {
+        PCollection<T> expand(PCollection<T> input) {
             return input.apply(ParDo.of(new DoFn<T, T>() {
                 @ProcessElement
-                public void processElement(@Element T element, OutputReceiver<T> out) {
-                    LOGGER.info(element.toString());
-                    out.output(element);
+                void processElement(@Element T element, OutputReceiver<T> out) {
+                    LOGGER.info(element.toString())
+                    out.output(element)
                 }
             }));
         }

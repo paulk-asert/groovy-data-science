@@ -23,46 +23,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Log {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
+    private Log() { }
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Log.class);
-
-  private Log() {
-  }
-
-  public static <T> PTransform<PCollection<T>, PCollection<T>> ofElements() {
-    return new LoggingTransform<>();
-  }
-
-  public static <T> PTransform<PCollection<T>, PCollection<T>> ofElements(String prefix) {
-    return new LoggingTransform<>(prefix);
-  }
-
-  private static class LoggingTransform<T> extends PTransform<PCollection<T>, PCollection<T>> {
-
-    private String prefix;
-
-    private LoggingTransform() {
-      prefix = "";
+    public static <T> PTransform<PCollection<T>, PCollection<T>> ofElements() {
+        return new LoggingTransform<>();
     }
 
-    private LoggingTransform(String prefix) {
-      this.prefix = prefix;
-    }
-
-    @Override
-    public PCollection<T> expand(PCollection<T> input) {
-      return input.apply(ParDo.of(new DoFn<T, T>() {
-
-        @ProcessElement
-        public void processElement(@Element T element, OutputReceiver<T> out) {
-          LOGGER.info(prefix + element.toString());
-
-          out.output(element);
+    private static class LoggingTransform<T> extends PTransform<PCollection<T>, PCollection<T>> {
+        @Override
+        public PCollection<T> expand(PCollection<T> input) {
+            return input.apply(ParDo.of(new DoFn<T, T>() {
+                @ProcessElement
+                public void processElement(@Element T element, OutputReceiver<T> out) {
+                    LOGGER.info(element.toString());
+                    out.output(element);
+                }
+            }));
         }
-
-      }));
     }
-
-  }
-
 }

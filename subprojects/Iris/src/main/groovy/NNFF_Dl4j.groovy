@@ -63,7 +63,7 @@ int batchSize = 150
 def iterator = new RecordReaderDataSetIterator(recordReader, batchSize, labelIndex, numClasses)
 DataSet allData = iterator.next()
 allData.shuffle()
-def testAndTrain = allData.splitTestAndTrain(0.8)
+def testAndTrain = allData.splitTestAndTrain(0.7)
 
 DataSet trainingData = testAndTrain.train
 DataSet testData = testAndTrain.test
@@ -75,7 +75,7 @@ scaler.transform(trainingData)
 scaler.transform(testData)
 
 int numInputs = 4
-int outputNum = 3
+int numOutputs = 3
 long seed = -1
 
 println "Build model...."
@@ -90,7 +90,7 @@ MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
         .layer(new DenseLayer.Builder().nIn(3).nOut(3).build())
         .layer(new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
                 .activation(Activation.SOFTMAX) // override global activation with softmax for this layer
-                .nIn(3).nOut(outputNum).build())
+                .nIn(3).nOut(numOutputs).build())
         .build()
 
 def model = new MultiLayerNetwork(conf)
@@ -98,7 +98,7 @@ model.init()
 
 model.listeners = new ScoreIterationListener(100)
 
-1000.times {model.fit(trainingData) }
+1000.times { model.fit(trainingData) }
 
 def eval = new Evaluation(3)
 def output = model.output(testData.features)

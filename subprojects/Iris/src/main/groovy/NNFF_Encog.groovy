@@ -22,7 +22,6 @@ import org.encog.ml.data.versatile.columns.ColumnType
 import org.encog.ml.data.versatile.sources.CSVDataSource
 import org.encog.ml.model.EncogModel
 import org.encog.util.csv.CSVFormat
-import org.encog.util.csv.ReadCSV
 
 import static org.encog.ml.factory.MLMethodFactory.TYPE_FEEDFORWARD
 import static org.encog.util.simple.EncogUtility.calculateRegressionError
@@ -61,21 +60,22 @@ println "Validation error: " + calculateRegressionError(bestMethod, model.valida
 def helper = data.normHelper
 //println helper
 
-println "Final model: " + bestMethod
-
-println 'Rerunning on entire dataset ...'
-ReadCSV csv = new ReadCSV(file, true, CSVFormat.DECIMAL_POINT)
-MLData input = helper.allocateInputVector()
+//println "Final model: " + bestMethod
 
 def matrix = species.collectEntries{ actual -> [actual, species.collectEntries { predicted -> [predicted, 0] }] }
-while (csv.next()) {
-    String[] line = (0..3).collect{ csv.get(it) }
-    String actual = csv.get(4)
-    helper.normalizeInputVector(line, input.data, false)
-    MLData output = bestMethod.compute(input)
+def errors = []
+model.validationDataset.forEach {
+    String actual = helper.denormalizeOutputVectorToString(it.ideal)[0]
+    MLData output = bestMethod.compute(it.input)
     String predicted = helper.denormalizeOutputVectorToString(output)[0]
     matrix[actual][predicted]++
-    println "$line -> predicted: $predicted, correct: $actual"
+    if (predicted != actual) {
+        errors << "predicted: $predicted, actual: $actual, normalized data: $it.inputArray"
+    }
+}
+if (errors) {
+    println 'Prediction errors:'
+    errors.each{ println it }
 }
 println "${'Confusion matrix:'.padRight(20)}${species.collect{ sprintf '%20s', it }.join()}"
 matrix.each{ k, v ->

@@ -38,13 +38,15 @@ def outputColumn = data.defineSourceColumn('Species', 4, ColumnType.nominal)
 data.analyze()
 data.defineSingleOutputOthersInput(outputColumn)
 
+def pretty = { d -> sprintf '%7.4f', d }
+
 // Create feedforward neural network as the model type.
 // Other types:
 // SVM:  Support Vector Machine (SVM)
 // TYPE_RBFNETWORK: RBF Neural Network
 // TYPE_NEAT: NEAT Neural Network
 // TYPE_PNN: Probabilistic Neural Network
-EncogModel model = new EncogModel(data).tap {
+def model = new EncogModel(data).tap {
     selectMethod(data, TYPE_FEEDFORWARD)
     report = new ConsoleStatusReportable()
     data.normalize()
@@ -54,14 +56,12 @@ EncogModel model = new EncogModel(data).tap {
 
 def bestMethod = model.crossvalidate(5, true) // 5-fold cross-validation
 
-println "Training error: " + calculateRegressionError(bestMethod, model.trainingDataset)
-println "Validation error: " + calculateRegressionError(bestMethod, model.validationDataset)
-
-def helper = data.normHelper
-//println helper
+println "Training error: " + pretty(calculateRegressionError(bestMethod, model.trainingDataset))
+println "Validation error: " + pretty(calculateRegressionError(bestMethod, model.validationDataset))
 
 //println "Final model: " + bestMethod
 
+def helper = data.normHelper
 def matrix = species.collectEntries{ actual -> [actual, species.collectEntries { predicted -> [predicted, 0] }] }
 def errors = []
 model.validationDataset.forEach {
@@ -70,7 +70,8 @@ model.validationDataset.forEach {
     String predicted = helper.denormalizeOutputVectorToString(output)[0]
     matrix[actual][predicted]++
     if (predicted != actual) {
-        errors << "predicted: $predicted, actual: $actual, normalized data: $it.inputArray"
+        def inputPretty = it.inputArray.collect{ pretty(it) }.join(', ')
+        errors << "predicted: $predicted, actual: $actual, normalized input: $inputPretty"
     }
 }
 if (errors) {

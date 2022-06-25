@@ -135,7 +135,7 @@ or using a Jupyter/BeakerX notebook.
 |                                  | Technologies/libraries covered                                                                                                                                    |
 |----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Data manipulation                | [Weka], [Tablesaw], [Encog], [JSAT], [Datavec], [Tribuo]                                                                                                          |
-| Classification                   | [Weka], [Smile], [Encog], [Tribuo], [JSAT], [Deep Learning4J], [Deep Netts]                                                                                       |
+| Classification                   | [Weka], [Smile], [Encog], [Tribuo], [JSAT], [Eclipse DeepLearning4J], [Deep Netts]                                                                                       |
 | Visualization                    | [XChart], [Tablesaw Plot.ly], [JavaFX]                                                                                                                            |
 | Main aspects/algorithms covered  | Reading csv, dataframes, visualization, exploration, naive bayes, logistic regression, knn regression, softmax regression, decision trees, support vector machine |
 | Other aspects/algorithms covered | neural networks, multilayer perceptron, PCA                                                                                                                       |
@@ -170,13 +170,13 @@ This example looks at using neural networks for digit recognition.
 More details can be found in the [Mnist](subprojects/Mnist/) subproject.
 It contains examples using hand-written neural networks with
 [Apache Commons Math] used for matrix calculations
-and multilayer perceptron examples using [Deep Learning4J].
+and multilayer perceptron examples using [Eclipse DeepLearning4J].
 There is also a logistic regression example using [Tribuo].
 
 |                           | Technologies/libraries covered           |
 |---------------------------|------------------------------------------|
 | Logistic regression (SGD) | [Tribuo]                                 |
-| Neural networks           | [Apache Commons Math], [Deep Learning4J] |
+| Neural networks           | [Apache Commons Math], [Eclipse DeepLearning4J] |
 
 ## Deep-learning Object detection with DJL and Apache MXNet
 
@@ -276,7 +276,7 @@ Details can be found in the related website: [groovy-constraint-programming/Monk
 [CoreNLP]: https://stanfordnlp.github.io/CoreNLP/
 [Apache Tika]: https://tika.apache.org/
 [Apache Camel]: https://camel.apache.org/
-[Deep Learning4J]: https://deeplearning4j.org/
+[Eclipse DeepLearning4J]: https://deeplearning4j.konduit.ai/
 [Datavec]: https://github.com/deeplearning4j/DataVec
 [Choco]: http://www.choco-solver.org/
 [Apache Spark]: https://spark.apache.org/

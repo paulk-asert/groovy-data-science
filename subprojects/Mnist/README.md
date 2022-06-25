@@ -13,7 +13,7 @@ The examples illustrate:
 * hand-written neural networks with
 [Apache Commons Math](https://commons.apache.org/proper/commons-math/) used for matrix calculations
 * multilayer perceptron examples using
-[Deep Learning4J](https://deeplearning4j.org/)
+[Eclipse DeepLearning4J](https://deeplearning4j.konduit.ai/)
 
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
@@ -37,7 +37,7 @@ MLP uses a supervised learning technique known as back-propagation for training.
 
 The [OneLayerMLP](src/main/groovy/OneLayerMLP.groovy)
 and [TwoLayerMLP](src/main/groovy/TwoLayerMLP.groovy) examples use
-[Deep Learning4J](https://deeplearning4j.org/).
+[Eclipse DeepLearning4J](https://deeplearning4j.konduit.ai/).
 
 The [MnistTrainer](src/main/groovy/MnistTrainer.groovy) script reads the MNIST dataset and trains and saves the neural network.
 You only need to run this if you want to tweak or re-generate the model.

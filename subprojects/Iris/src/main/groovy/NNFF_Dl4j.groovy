@@ -80,18 +80,18 @@ long seed = -1
 
 println "Build model...."
 MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-        .seed(seed)
-        .activation(Activation.TANH) // global activation
-        .weightInit(WeightInit.XAVIER)
-        .updater(new Sgd(0.1))
-        .l2(1e-4)
-        .list()
-        .layer(new DenseLayer.Builder().nIn(numInputs).nOut(3).build())
-        .layer(new DenseLayer.Builder().nIn(3).nOut(3).build())
-        .layer(new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
-                .activation(Activation.SOFTMAX) // override activation with softmax for this layer
-                .nIn(3).nOut(numOutputs).build())
-        .build()
+    .seed(seed)
+    .activation(Activation.TANH) // global activation
+    .weightInit(WeightInit.XAVIER)
+    .updater(new Sgd(0.1))
+    .l2(1e-4)
+    .list()
+    .layer(new DenseLayer.Builder().nIn(numInputs).nOut(3).build())
+    .layer(new DenseLayer.Builder().nIn(3).nOut(3).build())
+    .layer(new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
+        .activation(Activation.SOFTMAX) // override activation with softmax for this layer
+        .nIn(3).nOut(numOutputs).build())
+    .build()
 
 def model = new MultiLayerNetwork(conf)
 model.init()

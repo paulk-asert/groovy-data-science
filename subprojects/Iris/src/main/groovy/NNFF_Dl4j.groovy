@@ -65,14 +65,14 @@ DataSet allData = iterator.next()
 allData.shuffle()
 def testAndTrain = allData.splitTestAndTrain(0.7) // train with 70%
 
-DataSet trainingData = testAndTrain.train
-DataSet testData = testAndTrain.test
+DataSet train = testAndTrain.train
+DataSet test = testAndTrain.test
 
 // scale all data to be between -1 .. 1
 def scaler = new NormalizerStandardize()
-scaler.fit(trainingData)
-scaler.transform(trainingData)
-scaler.transform(testData)
+scaler.fit(train)
+scaler.transform(train)
+scaler.transform(test)
 
 int numInputs = 4
 int numOutputs = 3
@@ -98,9 +98,9 @@ model.init()
 
 model.listeners = new ScoreIterationListener(100)
 
-1000.times { model.fit(trainingData) }
+1000.times { model.fit(train) }
 
 def eval = new Evaluation(3)
-def output = model.output(testData.features)
-eval.eval(testData.labels, output)
+def output = model.output(test.features)
+eval.eval(test.labels, output)
 println eval.stats()

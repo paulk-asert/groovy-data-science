@@ -38,7 +38,7 @@ data[1..-1].each {
 }
 scaleMax(dataSet)
 
-var (train, test) = dataSet.split(0.7, 0.3) // 60/40% split
+var (train, test) = dataSet.split(0.7, 0.3) // 70/30% split
 
 var neuralNet = FeedForwardNetwork.builder()
     .addInputLayer(numInputs)

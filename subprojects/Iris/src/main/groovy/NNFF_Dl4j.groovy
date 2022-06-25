@@ -63,7 +63,7 @@ int batchSize = 150
 def iterator = new RecordReaderDataSetIterator(recordReader, batchSize, labelIndex, numClasses)
 DataSet allData = iterator.next()
 allData.shuffle()
-def testAndTrain = allData.splitTestAndTrain(0.7)
+def testAndTrain = allData.splitTestAndTrain(0.7) // train with 70%
 
 DataSet trainingData = testAndTrain.train
 DataSet testData = testAndTrain.test
@@ -89,7 +89,7 @@ MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
         .layer(new DenseLayer.Builder().nIn(numInputs).nOut(3).build())
         .layer(new DenseLayer.Builder().nIn(3).nOut(3).build())
         .layer(new OutputLayer.Builder(LossFunctions.LossFunction.NEGATIVELOGLIKELIHOOD)
-                .activation(Activation.SOFTMAX) // override global activation with softmax for this layer
+                .activation(Activation.SOFTMAX) // override activation with softmax for this layer
                 .nIn(3).nOut(numOutputs).build())
         .build()
 

@@ -45,40 +45,41 @@ data.defineSingleOutputOthersInput(outputColumn)
 // TYPE_RBFNETWORK: RBF Neural Network
 // TYPE_NEAT: NEAT Neural Network
 // TYPE_PNN: Probabilistic Neural Network
-EncogModel model = new EncogModel(data)
-model.selectMethod(data, TYPE_FEEDFORWARD)
-model.report = new ConsoleStatusReportable()
-data.normalize()
+EncogModel model = new EncogModel(data).tap {
+    selectMethod(data, TYPE_FEEDFORWARD)
+    report = new ConsoleStatusReportable()
+    data.normalize()
+    holdBackValidation(0.3, true, 1001) // test with 30%
+    selectTrainingType(data)
+}
 
-// Shuffle data with fixed seed for repeatability and hold back 30% for validation
-model.holdBackValidation(0.3, true, 1001);
-model.selectTrainingType(data)
+def bestMethod = model.crossvalidate(5, true) // 5-fold cross-validation
 
-// 5-fold cross-validation
-def bestMethod = model.crossvalidate(5, true)
-
-// Show errors
 println "Training error: " + calculateRegressionError(bestMethod, model.trainingDataset)
 println "Validation error: " + calculateRegressionError(bestMethod, model.validationDataset)
 
-// Display our normalization parameters
 def helper = data.normHelper
-println helper
+//println helper
 
-// Display the model
 println "Final model: " + bestMethod
 
-// Rerun on entire dataset
+println 'Rerunning on entire dataset ...'
 ReadCSV csv = new ReadCSV(file, true, CSVFormat.DECIMAL_POINT)
 MLData input = helper.allocateInputVector()
 
+def matrix = species.collectEntries{ actual -> [actual, species.collectEntries { predicted -> [predicted, 0] }] }
 while (csv.next()) {
     String[] line = (0..3).collect{ csv.get(it) }
-    String correct = csv.get(4)
+    String actual = csv.get(4)
     helper.normalizeInputVector(line, input.data, false)
     MLData output = bestMethod.compute(input)
-    String irisChosen = helper.denormalizeOutputVectorToString(output)[0]
-    println "$line -> predicted: $irisChosen, correct: $correct"
+    String predicted = helper.denormalizeOutputVectorToString(output)[0]
+    matrix[actual][predicted]++
+    println "$line -> predicted: $predicted, correct: $actual"
+}
+println "${'Confusion matrix:'.padRight(20)}${species.collect{ sprintf '%20s', it }.join()}"
+matrix.each{ k, v ->
+    println "${k.padLeft(20)}${v.values().collect{ sprintf '%20d', it }.join()}"
 }
 
 Encog.instance.shutdown()

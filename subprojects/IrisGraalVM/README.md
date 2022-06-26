@@ -42,9 +42,14 @@ $ ./gradlew IrisGraalVM:copyDependenciesToLib
 $ cd subprojects/IrisGraalVM
 
 $ ls build/lib
-deepnetts-core-1.13.2.jar  log4j-api-2.17.2.jar       logback-classic-1.2.11.jar  slf4j-api-1.7.35.jar
-groovy-4.0.3.jar           log4j-to-slf4j-2.17.2.jar  logback-core-1.2.11.jar     visrec-api-1.0.5.jar
+deepnetts-core-1.13.2.jar  log4j-api-2.17.2.jar       slf4j-api-1.7.36.jar     visrec-api-1.0.5.jar
+groovy-4.0.3.jar           log4j-to-slf4j-2.17.2.jar  slf4j-simple-1.7.36.jar
 ```
+
+Currently, if you use `deepnetts` default `log4j-core` dependency you will see errors
+when trying to build the native image. It's a known issue being looked at.
+We used `log4j-to-slf4j` (it needs to be paired with `slf4j-simple` or `logback-classic`)
+to side-step the issue.
 
 ## Build our `iris` application
 
@@ -73,8 +78,13 @@ $ native-image --report-unsupported-elements-at-runtime \
   --no-fallback \
   -H:ConfigurationFileDirectories=conf/ \
   -cp ".:build/lib/*" \
+  -Dorg.slf4j.simpleLogger.defaultLogLevel=WARN \
   iris
 ```
+
+The `-Dorg.slf4j.simpleLogger.defaultLogLevel=WARN` part bakes that system property into
+the native executable. It will quieten the somewhat verbose logging during the model building
+phase. Leave it out if you want normal logging.
 
 ### Run `iris` as a standalone executable file
 
@@ -94,7 +104,7 @@ Iris-versicolor              0              0             19              0
  Iris-virginica              0              0              0             12
 
 
-real    0m0.639s
-user    0m0.586s
-sys     0m0.032s
+real    0m0.131s
+user    0m0.096s
+sys     0m0.029s
 ```

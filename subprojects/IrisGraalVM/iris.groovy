@@ -21,7 +21,6 @@ import deepnetts.net.loss.LossType
 import deepnetts.net.train.opt.OptimizerType
 import javax.visrec.ml.data.DataSet
 import static deepnetts.data.DataSets.*
-import ch.qos.logback.classic.*
 
 // inspired by:
 // https://github.com/deepnetts/deepnetts-communityedition/blob/community-visrec/deepnetts-examples/src/main/java/deepnetts/examples/IrisFlowersClassifier.java
@@ -31,10 +30,6 @@ String[] species = ['Iris-setosa', 'Iris-versicolor', 'Iris-virginica']
 
 int numInputs = cols.size()
 int numOutputs = species.size()
-
-// quieten logging while building model - delete or comment out for more details
-def logger = (Logger) org.slf4j.LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME)
-logger.setLevel(Level.WARN)
 
 // Deep Netts readCsv assumes normalized data, so we roll our own
 var dataSet = new TabularDataSet(numInputs, numOutputs).tap{ columnNames = cols + species }
@@ -57,7 +52,7 @@ var neuralNet = FeedForwardNetwork.builder()
     .build()
 
 neuralNet.trainer.with {
-    maxError = 0.05f
+    maxError = 0.1f
     learningRate = 0.01f
     momentum = 0.9f
     optimizer = OptimizerType.MOMENTUM

@@ -1,0 +1,36 @@
+plugins {
+    id 'groovy'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.apache.groovy:groovy:4.0.3"
+    implementation("com.deepnetts:deepnetts-core:1.13.2") {
+        exclude(group: 'org.apache.logging.log4j', module: 'log4j-core')
+        exclude(group: 'org.apache.commons', module: 'commons-lang3')
+        exclude(group: 'org.apache.commons', module: 'commons-configuration2')
+        exclude(group: 'org.json')
+    }
+    runtimeOnly 'org.apache.logging.log4j:log4j-to-slf4j:2.17.2'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.2.11'
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['.']
+        }
+    }
+}
+
+tasks.register("copyDependenciesToLib", Copy) {
+    into "$buildDir/lib"
+    from project.configurations.runtimeClasspath.files
+    doLast {
+        println "copyDependenciesToLib:\n  ${project.configurations.runtimeClasspath.files*.absolutePath.join('\n  ')}\n  ->\n  $buildDir/lib"
+    }
+}
+

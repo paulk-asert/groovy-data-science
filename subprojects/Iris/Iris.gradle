@@ -15,7 +15,26 @@
  */
 import static JavaFXUtil.checkForJavaFX
 
+buildscript {
+    repositories {
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+    dependencies {
+        classpath 'org.openjfx:javafx-plugin:0.0.13'
+    }
+}
+
 apply plugin: 'groovy'
+if (JavaVersion.current().java11Compatible) {
+    apply plugin: 'org.openjfx.javafxplugin'
+    javafx {
+        // to use JDK11+ with JavaFX built in, adjust and then uncomment next line
+        // sdk = '/path/to/javafx-sdk'
+        modules = [ 'javafx.controls', 'javafx.swing' ]
+    }
+}
 
 repositories {
     mavenCentral()
@@ -29,16 +48,18 @@ tasks.register('installWekaPackages', JavaExec) {
     mainClass = 'InstallWekaPackages'
 }
 
-tasks.withType(GroovyCompile).configureEach {
-    if (!checkForJavaFX()) {
-        exclude '**/*JavaFX.groovy'
-        doLast {
-            println '''
-            ******************************************************
-            ** Excluding JavaFX scripts due to incompatible JDK **
-            ** No JavaFX?                                       **
-            ******************************************************
-            '''.stripIndent()
+if (!JavaVersion.current().java11Compatible) {
+    tasks.withType(GroovyCompile).configureEach {
+        if (!checkForJavaFX()) {
+            exclude '**/*JavaFX.groovy'
+            doLast {
+                println '''
+                ******************************************************
+                ** Excluding JavaFX scripts due to incompatible JDK **
+                ** No JavaFX?                                       **
+                ******************************************************
+                '''.stripIndent()
+            }
         }
     }
 }
@@ -47,26 +68,42 @@ dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
-    implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
+    implementation "tech.tablesaw:tablesaw-jsplot:$tablesawVersion"
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
     implementation "com.github.haifengl:smile-core:$smileVersion"
     implementation "org.encog:encog-core:3.4"
-    implementation "com.deepnetts:deepnetts-core:1.13.2"
+    implementation("com.deepnetts:deepnetts-core:1.13.2") {
+        exclude(group: 'org.apache.commons', module: 'commons-lang3')
+        exclude(group: 'org.apache.commons', module: 'commons-configuration2')
+        exclude(group: 'org.json')
+    }
     implementation "com.edwardraff:JSAT:0.0.9"
     implementation 'com.github.EdwardRaff:JSATFX:master-SNAPSHOT'
     implementation "com.datumbox:datumbox-framework-lib:0.8.2"
     implementation files(['wekaDeeplearning4j', 'SelfOrganizingMap'].collect{
         "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
-    implementation "org.nd4j:nd4j-native-platform:$nd4jVersion"
-    implementation "org.deeplearning4j:deeplearning4j-core:$nd4jVersion"
-    implementation "org.tribuo:tribuo-all:$tribuoVersion"
+    implementation("org.nd4j:nd4j-api:$nd4jVersion") {
+        exclude(group: 'com.github.oshi')
+    }
+    runtimeOnly "org.nd4j:nd4j-native-platform:$nd4jVersion"
+    implementation("org.deeplearning4j:deeplearning4j-core:$nd4jVersion") {
+        exclude(group: 'com.twelvemonkeys.imageio')
+        exclude(group: 'com.github.jai-imageio')
+        exclude(group: 'org.datavec', module: 'datavec-data-image')
+        exclude(group: 'com.github.oshi')
+        exclude(group: 'org.deeplearning4j', module: 'deeplearning4j-ui-components')
+        exclude(group: 'org.deeplearning4j', module: 'deeplearning4j-modelimport')
+    }
+    implementation("org.tribuo:tribuo-classification-experiments:$tribuoVersion") {
+        exclude(group: 'org.jline')
+    }
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
     runtimeOnly "org.apache.logging.log4j:log4j-core:$log4j2Version"
 }
 
 tasks.register('checkJdk11Compatibility') {
     doLast {
-        assert JavaVersion.current().isJava11Compatible(), "JDK11+ is required but found ${JavaVersion.current()}!"
+        assert JavaVersion.current().java11Compatible, "JDK11+ is required but found ${JavaVersion.current()}!"
     }
 }
 
@@ -80,7 +117,7 @@ FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).eac
     tasks.register("run$name", JavaExec) {
         group 'Script'
         if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)
-        if (name.contains('JavaFX')) dependsOn(checkJavaFXCompatibility)
+        if (name.contains('JavaFX') && !JavaVersion.current().java11Compatible) dependsOn(checkJavaFXCompatibility)
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name

@@ -19,7 +19,6 @@ import deepnetts.net.FeedForwardNetwork
 import deepnetts.net.layers.activation.ActivationType
 import deepnetts.net.loss.LossType
 import deepnetts.net.train.opt.OptimizerType
-import javax.visrec.ml.data.DataSet
 import static deepnetts.data.DataSets.*
 
 // inspired by:

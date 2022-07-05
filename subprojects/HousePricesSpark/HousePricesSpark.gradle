@@ -21,13 +21,18 @@ repositories {
 //    mavenLocal()
 }
 
-application {
-    mainClass = 'HousePricesSpark'
-}
-
 ext {
+    appName = 'HousePricesIgnite'
     sparkVariant = '2.12'
     sparkVersion = '3.3.0'
+}
+
+application {
+    mainClass = appName
+}
+
+tasks.named('run').configure {
+    description = "Run $appName as a JVM application/Groovy script"
 }
 
 dependencies {
@@ -42,12 +47,12 @@ task copyToLib(type: Copy) {
     from configurations.runtimeClasspath
 }
 
-tasks.register('jdkVersion') {
+tasks.register('versionInfo') {
     doLast {
         File javaHome = new File(System.getProperty('java.home'))
-        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+        logger.lifecycle "Using Java from $javaHome (version ${JavaVersion.current()})"
         assert JavaVersion.current().isJava8() || JavaVersion.current().isJava11(), "JDK8 or JDK11 is required but found ${JavaVersion.current()}!"
     }
 }
 
-run.dependsOn jdkVersion
+run.dependsOn versionInfo

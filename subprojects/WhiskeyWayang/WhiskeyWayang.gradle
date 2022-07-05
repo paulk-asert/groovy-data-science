@@ -20,8 +20,14 @@ repositories {
     mavenCentral()
 }
 
+ext.appName = 'WhiskeyWayang'
+
 application {
-    mainClass = 'WhiskeyWayang'
+    mainClass = appName
+}
+
+tasks.named('run').configure {
+    description = "Run $appName as a JVM application/Groovy script"
 }
 
 ext {
@@ -44,7 +50,7 @@ dependencies {
         exclude(group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl')
     }
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
-    runtimeOnly 'org.apache.commons:commons-configuration2:2.7'
+    runtimeOnly 'org.apache.commons:commons-configuration2:2.8.0'
     runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.2.8'
     runtimeOnly 'com.google.re2j:re2j:1.6'
     runtimeOnly("org.apache.hadoop:hadoop-common:$hadoopVersion") {
@@ -55,7 +61,7 @@ dependencies {
     }
 }
 
-tasks.register('jdkVersion') {
+tasks.register('versionInfo') {
     doLast {
         File javaHome = new File(System.getProperty('java.home'))
         logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
@@ -67,4 +73,4 @@ tasks.register('jdkVersion') {
     }
 }
 
-run.dependsOn jdkVersion
+run.dependsOn versionInfo

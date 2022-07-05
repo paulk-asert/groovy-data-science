@@ -74,8 +74,8 @@ $ <b>./gradlew :Candles:runCandleRatings</b>
 Tasks runnable from project ':Candles'
 ------------------------------------------------------------
 
-Script tasks
-------------
+Application tasks
+-----------------
 runCandleRatings - Run CandleRatings.groovy as a JVM application/Groovy script
 runCandleReviews - Run CandleReviews.groovy as a JVM application/Groovy script
 ...

@@ -24,8 +24,14 @@ repositories {
 //    mavenLocal()
 }
 
+ext.appName = 'ObjectDetect'
+
 application {
-    mainClass = 'ObjectDetect'
+    mainClass = appName
+}
+
+tasks.named('run').configure {
+    description = "Run $appName as a JVM application/Groovy script"
 }
 
 dependencies {

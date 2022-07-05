@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 import org.apache.camel.Exchange
 import org.apache.camel.Processor
 import org.apache.camel.builder.RouteBuilder
@@ -25,7 +24,7 @@ import static org.apache.camel.language.groovy.GroovyLanguage.groovy
 def file = getClass().classLoader.getResource('kc_house_data.csv').file
 
 class DisplayHouseProcessor implements Processor {
-    void process(Exchange exchange) throws Exception {
+    void process(Exchange exchange) {
         println exchange.in.body
     }
 }
@@ -36,19 +35,21 @@ context.addRoutes(new RouteBuilder() {
     void configure() {
         def csv = new CsvDataFormat(useMaps: true)
         from(uri)
-                .unmarshal(csv)
-                .split(body())
-                .streaming()
-                .filter(groovy("request.body.bedrooms.toInteger() > 10"))
-                .process(new DisplayHouseProcessor())
+            .unmarshal(csv)
+            .split(body())
+            .streaming()
+            .filter(groovy("request.body.bedrooms.toInteger() > 10"))
+            .process(new DisplayHouseProcessor())
     }
 })
 context.start()
+// Camel processes are often long-lived awaiting incoming
+// messages or files, we simulate here by waiting 10 secs
 sleep 10000
 context.stop()
 
 /*
-INFO: Apache Camel 3.11.0 (camel-1) started in 211ms (build:49ms init:149ms start:13ms)
+INFO: Apache Camel 3.17.0 (camel-1) started in 211ms (build:49ms init:149ms start:13ms)
 [id:1773100755, date:20140821T000000, price:520000, bedrooms:11, bathrooms:3, sqft_living:3000, sqft_lot:4960,
  floors:2, waterfront:0, view:0, condition:3, grade:7, sqft_above:2400, sqft_basement:600, yr_built:1918,
  yr_renovated:1999, zipcode:98106, lat:47.556, long:-122.363, sqft_living15:1420, sqft_lot15:4960]

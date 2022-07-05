@@ -18,15 +18,12 @@ apply plugin: 'application'
 
 repositories {
     mavenCentral()
-    // snapshot installed in local maven repo
-//    mavenLocal()
-//    maven {
-//        url 'file:/staging/'
-//    }
 }
 
+ext.appName = 'HousePricesIgnite'
+
 application {
-    mainClass = 'HousePricesIgnite'
+    mainClass = appName
     if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) {
         applicationDefaultJvmArgs = [
                 '--add-opens=java.base/java.io=ALL-UNNAMED',
@@ -35,6 +32,10 @@ application {
                 '--add-opens=java.base/java.util=ALL-UNNAMED'
         ]
     }
+}
+
+tasks.named('run').configure {
+    description = "Run $appName as a JVM application/Groovy script"
 }
 
 dependencies {
@@ -47,15 +48,15 @@ dependencies {
 }
 
 task copyToLib(type: Copy) {
-    into "$buildDir/deps"
+    into "$buildDir/lib"
     from configurations.runtimeClasspath
 }
 
-tasks.register('jdkVersion') {
+tasks.register('versionInfo') {
     doLast {
         File javaHome = new File(System.getProperty('java.home'))
         logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
     }
 }
 
-run.dependsOn jdkVersion
+run.dependsOn versionInfo

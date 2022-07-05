@@ -48,15 +48,15 @@ For subprojects with multiple scripts, it will typically be "run" followed by th
 <summary>Linux/MacOS</summary>
 
 <pre>
-$ <b>./gradlew :Candles:tasks --group="Script"</b>
+$ <b>./gradlew :Candles:tasks --group="Application"</b>
 > Task :Candles:tasks
 
 ------------------------------------------------------------
 Tasks runnable from project ':Candles'
 ------------------------------------------------------------
 
-Script tasks
-------------
+Application tasks
+-----------------
 runCandleRatings - Run CandleRatings.groovy as a JVM application/Groovy script
 runCandleReviews - Run CandleReviews.groovy as a JVM application/Groovy script
 ...
@@ -67,7 +67,7 @@ $ <b>./gradlew :Candles:runCandleRatings</b>
 <summary>Windows</summary>
 
 <pre>
-> <b>gradlew :Candles:tasks --group="Script"</b>
+> <b>gradlew :Candles:tasks --group="Application"</b>
 > Task :Candles:tasks
 
 ------------------------------------------------------------

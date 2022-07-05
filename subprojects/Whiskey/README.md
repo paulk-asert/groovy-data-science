@@ -40,7 +40,7 @@ You have several options for running the programs (see more details from the mai
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FWhiskey%2Fsrc%2Fmain%2Fnotebook%2FWhiskey.ipynb)
 
 * From the command line, invoke a script with gradlew using the appropriate run&lt;_ScriptName_&gt; task.\
-  (Hint: `gradlew :Whiskey:tasks --group="Script"` will show you available task names.)
+  (Hint: `gradlew :Whiskey:tasks --group="Application"` will show you available task names.)
 * If the example has @Grab statements commented out at the top, you can cut and paste the examples into the groovyConsole
 and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.
 

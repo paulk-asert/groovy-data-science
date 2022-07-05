@@ -66,7 +66,7 @@ FileUtil.baseNames(sourceSets.main.allSource.files, ['MnistInfer', 'MnistReader'
     tasks.register("run$name", JavaExec) {
         // current version of GroovyFX requires JDK8
         if (name.endsWith('Gui')) dependsOn([checkJdk8Compatibility, checkJavaFXCompatibility])
-        group 'Script'
+        group 'Application'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name

@@ -20,7 +20,7 @@ sourceCompatibility = 1.8
 FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
     tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
-        group 'Script'
+        group 'Application'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name

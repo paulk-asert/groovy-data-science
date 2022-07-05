@@ -115,7 +115,7 @@ tasks.register('checkJavaFXCompatibility') {
 
 FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).each { name ->
     tasks.register("run$name", JavaExec) {
-        group 'Script'
+        group 'Application'
         if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)
         if (name.contains('JavaFX') && !JavaVersion.current().java11Compatible) dependsOn(checkJavaFXCompatibility)
         description "Run ${name}.groovy as a JVM application/Groovy script"

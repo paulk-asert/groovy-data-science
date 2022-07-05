@@ -66,7 +66,7 @@ You have several options for running the programs (see more details from the mai
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
 * From the command line, invoke a script with gradlew using the appropriate run&lt;_ScriptName_&gt; task.
-  (Hint: `gradlew :Iris:tasks --group="Script"` will show you available task names.)
+  (Hint: `gradlew :Iris:tasks --group="Application"` will show you available task names.)
 
 * You can run the main examples online using a Jupyter/Beakerx notebook:
   [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/HEAD?filepath=subprojects%2FIris%2Fsrc%2Fmain%2Fnotebook%2FIris.ipynb)

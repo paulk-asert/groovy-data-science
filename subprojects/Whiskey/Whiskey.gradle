@@ -36,7 +36,7 @@ FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).eac
     tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
         if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)
-        group 'Script'
+        group 'Application'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name

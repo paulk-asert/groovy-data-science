@@ -7,7 +7,7 @@ Once loaded, run one of the available script tasks. To find
 available script tasks you can try something like:
 
 ```
-> ./gradlew :HousePricesBeam:tasks --group="Scripts"
+> ./gradlew :HousePricesBeam:tasks --group="Application"
 ```
 
 You should see something like below:

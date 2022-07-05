@@ -16,6 +16,10 @@ limitations under the License.
 
 # House price prediction with regression
 
+<img src="../../docs/images/cottage.png" height="250" alt="house"/>
+
+## Linear regression
+
 Linear regression will enable us to find a "best fit" linear relationship between
 some properties or features of interest.
 Ordinary least squares finds such a relationship by minimising residual errors.
@@ -26,7 +30,8 @@ several CSV handling libraries and a number of visualization options.
 
 ![linear regression house prices](../../docs/images/houses.png)
 
-Groovy code examples can be found in the [HousePrices](subprojects/HousePrices/src/main/groovy) subproject.
+Groovy code examples can be found in the [src/main/groovy](src/main/groovy) directory.
+
 There are example scripts which:
 * read from CSV files (multiple technologies)
 * explore finding outliers
@@ -43,7 +48,7 @@ You have several options for running the programs (see more details from the mai
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FHousePrices%2Fsrc%2Fmain%2Fnotebook%2FHousePrices.ipynb)
 
 * From the command line, invoke a script with gradlew using the appropriate run&lt;_ScriptName_&gt; task.
-  (Hint: `gradlew :HousePrices:tasks --group="Script"` will show you available task names.)
+  (Hint: `gradlew :HousePrices:tasks --group="Application"` will show you available task names.)
 * If the example has @Grab statements commented out at the top, you can cut and paste the examples into the groovyConsole
 and uncomment the grab statements. Make sure to cut and paste any helper classes too if appropriate.
 
@@ -67,9 +72,9 @@ Some regression algorithm variants like stochastic gradient descent are amenable
 And some frameworks support such algorithms. The following subprojects highlight frameworks
 with special support for scaling linear regression:
 
-* The [HousePricesIgnite](subprojects/HousePricesIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite. It has been tested on JDK8, JDK11 and JDK17.
+* The [HousePricesIgnite](../HousePricesIgnite/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Ignite. It has been tested on JDK8, JDK11 and JDK17.
 
-* The [HousePricesSpark](subprojects/HousePricesSpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark. It has been tested on JDK8 and JDK11. The current Spark versions are not compatible with JDK17.
+* The [HousePricesSpark](../HousePricesSpark/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Spark. It has been tested on JDK8 and JDK11. The current Spark versions are not compatible with JDK17.
 
 If you find that your algorithm isn't directly amenable to scaling
 you can often tweak it or apply it in some fashion to ensure certain
@@ -77,8 +82,12 @@ constraints hold. This can enable you to still scale up.
 The following subprojects highlight tweaking linear regression
 for scaling purposes:
 
-* The [HousePricesBeam](subprojects/HousePricesBeam/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Beam. It has been tested on JDK8, JDK11 and JDK17.
+* The [HousePricesBeam](../HousePricesBeam/src/main/groovy) subproject which illustrates scaling up to a cluster using Apache Beam. It has been tested on JDK8, JDK11 and JDK17.
 
-* The [HousePricesGPars](subprojects/HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars. It has been tested on JDK8, JDK11 and JDK17.
+* The [HousePricesGPars](../HousePricesGPars/src/main/groovy) subproject which illustrates scaling up concurrently using GPars. It has been tested on JDK8, JDK11 and JDK17.
 
-When collecting data, it can be useful to use integration technologies like Apache Camel. The `ExploreOutlier_ApacheCamelCSV` example illustrates gathering data and finding outliers using this technology. This example works on JDK8, JDK11 and JDK17. An older version of Apache Camel is used on JDK8.
+When collecting data, it can be useful to use special purpose integration technologies:
+
+* The [HousePricesCamel](../HousePricesCamel/src/main/groovy) subproject
+illustrates gathering data and finding outliers using Apache Camel.
+* It has been tested on JDK8, JDK11 and JDK17.

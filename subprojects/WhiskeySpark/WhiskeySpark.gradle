@@ -21,13 +21,18 @@ repositories {
 //    mavenLocal()
 }
 
-application {
-    mainClass = 'WhiskeySpark'
-}
-
 ext {
+    appName = 'WhiskeySpark'
     sparkVariant = '2.12'
     sparkVersion = '3.3.0'
+}
+
+application {
+    mainClass = appName
+}
+
+tasks.named('run').configure {
+    description = "Run $appName as a JVM application/Groovy script"
 }
 
 dependencies {
@@ -37,7 +42,7 @@ dependencies {
     implementation "org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion"
 }
 
-tasks.register('jdkVersion') {
+tasks.register('versionInfo') {
     doLast {
         File javaHome = new File(System.getProperty('java.home'))
         logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
@@ -45,4 +50,4 @@ tasks.register('jdkVersion') {
     }
 }
 
-run.dependsOn jdkVersion
+run.dependsOn versionInfo

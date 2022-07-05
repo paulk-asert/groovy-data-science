@@ -1,0 +1,67 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import static JavaFXUtil.checkForJavaFX
+
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+}
+
+tasks.register('versionInfo') {
+    doLast {
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+        // current version of GroovyFX requires JDK8
+        assert JavaVersion.current().isJava8(), "JDK8 is required but found ${JavaVersion.current()}!"
+        // are we on nonFX JDK8
+        assert checkForJavaFX(), "JavaFX not found"
+    }
+}
+
+dependencies {
+    // Using Groovy 3 because GroovyFX examples require it
+    implementation "org.codehaus.groovy:groovy:$groovy3Version"
+    implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'org.groovyfx:groovyfx:8.0.0'
+}
+
+tasks.withType(GroovyCompile).configureEach {
+    if (!checkForJavaFX() || !JavaVersion.current().isJava8()) {
+        exclude '**/*GroovyFX.groovy'
+        doLast {
+            println """
+            ********************************************************
+            ** Excluding GroovyFX scripts due to incompatible JDK **
+            ** ${ (JavaVersion.current().isJava8() ? "No JavaFX?" :
+                        "Expecting Java 8 but found ${JavaVersion.current()}").padRight(50) } **
+            ********************************************************
+            """.stripIndent()
+        }
+    }
+}
+
+FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
+    tasks.register("run$name", JavaExec) {
+        group 'Application'
+        dependsOn(compileGroovy)
+        dependsOn versionInfo
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = name
+    }
+}

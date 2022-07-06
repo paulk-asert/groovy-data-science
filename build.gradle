@@ -30,6 +30,16 @@ config {
         }
     }
 
+    publishing { enabled = false }
+
+    buildInfo {
+        skipBuildRevision = true
+    }
+
+    coverage {
+        jacoco { enabled = false }
+    }
+
     licensing {
         excludes = ['*/rt-*', '*/training.*.txt', 'weights', '*.pdf',
                     '*.xlsx', '*.csv', '*_source.txt', '*/work/*', 'dummy.txt']

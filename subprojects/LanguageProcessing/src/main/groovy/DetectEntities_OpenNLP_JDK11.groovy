@@ -30,7 +30,7 @@ String[] sentences = [
 def base = 'http://opennlp.sourceforge.net/models-1.5'
 def modelNames = ['person', 'money', 'date', 'time', 'location']
 def finders = modelNames.collect{
-    new NameFinderME(DownloadUtil.downloadModel(new URL("$base/en-ner-$it"), TokenNameFinderModel))
+    new NameFinderME(DownloadUtil.downloadModel(new URL("$base/en-ner-${it}.bin"), TokenNameFinderModel))
 }
 
 def tokenizer = SimpleTokenizer.INSTANCE

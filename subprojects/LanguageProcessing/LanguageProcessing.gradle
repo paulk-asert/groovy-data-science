@@ -36,7 +36,7 @@ dependencies {
     implementation('com.github.uma-pi1:minie:master') {
         exclude(group: 'org.glassfish.jersey.*')
     }
-    implementation 'edu.stanford.nlp:stanford-corenlp:4.4.0'
+    implementation 'edu.stanford.nlp:stanford-corenlp:4.5.0'
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
 }
 

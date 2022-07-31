@@ -36,11 +36,11 @@ tasks.named('run').configure {
 
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
+    runtimeOnly "org.apache.groovy:groovy-nio:$groovy4Version"
     implementation "org.apache.groovy:groovy-swing:$groovy4Version"
-    implementation "org.apache.groovy:groovy-nio:$groovy4Version"
     implementation "ai.djl:api:$djlVersion"
-    implementation "ai.djl:model-zoo:$djlVersion"
-    implementation "ai.djl.mxnet:mxnet-model-zoo:$djlVersion"
+    runtimeOnly "ai.djl:model-zoo:$djlVersion"
+    runtimeOnly "ai.djl.mxnet:mxnet-model-zoo:$djlVersion"
     runtimeOnly "ai.djl.mxnet:mxnet-engine:$djlVersion"
     runtimeOnly "ai.djl.mxnet:mxnet-native-auto:1.8.0"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"

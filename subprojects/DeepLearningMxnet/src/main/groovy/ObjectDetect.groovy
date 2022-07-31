@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import ai.djl.Application
 import ai.djl.engine.Engine
 import ai.djl.modality.cv.Image
@@ -22,8 +23,8 @@ import ai.djl.repository.zoo.Criteria
 import ai.djl.training.util.DownloadUtils
 import ai.djl.training.util.ProgressBar
 import groovy.swing.SwingBuilder
-import javax.imageio.ImageIO
 
+import javax.imageio.ImageIO
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -51,12 +52,12 @@ def detection = criteria.loadModel().withCloseable { model ->
     }
 }
 
-detection.items().each{ println it }
+detection.items().each { println it }
 img.drawBoundingBoxes(detection)
 imageSaved.withOutputStream { os -> img.save(os, 'png') }
 
 def saved = ImageIO.read(imageSaved.toFile())
-def (w, h) = saved.with{ [it.width, it.height] }
+def w = saved.width, h = saved.height
 new SwingBuilder().edt {
     frame(title: "$detection.numberOfObjects detected objects", size: [w, h],
             show: true, defaultCloseOperation: DISPOSE_ON_CLOSE) {

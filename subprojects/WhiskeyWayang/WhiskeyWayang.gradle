@@ -44,7 +44,7 @@ dependencies {
     implementation("org.apache.wayang:wayang-spark_$scalaMajorVersion:$wayangVersion") {
         transitive = false
     }
-    implementation "org.apache.spark:spark-launcher_$scalaMajorVersion:$sparkVersion"
+    runtimeOnly "org.apache.spark:spark-launcher_$scalaMajorVersion:$sparkVersion"
     runtimeOnly("org.apache.spark:spark-core_$scalaMajorVersion:$sparkVersion") {
         exclude(group: 'org.slf4j', module: '*')
         exclude(group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl')

@@ -19,33 +19,33 @@
 //@GrabExclude("commons-codec:commons-codec:1.10")
 //@GrabExclude("javax.xml.stream:stax-api:1.0-2")
 //@Grab("commons-io:commons-io:2.10.0")
+
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.Row
+
 import static org.apache.spark.sql.SparkSession.builder
 
-static method() {
+static main(args) {
 
-def spark = builder().config('spark.master', 'local[8]').appName('Whiskey').orCreate
-def file = WhiskeySpark.classLoader.getResource('whiskey.csv').file
-//def file = '/path/to/whiskey.csv'
-int k = 5
-Dataset<Row> rows = spark.read().format('com.databricks.spark.csv')
-        .options('header': 'true', 'inferSchema': 'true').load(file)
-//def colNames = rows.columns().toList().minus(extras).parallelStream().toArray(String[]::new)
-String[] colNames = rows.columns().toList().minus(['RowID', 'Distillery'])
-def assembler = new VectorAssembler(inputCols: colNames, outputCol: 'features')
-Dataset<Row> dataset = assembler.transform(rows)
-def clusterer = new KMeans(k: k, seed: 1L)
-def model = clusterer.fit(dataset)
-println 'Cluster centers:'
-model.clusterCenters().each{ println it.values().collect{ sprintf '%.2f', it }.join(', ') }
-spark.stop()
+    def spark = builder().config('spark.master', 'local[8]').appName('Whiskey').orCreate
+    def file = WhiskeySpark.classLoader.getResource('whiskey.csv').file
+    //def file = '/path/to/whiskey.csv'
+    int k = 5
+    Dataset<Row> rows = spark.read().format('com.databricks.spark.csv')
+            .options('header': 'true', 'inferSchema': 'true').load(file)
+    //def colNames = rows.columns().toList().minus(extras).parallelStream().toArray(String[]::new)
+    String[] colNames = rows.columns().toList() - ['RowID', 'Distillery']
+    def assembler = new VectorAssembler(inputCols: colNames, outputCol: 'features')
+    Dataset<Row> dataset = assembler.transform(rows)
+    def clusterer = new KMeans(k: k, seed: 1L)
+    def model = clusterer.fit(dataset)
+    println 'Cluster centers:'
+    model.clusterCenters().each { println it.values().collect { sprintf '%.2f', it }.join(', ') }
+    spark.stop()
 
 }
-
-method()
 /*
 Cluster centers:
 1.73, 2.35, 1.58, 0.81, 0.19, 1.15, 1.42, 0.81, 1.23, 1.77, 1.23, 1.31

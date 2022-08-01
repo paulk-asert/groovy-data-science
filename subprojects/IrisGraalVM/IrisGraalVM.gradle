@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy:groovy4Version"
+    implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation("com.deepnetts:deepnetts-core:1.13.2") {
         exclude(group: 'org.apache.logging.log4j', module: 'log4j-core')
         exclude(group: 'org.apache.commons', module: 'commons-lang3')

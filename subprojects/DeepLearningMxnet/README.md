@@ -27,4 +27,4 @@ It uses a pre-trained model and the
 Groovy code examples can be found in the [DeepLearningMxnet](subprojects/DeepLearningMxnet/src/main/groovy) subproject.
 If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
-__Requirements__: The code has been tested on JDK8, JDKL11 and JDK17.
+__Requirements__: The code has been tested on JDK8, JDK11 and JDK17.

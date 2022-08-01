@@ -30,12 +30,12 @@ import java.nio.file.Path
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE
 
-def imageName = 'dog-ssd.jpg'
 Path tempDir = Files.createTempDirectory("resnetssd")
+def imageName = 'dog-ssd.jpg'
 Path localImage = tempDir.resolve(imageName)
-Path imageSaved = tempDir.resolve('detected.png')
 def url = new URL("https://s3.amazonaws.com/model-server/inputs/$imageName")
 DownloadUtils.download(url, localImage, new ProgressBar())
+Image img = ImageFactory.instance.fromFile(localImage)
 
 def criteria = Criteria.builder()
         .optApplication(Application.CV.OBJECT_DETECTION)
@@ -45,24 +45,21 @@ def criteria = Criteria.builder()
         .optProgress(new ProgressBar())
         .build()
 
-Image img = ImageFactory.instance.fromFile(localImage)
 def detection = criteria.loadModel().withCloseable { model ->
-    model.newPredictor().withCloseable { predictor ->
-        predictor.predict(img)
-    }
+    model.newPredictor().predict(img)
 }
-
 detection.items().each { println it }
 img.drawBoundingBoxes(detection)
-imageSaved.withOutputStream { os -> img.save(os, 'png') }
 
+Path imageSaved = tempDir.resolve('detected.png')
+imageSaved.withOutputStream { os -> img.save(os, 'png') }
 def saved = ImageIO.read(imageSaved.toFile())
-def w = saved.width, h = saved.height
+
 new SwingBuilder().edt {
-    frame(title: "$detection.numberOfObjects detected objects", size: [w, h],
-            show: true, defaultCloseOperation: DISPOSE_ON_CLOSE) {
-        label(icon: imageIcon(image: saved))
-    }
+    frame(title: "$detection.numberOfObjects detected objects",
+            size: [saved.width, saved.height],
+            defaultCloseOperation: DISPOSE_ON_CLOSE,
+            show: true) { label(icon: imageIcon(image: saved)) }
 }
 
 /*

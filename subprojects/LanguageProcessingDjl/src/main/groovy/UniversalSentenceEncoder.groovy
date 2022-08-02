@@ -1,3 +1,18 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import ai.djl.Application
 import ai.djl.ndarray.NDArrays
 import ai.djl.ndarray.NDList
@@ -52,6 +67,7 @@ def predict(String[] inputs) {
         predictor.predict(inputs)
     }
 }
+
 String[] inputs = [
     "Cycling is low impact and great for cardio",
     "Swimming is low impact and good for fitness",
@@ -66,9 +82,9 @@ var k = inputs.size()
 
 var embeddings = predict(inputs)
 
-def z = new double[k][k]
+var z = new double[k][k]
 for (i in 0..<k) {
-    println "Embedding for: ${inputs[i]}\n${Arrays.toString(embeddings[i])}"
+    println "Embedding for: ${inputs[i]}\n${embeddings[i]}"
     for (j in 0..<k) {
         z[i][j] = dot(embeddings[i], embeddings[j])
     }

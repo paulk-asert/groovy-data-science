@@ -38,5 +38,6 @@ dependencies {
     runtimeOnly "ai.djl.tensorflow:tensorflow-engine:$djlVersion"
     runtimeOnly "ai.djl.tensorflow:tensorflow-model-zoo:$djlVersion"
     runtimeOnly "ai.djl.tensorflow:tensorflow-native-auto:2.4.1"
+//    runtimeOnly "ai.djl.tensorflow:tensorflow-native-cpu:2.7.0:win-x86_64"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
 }

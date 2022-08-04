@@ -52,7 +52,7 @@ classifier.save("SentimentAnalysis")
     def r = classifier.predict(it)
     def predicted = r.YPredicted
     def probability = r.YPredictedProbabilities.get(predicted)
-    println "Classifing: '$it',  Predicted: $predicted,  Probability: ${ sprintf '%4.2f', probability }"
+    println "Classifying: '$it',  Predicted: $predicted,  Probability: ${ sprintf '%4.2f', probability }"
 }
 
 def metrics = classifier.validate(datasets)

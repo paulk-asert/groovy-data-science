@@ -19,10 +19,8 @@ def pretty(lines) {
   }
   """<html>
   <style type="text/css">
-  table.pretty { background-color: white; margin: 0; border-collapse:
-collapse; border-spacing: 0; }
-  .pretty td{ font-size: 22px; line-height: 0em; text-align: center;
-padding: 5; margin: 0; }
+  table.pretty { background-color: white; margin: 0; border-collapse: collapse; border-spacing: 0; }
+  .pretty td{ font-size: 22px; line-height: 0em; text-align: center; padding: 5; margin: 0; }
   </style><table style="background-color: white"><tr><td>
   ${lines.collect{line -> prettyLine(line)}.join('\n')}
   </td></tr></table></html>
@@ -37,10 +35,9 @@ def prettyLine(line) {
     def (_, prefix, a, b) = m[it.intValue()]
     def color = binding.colors[a]
     if (prefix) result += "<td>$prefix</td>"
-    result += $/<td><div style="padding: 5px; background-color:
-$color;"><span style="background-color:white;
-color:$color;">$b</span><br><span
-style="color:white;">$a</span></div></td>/$
+    result += $/<td><div style="padding: 5px; background-color:$color;">
+        <span style="background-color:white; color:$color;">$b</span><br>
+        <span style="color:white;">$a</span></div></td>/$
   }
   if (!m.matches()) result += "<td>${line.substring(m.last)}</td>"
   result + '</tr></tbody></table>'

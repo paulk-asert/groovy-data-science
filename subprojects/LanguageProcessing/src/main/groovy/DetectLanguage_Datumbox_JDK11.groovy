@@ -22,25 +22,29 @@ import com.datumbox.framework.core.machinelearning.classification.MultinomialNai
 import com.datumbox.framework.core.machinelearning.featureselection.ChisquareSelect
 
 def datasets = [
-        English: getClass().classLoader.getResource("training.language.en.txt").toURI(),
-        French: getClass().classLoader.getResource("training.language.fr.txt").toURI(),
-        German: getClass().classLoader.getResource("training.language.de.txt").toURI(),
-        Spanish: getClass().classLoader.getResource("training.language.es.txt").toURI(),
-        Indonesian: getClass().classLoader.getResource("training.language.id.txt").toURI()
+    English: getClass().classLoader.getResource("training.language.en.txt").toURI(),
+    French: getClass().classLoader.getResource("training.language.fr.txt").toURI(),
+    German: getClass().classLoader.getResource("training.language.de.txt").toURI(),
+    Spanish: getClass().classLoader.getResource("training.language.es.txt").toURI(),
+    Indonesian: getClass().classLoader.getResource("training.language.id.txt").toURI()
 ]
 
 def trainingParams = new TextClassifier.TrainingParameters(
-        numericalScalerTrainingParameters: null,
-        featureSelectorTrainingParametersList: [new ChisquareSelect.TrainingParameters()],
-        textExtractorParameters: new NgramsExtractor.Parameters(),
-        modelerTrainingParameters: new MultinomialNaiveBayes.TrainingParameters()
+    numericalScalerTrainingParameters: null,
+    featureSelectorTrainingParametersList: [new ChisquareSelect.TrainingParameters()],
+    textExtractorParameters: new NgramsExtractor.Parameters(),
+    modelerTrainingParameters: new MultinomialNaiveBayes.TrainingParameters()
 )
 
 // RandomGenerator.globalSeed = -1L // for repeatable results
 def config = Configuration.configuration
 def classifier = MLBuilder.create(trainingParams, config)
 classifier.fit(datasets)
-classifier.save("LanguageDetection")
+def metrics = classifier.validate(datasets)
+println "Classifier Accuracy (using training data): $metrics.accuracy"
+
+// uncomment to save the model
+//classifier.save("LanguageDetection")
 
 // alternative to load a pre-existing model
 //def config = Configuration.configuration.tap {
@@ -56,9 +60,3 @@ classifier.save("LanguageDetection")
     def probability = sprintf '%4.2f', r.YPredictedProbabilities.get(predicted)
     println "Classifying: '$txt',  Predicted: $predicted,  Probability: $probability"
 }
-
-def metrics = classifier.validate(datasets)
-println "Classifier Accuracy (using training data): $metrics.accuracy"
-
-// delete since we don't need to keep the model for this demo
-classifier.delete()

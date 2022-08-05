@@ -16,10 +16,9 @@
 import smile.nlp.pos.HMMPOSTagger
 import smile.nlp.tokenizer.SimpleTokenizer
 
-// use a helper to cache models
-def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
 def sentences = [
     'Paul has two sisters, Maree and Christine.',
+    'No wise fish would go anywhere without a porpoise',
     'His bark was much worse than his bite',
     'Turn on the lights to the main bedroom',
     "Light 'em all up",

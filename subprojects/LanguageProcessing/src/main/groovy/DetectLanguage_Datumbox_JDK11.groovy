@@ -21,9 +21,6 @@ import com.datumbox.framework.core.machinelearning.MLBuilder
 import com.datumbox.framework.core.machinelearning.classification.MultinomialNaiveBayes
 import com.datumbox.framework.core.machinelearning.featureselection.ChisquareSelect
 
-// RandomGenerator.globalSeed = -1L // for repeatable results
-def config = Configuration.configuration
-
 def datasets = [
         English: getClass().classLoader.getResource("training.language.en.txt").toURI(),
         French: getClass().classLoader.getResource("training.language.fr.txt").toURI(),
@@ -39,9 +36,17 @@ def trainingParams = new TextClassifier.TrainingParameters(
         modelerTrainingParameters: new MultinomialNaiveBayes.TrainingParameters()
 )
 
+// RandomGenerator.globalSeed = -1L // for repeatable results
+def config = Configuration.configuration
 def classifier = MLBuilder.create(trainingParams, config)
 classifier.fit(datasets)
 classifier.save("LanguageDetection")
+
+// alternative to load a pre-existing model
+//def config = Configuration.configuration.tap {
+//    storageConfiguration = new InMemoryConfiguration(directory: '/path/to/datumbox-framework-zoo')
+//}
+//def classifier = MLBuilder.load(TextClassifier, 'LanguageDetection', config)
 
 [ 'Bienvenido a Madrid', 'Bienvenue à Paris', 'Welcome to London',
   'Willkommen in Berlin', 'Selamat Datang di Jakarta'
@@ -55,4 +60,5 @@ classifier.save("LanguageDetection")
 def metrics = classifier.validate(datasets)
 println "Classifier Accuracy (using training data): $metrics.accuracy"
 
+// delete since we don't need to keep the model for this demo
 classifier.delete()

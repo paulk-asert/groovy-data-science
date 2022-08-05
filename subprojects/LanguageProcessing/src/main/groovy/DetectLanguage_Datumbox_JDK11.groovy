@@ -41,18 +41,15 @@ def trainingParams = new TextClassifier.TrainingParameters(
 
 TextClassifier classifier = MLBuilder.create(trainingParams, config)
 classifier.fit(datasets)
-classifier.save("SentimentAnalysis")
+classifier.save("LanguageDetection")
 
-[ 'Bienvenido a Madrid',
-  'Bienvenue à Paris',
-  'Welcome to London',
-  'Willkommen in Berlin',
-  'Selamat Datang di Jakarta'
-].each {
-    def r = classifier.predict(it)
+[ 'Bienvenido a Madrid', 'Bienvenue à Paris', 'Welcome to London',
+  'Willkommen in Berlin', 'Selamat Datang di Jakarta'
+].each { txt ->
+    def r = classifier.predict(txt)
     def predicted = r.YPredicted
-    def probability = r.YPredictedProbabilities.get(predicted)
-    println "Classifying: '$it',  Predicted: $predicted,  Probability: ${ sprintf '%4.2f', probability }"
+    def probability = sprintf '%4.2f', r.YPredictedProbabilities.get(predicted)
+    println "Classifying: '$txt',  Predicted: $predicted,  Probability: $probability"
 }
 
 def metrics = classifier.validate(datasets)

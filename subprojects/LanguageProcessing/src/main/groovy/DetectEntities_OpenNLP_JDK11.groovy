@@ -24,13 +24,14 @@ String[] sentences = [
     'The Groovy in Action book by Dierk Koenig et. al. is a bargain at $50, or indeed any price.',
     'The conference wrapped up yesterday at 5:30 p.m. in Copenhagen, Denmark.',
     'I saw Ms. May Smith waving to June Jones.',
-    'The parcel was passed from May to June.'
+    'The parcel was passed from May to June.',
+    'The Mona Lisa by Leonardo da Vinci has been on display in the Louvre, Paris since 1797.'
 ]
 
 def base = 'http://opennlp.sourceforge.net/models-1.5'
 def modelNames = ['person', 'money', 'date', 'time', 'location']
-def finders = modelNames.collect{
-    new NameFinderME(DownloadUtil.downloadModel(new URL("$base/en-ner-${it}.bin"), TokenNameFinderModel))
+def finders = modelNames.collect { model ->
+    new NameFinderME(DownloadUtil.downloadModel(new URL("$base/en-ner-${model}.bin"), TokenNameFinderModel))
 }
 
 def tokenizer = SimpleTokenizer.INSTANCE
@@ -49,7 +50,7 @@ sentences.each { sentence ->
             entityText[span.start] = "$span.type(${sentence[pos]})"
         }
     }
-    entityPos.keySet().toList().reverseEach {
+    entityPos.keySet().sort().reverseEach {
         def pos = entityPos[it]
         def (from, to) = [pos.from, pos.to + 1]
         sentence = sentence[0..<from] + entityText[it] + sentence[to..-1]

@@ -17,7 +17,6 @@
 import opennlp.tools.postag.*
 import opennlp.tools.tokenize.SimpleTokenizer
 
-// use a helper to cache models
 def sentences = [
     'Paul has two sisters, Maree and Christine.',
     'No wise fish would go anywhere without a porpoise',
@@ -26,6 +25,7 @@ def sentences = [
     "Light 'em all up",
     'Make it dark downstairs'
 ]
+
 def tokenizer = SimpleTokenizer.INSTANCE
 sentences.each {
     String[] tokens = tokenizer.tokenize(it)

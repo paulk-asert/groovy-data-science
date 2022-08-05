@@ -39,7 +39,7 @@ def trainingParams = new TextClassifier.TrainingParameters(
         modelerTrainingParameters: new MultinomialNaiveBayes.TrainingParameters()
 )
 
-TextClassifier classifier = MLBuilder.create(trainingParams, config)
+def classifier = MLBuilder.create(trainingParams, config)
 classifier.fit(datasets)
 classifier.save("LanguageDetection")
 

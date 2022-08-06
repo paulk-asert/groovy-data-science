@@ -43,13 +43,11 @@ println "Classifier Accuracy (using training data): $metrics.accuracy"
 // uncomment if you want to save the data
 //classifier.save("SentimentAnalysis")
 
-['Datumbox is divine!',
- 'Groovy is great fun!',
- 'Math can be hard!'].each {
+['Datumbox is divine!', 'Groovy is great fun!', 'Math can be hard!'].each {
     def r = classifier.predict(it)
     def predicted = r.YPredicted
-    def probability = r.YPredictedProbabilities.get(predicted)
-    println "Classifing: '$it',  Predicted: $predicted,  Probability: ${ sprintf '%4.2f', probability }"
+    def probability = sprintf '%4.2f', r.YPredictedProbabilities.get(predicted)
+    println "Classifing: '$it',  Predicted: $predicted,  Probability: $probability"
 }
 
 //classifier.delete()

@@ -21,24 +21,27 @@ import com.datumbox.framework.core.machinelearning.MLBuilder
 import com.datumbox.framework.core.machinelearning.classification.MultinomialNaiveBayes
 import com.datumbox.framework.core.machinelearning.featureselection.ChisquareSelect
 
-// RandomGenerator.globalSeed = -1L // for repeatable results
-def config = Configuration.configuration
-
 def datasets = [
-        positive: getClass().classLoader.getResource("rt-polarity.pos").toURI(),
-        negative: getClass().classLoader.getResource("rt-polarity.neg").toURI()
+    positive: getClass().classLoader.getResource("rt-polarity.pos").toURI(),
+    negative: getClass().classLoader.getResource("rt-polarity.neg").toURI()
 ]
 
 def trainingParams = new TextClassifier.TrainingParameters(
-        numericalScalerTrainingParameters: null,
-        featureSelectorTrainingParametersList: [new ChisquareSelect.TrainingParameters()],
-        textExtractorParameters: new NgramsExtractor.Parameters(),
-        modelerTrainingParameters: new MultinomialNaiveBayes.TrainingParameters()
+    numericalScalerTrainingParameters: null,
+    featureSelectorTrainingParametersList: [new ChisquareSelect.TrainingParameters()],
+    textExtractorParameters: new NgramsExtractor.Parameters(),
+    modelerTrainingParameters: new MultinomialNaiveBayes.TrainingParameters()
 )
 
+// RandomGenerator.globalSeed = -1L // for repeatable results
+def config = Configuration.configuration
 TextClassifier classifier = MLBuilder.create(trainingParams, config)
 classifier.fit(datasets)
-classifier.save("SentimentAnalysis")
+def metrics = classifier.validate(datasets)
+println "Classifier Accuracy (using training data): $metrics.accuracy"
+
+// uncomment if you want to save the data
+//classifier.save("SentimentAnalysis")
 
 ['Datumbox is divine!',
  'Groovy is great fun!',
@@ -49,7 +52,4 @@ classifier.save("SentimentAnalysis")
     println "Classifing: '$it',  Predicted: $predicted,  Probability: ${ sprintf '%4.2f', probability }"
 }
 
-def metrics = classifier.validate(datasets)
-println "Classifier Accuracy (using training data): $metrics.accuracy"
-
-classifier.delete()
+//classifier.delete()

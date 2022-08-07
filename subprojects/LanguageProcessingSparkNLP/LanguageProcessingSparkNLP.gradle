@@ -1,0 +1,59 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+apply plugin: 'groovy'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+//    mavenLocal()
+}
+
+ext {
+    appName = 'DetectEntities_SparkNLP'
+    sparkVariant = '2.12'
+    sparkVersion = '3.3.0'
+}
+
+application {
+    mainClass = appName
+}
+
+tasks.named('run').configure {
+    description = "Run $appName as a JVM application/Groovy script"
+}
+
+dependencies {
+    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation("org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion") {
+        exclude(group: 'org.scala-lang.modules', module: 'scala-parser-combinators_2.12')
+        exclude(group: 'org.apache.spark', module: 'spark-graphx_2.12')
+    }
+    implementation('com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2') {
+        exclude(group: 'com.github.universal-automata', module: 'liblevenshtein')
+        exclude(group: 'com.navigamez', module: 'greex')
+    }
+    runtimeOnly "org.apache.spark:spark-core_$sparkVariant:$sparkVersion"
+}
+
+tasks.register('versionInfo') {
+    doLast {
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+        assert JavaVersion.current().isJava8() || JavaVersion.current().isJava11(), "JDK8 or JDK11 is required but found ${JavaVersion.current()}!"
+    }
+}
+
+run.dependsOn versionInfo

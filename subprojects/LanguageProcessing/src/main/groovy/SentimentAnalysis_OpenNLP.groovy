@@ -59,7 +59,7 @@ variants.each { key, params ->
     sentences.each {
         def result = categorizer.categorize(it.split('[ !]'))
         def category = categorizer.getBestCategory(result)
-        def prob = result[categorizer.getIndex(category)]
-        println "${it.padRight(w)} $category (${ sprintf '%4.2f', prob})}"
+        def prob = sprintf '%4.2f', result[categorizer.getIndex(category)]
+        println "${it.padRight(w)} $category ($prob)}"
     }
 }

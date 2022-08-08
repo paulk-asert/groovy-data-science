@@ -32,7 +32,7 @@ tasks.named('run').configure {
 
 ext {
     wayangVersion = '0.6.0'
-    hadoopVersion = '3.3.3'
+    hadoopVersion = '3.3.4'
     scalaMajorVersion = '2.12'
     sparkVersion = '3.3.0'
 }

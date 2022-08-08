@@ -48,7 +48,5 @@ and uncomment the grab statements. Make sure to cut and paste any helper classes
 
 ### Requirements
 
-This example has been tested on JDK8 and JDK11. The application nominates possible Java and Spark platforms for processing. 
-Apache Wayang automatically selects between these platforms.
-The application will succeed if the Java platform is selected when using JDK17.
-The application will fail if the Spark platform is selected as current Spark versions are not compatible with JDK17.
+This example has been tested on JDK8, JDK11, and JDK17. The application nominates possible Java and Spark platforms for processing. 
+Apache Wayang automatically selects between these platforms and for this application will always select Java. Comment out the Java plugin to force execution on the Spark platform.

@@ -61,13 +61,13 @@ class DetectEntities_SparkNLP {
 
         use(SparkCategory) {
             transformed.collectAsList().each { row ->
-                def res =  row.text
-                def chunks = row.ner_chunk.reverseIterator()
+                var res = row.text
+                var chunks = row.ner_chunk.reverseIterator()
                 while (chunks.hasNext()) {
-                    def chunk = chunks.next()
+                    var chunk = chunks.next()
                     int begin = chunk.begin
                     int end = chunk.end
-                    def entity = chunk.metadata.get('entity').get()
+                    var entity = chunk.metadata.get('entity').get()
                     res = res[0..<begin] + "$entity($chunk.result)" + res[end<..-1]
                 }
                 println res

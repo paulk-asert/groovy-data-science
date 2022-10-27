@@ -18,26 +18,20 @@ import org.apache.ignite.cache.affinity.rendezvous.RendezvousAffinityFunction
 import org.apache.ignite.configuration.CacheConfiguration
 import org.apache.ignite.configuration.IgniteConfiguration
 import org.apache.ignite.ml.clustering.kmeans.KMeansTrainer
-import org.apache.ignite.ml.dataset.feature.extractor.Vectorizer
 import org.apache.ignite.ml.dataset.feature.extractor.impl.DoubleArrayVectorizer
 import org.apache.ignite.ml.math.distances.EuclideanDistance
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi
 import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder
-import tech.tablesaw.api.Table
 
-def file = getClass().classLoader.getResource('whiskey.csv').file
-def rows = Table.read().csv(file)
-//def rows = Table.read().csv('whiskey.csv')
-String[] features = [
-  'Distillery', 'Body', 'Sweetness',
-  'Smoky', 'Medicinal', 'Tobacco',
-  'Honey', 'Spicy', 'Winey', 'Nutty',
-  'Malty', 'Fruity', 'Floral'
-]
-def data = rows.as().doubleMatrix(features)
+import static org.apache.commons.csv.CSVFormat.RFC4180
+import static org.apache.ignite.ml.dataset.feature.extractor.Vectorizer.LabelCoordinate.FIRST
+
+var file = getClass().classLoader.getResource('whiskey.csv').file as File
+var rows = file.withReader {r -> RFC4180.parse(r).records*.toList() }
+var data = rows[1..-1].collect{ it[2..-1]*.toDouble() } as double[][]
 
 // configure to all run on local machine but could be a cluster (can be hidden in XML)
-def cfg = new IgniteConfiguration(
+var cfg = new IgniteConfiguration(
         peerClassLoadingEnabled: true,
         discoverySpi: new TcpDiscoverySpi(
                 ipFinder: new TcpDiscoveryMulticastIpFinder(
@@ -46,17 +40,22 @@ def cfg = new IgniteConfiguration(
         )
 )
 
+var features = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco',
+                     'Honey', 'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
+var pretty = this.&sprintf.curry('%.4f')
+var dist = new EuclideanDistance()
+var vectorizer = new DoubleArrayVectorizer().labeled(FIRST)
+
 Ignition.start(cfg).withCloseable { ignite ->
-  println ">>> Ignite grid started for data: ${data.size()} rows X ${data[0].size()} cols"
-  def trainer = new KMeansTrainer().withDistance(new EuclideanDistance()).withAmountOfClusters(5)
-  def dataCache = ignite.createCache(new CacheConfiguration<Integer, double[]>(
+    println ">>> Ignite grid started for data: ${data.size()} rows X ${data[0].size()} cols"
+    var dataCache = ignite.createCache(new CacheConfiguration<Integer, double[]>(
           name: "TEST_${UUID.randomUUID()}",
           affinity: new RendezvousAffinityFunction(false, 10)))
-  (0..<data.length).each { int i -> dataCache.put(i, data[i]) }
-  def vectorizer = new DoubleArrayVectorizer().labeled(Vectorizer.LabelCoordinate.FIRST)
-  def mdl = trainer.fit(ignite, dataCache, vectorizer)
-  println ">>> KMeans centroids"
-  println features[1..-1].join(', ')
-  mdl.centers.each { c -> println c.all().collect{ sprintf '%.4f', it.get() }.join(', ') }
-  dataCache.destroy()
+    data.indices.each { int i -> dataCache.put(i, data[i]) }
+    var trainer = new KMeansTrainer().withDistance(dist).withAmountOfClusters(5)
+    var mdl = trainer.fit(ignite, dataCache, vectorizer)
+    println ">>> KMeans centroids:\n${features.join(', ')}"
+    var centroids = mdl.centers*.all()
+    centroids.each { c -> println c*.get().collect(pretty).join(', ') }
+    dataCache.destroy()
 }

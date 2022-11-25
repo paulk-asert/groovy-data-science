@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+//import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonIncludeProperties
+//import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
@@ -22,6 +25,11 @@ import static com.fasterxml.jackson.dataformat.csv.CsvParser.Feature.IGNORE_TRAI
 
 @JsonPropertyOrder(['bedrooms', 'bathrooms', 'sqft_lot'])
 @JsonIncludeProperties(['bedrooms', 'bathrooms', 'sqft_lot'])
+//@JsonCreator
+//record HouseRecord(
+//        @JsonProperty("bedrooms") Integer bedrooms,
+//        @JsonProperty("bathrooms") String bathrooms,
+//        @JsonProperty("sqft_lot") Integer area_lot) { }
 record HouseRecord(Integer bedrooms, String bathrooms, Integer sqft_lot/*, @JsonProperty("sqft_lot") Integer area_lot*/) { }
 
 def full = getClass().classLoader.getResource('kc_house_data.csv').file as File

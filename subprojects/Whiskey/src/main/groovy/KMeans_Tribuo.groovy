@@ -22,30 +22,30 @@ import org.tribuo.data.columnar.extractors.IdentityExtractor
 import org.tribuo.data.columnar.processors.field.DoubleFieldProcessor
 import org.tribuo.data.columnar.processors.response.EmptyResponseProcessor
 import org.tribuo.data.csv.CSVDataSource
+import org.tribuo.math.distance.L2Distance
 
-import static org.tribuo.clustering.kmeans.KMeansTrainer.Distance.EUCLIDEAN
-
-def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
+var cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
-def fieldProcessors = cols.collectEntries{ [it, new DoubleFieldProcessor(it)] }
-def responseProcessor = new EmptyResponseProcessor(new LabelFactory())
-def metadataExtractors = [new IdentityExtractor('Distillery')]
-def rowProcessor = new RowProcessor(metadataExtractors, responseProcessor, fieldProcessors)
+var fieldProcessors = cols.collect{ new DoubleFieldProcessor(it) }
+var rowProcessor = new RowProcessor.Builder()
+        .addMetadataExtractor(new IdentityExtractor('Distillery'))
+        .setFieldProcessors(fieldProcessors)
+        .build(new EmptyResponseProcessor(new LabelFactory()))
 
-def uri = getClass().classLoader.getResource('whiskey.csv').toURI()
-def dataSource = new CSVDataSource(uri, rowProcessor, false)
+var uri = getClass().classLoader.getResource('whiskey.csv').toURI()
+var dataSource = new CSVDataSource(uri, rowProcessor, false)
 
-def data = new MutableDataset(dataSource)
+var data = new MutableDataset(dataSource)
 
-def trainer = new KMeansTrainer(3, 10, EUCLIDEAN, 1, 1)
-def model = trainer.train(data)
+var trainer = new KMeansTrainer(3, 10, new L2Distance(), 1, 1L)
+var model = trainer.train(data)
 
-def centroids = model.centroids.indexed().collectEntries{ i,centroid ->
+var centroids = model.centroids.indexed().collectEntries{ i,centroid ->
     [i, centroid.collect{"${it.name - '@value'}: ${sprintf '%5.3f', it.value}" }]
 }
 
-def clusters = model.predict(data)
-def groups = [:].withDefault{ [] }
+var clusters = model.predict(data)
+var groups = [:].withDefault{ [] }
 clusters.eachWithIndex{ prediction, i ->
     groups[prediction.output.ID] << data.getExample(i)
 }
@@ -53,5 +53,7 @@ clusters.eachWithIndex{ prediction, i ->
 groups.keySet().sort().each { group ->
     println "\nCluster $group:"
     println "Centroid: ${centroids[group].join(', ')}"
-    println 'Distilleries: ' + groups[group].collect{ it.getMetadataValue('Distillery').get() }.join(', ')
+    println 'Distilleries: ' + groups[group].collect{
+        it.getMetadataValue('Distillery').get()
+    }.join(', ')
 }

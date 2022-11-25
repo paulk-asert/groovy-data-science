@@ -24,7 +24,7 @@ repositories {
 ext {
     appName = 'DetectEntities_SparkNLP'
     sparkVariant = '2.12'
-    sparkVersion = '3.3.0'
+    sparkVersion = '3.3.1'
 }
 
 application {

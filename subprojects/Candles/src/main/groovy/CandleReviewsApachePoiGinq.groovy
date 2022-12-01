@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-import tech.tablesaw.plotly.components.Figure
-import tech.tablesaw.plotly.components.Layout
-import tech.tablesaw.plotly.traces.BarTrace
-import tech.tablesaw.plotly.traces.ScatterTrace
-import tech.tablesaw.plotly.Plot
-import java.time.LocalDateTime
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-
-import static java.lang.Math.sqrt
-import static java.time.Month.JANUARY
-
-import static tech.tablesaw.plotly.traces.BarTrace.Orientation.VERTICAL
 
 var url = getClass().classLoader.getResource('Scented_all.xlsx')
 var table = []
@@ -53,4 +42,3 @@ println GQL {
     orderby row.Date
     select row.Month, agg(_g.toList().count{ it.row.NoScent }) / count(row.Date)
 }.join('\n')
-

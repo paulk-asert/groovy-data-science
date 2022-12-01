@@ -51,9 +51,9 @@ def results = predictions.indexed().collect{ i, prediction ->
     [prediction.output, data.getExample(i)]
 }
 def anomalies = results
-        .findAll{it[0].type == ANOMALOUS }
+        .findAll{ it[0].type == ANOMALOUS }
         .sort{ it[0].score }
-        .collect{it[1].toList() }
+        .collect{ it[1].toList() }
 if (anomalies) {
     println "\nPotential anomalies:\n${anomalies.join('\n')}"
 }

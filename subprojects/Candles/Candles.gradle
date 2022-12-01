@@ -31,9 +31,13 @@ FileUtil.baseNames(sourceSets.main.allSource.files, ['TablesawHelper']).each { n
 
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.groovy:groovy-dateutil:$groovy4Version"
+    implementation "org.apache.groovy:groovy-ginq:$groovy4Version"
+    implementation "org.apache.groovy:groovy-macro:$groovy4Version"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-excel:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
     implementation "org.slf4j:slf4j-simple:$slf4jVersion"
+    implementation "org.apache.poi:poi-ooxml:5.2.3"
     runtimeOnly "org.apache.logging.log4j:log4j-core:$log4j2Version"
 }

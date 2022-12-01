@@ -40,11 +40,13 @@ dependencies {
     implementation("org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion") {
         exclude(group: 'org.scala-lang.modules', module: 'scala-parser-combinators_2.12')
         exclude(group: 'org.apache.spark', module: 'spark-graphx_2.12')
+        exclude(group: 'com.fasterxml.jackson', module: 'jackson-bom')
     }
-    implementation('com.johnsnowlabs.nlp:spark-nlp_2.12:4.0.2') {
+    implementation('com.johnsnowlabs.nlp:spark-nlp_2.12:4.2.4') {
         exclude(group: 'com.github.universal-automata', module: 'liblevenshtein')
         exclude(group: 'com.navigamez', module: 'greex')
     }
+    implementation "com.fasterxml.jackson:jackson-bom:$jacksonVersion"
     runtimeOnly "org.apache.spark:spark-core_$sparkVariant:$sparkVersion"
 }
 

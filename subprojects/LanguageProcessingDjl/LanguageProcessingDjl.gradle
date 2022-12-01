@@ -41,11 +41,11 @@ dependencies {
     runtimeOnly "ai.djl.tensorflow:tensorflow-model-zoo:$djlVersion"
     //runtimeOnly "ai.djl.tensorflow:tensorflow-native-auto:2.4.1"
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        runtimeOnly "ai.djl.tensorflow:tensorflow-native-cpu:2.7.0:win-x86_64"
+        runtimeOnly "ai.djl.tensorflow:tensorflow-native-cpu:2.7.4:win-x86_64"
     } else if (Os.isFamily(Os.FAMILY_MAC)) {
-        runtimeOnly "ai.djl.tensorflow:tensorflow-native-cpu:2.7.0:osx-x86_64"
+        runtimeOnly "ai.djl.tensorflow:tensorflow-native-cpu:2.7.4:osx-x86_64"
     } else if (Os.isFamily(Os.FAMILY_UNIX)) {
-        runtimeOnly "ai.djl.tensorflow:tensorflow-native-cpu:2.7.0:linux-x86_64"
+        runtimeOnly "ai.djl.tensorflow:tensorflow-native-cpu:2.7.4:linux-x86_64"
     }
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
 }

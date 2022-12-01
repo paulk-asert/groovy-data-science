@@ -47,6 +47,7 @@ dependencies {
     implementation("org.apache.wayang:wayang-spark_$scalaMajorVersion:$wayangVersion") {
         transitive = false
     }
+    implementation "com.fasterxml.jackson:jackson-bom:$jacksonVersion"
     runtimeOnly "org.apache.spark:spark-launcher_$scalaMajorVersion:$sparkVersion"
     runtimeOnly("org.apache.spark:spark-core_$scalaMajorVersion:$sparkVersion") {
         exclude(group: 'org.slf4j', module: '*')
@@ -54,7 +55,7 @@ dependencies {
     }
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
     runtimeOnly 'org.apache.commons:commons-configuration2:2.8.0'
-    runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.3.0'
+    runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.4.0'
     runtimeOnly 'com.google.re2j:re2j:1.7'
     runtimeOnly("org.apache.hadoop:hadoop-common:$hadoopVersion") {
         transitive = false

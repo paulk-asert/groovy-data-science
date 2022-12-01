@@ -21,12 +21,13 @@ import com.datumbox.framework.core.machinelearning.MLBuilder
 import com.datumbox.framework.core.machinelearning.classification.MultinomialNaiveBayes
 import com.datumbox.framework.core.machinelearning.featureselection.ChisquareSelect
 
+def loader = getClass().classLoader
 def datasets = [
-    English: getClass().classLoader.getResource("training.language.en.txt").toURI(),
-    French: getClass().classLoader.getResource("training.language.fr.txt").toURI(),
-    German: getClass().classLoader.getResource("training.language.de.txt").toURI(),
-    Spanish: getClass().classLoader.getResource("training.language.es.txt").toURI(),
-    Indonesian: getClass().classLoader.getResource("training.language.id.txt").toURI()
+    English: loader.getResource("training.language.en.txt").toURI(),
+    French: loader.getResource("training.language.fr.txt").toURI(),
+    German: loader.getResource("training.language.de.txt").toURI(),
+    Spanish: loader.getResource("training.language.es.txt").toURI(),
+    Indonesian: loader.getResource("training.language.id.txt").toURI()
 ]
 
 def trainingParams = new TextClassifier.TrainingParameters(
@@ -52,11 +53,13 @@ println "Classifier Accuracy (using training data): $metrics.accuracy"
 //}
 //def classifier = MLBuilder.load(TextClassifier, 'LanguageDetection', config)
 
+println 'Classifying                   Predicted   Probability'
 [ 'Bienvenido a Madrid', 'Bienvenue à Paris', 'Welcome to London',
   'Willkommen in Berlin', 'Selamat Datang di Jakarta'
 ].each { txt ->
     def r = classifier.predict(txt)
-    def predicted = r.YPredicted
-    def probability = sprintf '%4.2f', r.YPredictedProbabilities.get(predicted)
-    println "Classifying: '$txt',  Predicted: $predicted,  Probability: $probability"
+    def predicted = r.YPredicted.center(10)
+    def probability = sprintf '%6.2f',
+        r.YPredictedProbabilities.get(predicted)
+    println "${txt.padRight(30)}$predicted$probability"
 }

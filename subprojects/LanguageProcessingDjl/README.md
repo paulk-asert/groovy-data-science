@@ -17,7 +17,7 @@ limitations under the License.
 # Language processing with DJL and TensorFlow
 
 Neural networks with numerous layers of nodes allow for more complex, rich and _deeper_ processing and understanding.
-This example detects objects within an image.
+This example uses a universal sentence encoder model from TensorFlow Hub.
 It uses a pre-trained model and the
 [Deep Java Library](https://djl.ai/) backed by the
 [TensorFlow](https://www.tensorflow.org/) engine.

@@ -29,20 +29,25 @@ import org.apache.wayang.spark.Spark
 import static java.lang.Math.sqrt
 
 record Point(double[] pts) implements Serializable {
-    static Point fromLine(String line) { new Point(line.split(',')[2..-1]*.toDouble() as double[]) }
+    static Point fromLine(String line) {
+        new Point(line.split(',')[2..-1]*.toDouble() as double[]) }
 }
 
-record TaggedPointCounter(double[] pts, int cluster, long count) implements Serializable {
+record TaggedPointCounter(double[] pts, int cluster, long count)
+        implements Serializable {
     TaggedPointCounter plus(TaggedPointCounter that) {
-        new TaggedPointCounter((0..<pts.size()).collect{ pts[it] + that.pts[it] } as double[], cluster, count + that.count)
+        double[] newPts = pts.indices.collect{ pts[it] + that.pts[it] }
+        new TaggedPointCounter(newPts, cluster, count + that.count)
     }
 
     TaggedPointCounter average() {
-        new TaggedPointCounter(pts.collect{ double d -> d/count } as double[], cluster, 0)
+        new TaggedPointCounter(pts.collect{ double d ->
+            d/count } as double[], cluster, 0)
     }
 }
 
-class SelectNearestCentroid implements ExtendedSerializableFunction<Point, TaggedPointCounter> {
+class SelectNearestCentroid implements
+        ExtendedSerializableFunction<Point, TaggedPointCounter> {
     Iterable<TaggedPointCounter> centroids
 
     void open(ExecutionContext context) {

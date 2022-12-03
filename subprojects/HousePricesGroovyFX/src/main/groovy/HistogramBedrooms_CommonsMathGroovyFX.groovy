@@ -20,9 +20,8 @@ import static groovyx.javafx.GroovyFX.start
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
 def full = getClass().classLoader.getResource('kc_house_data.csv').file
-//def full = '/path/to/kc_house_data.csv' as File
 def csv  = CSV.withFirstRecordAsHeader().parse(new FileReader(full))
-def all  = csv.collect { it.bedrooms.toInteger() }//.findAll{ it < 30 }
+def all  = csv.collect { it.bedrooms.toInteger() }.findAll{ it < 30 }
 
 def stats = new SummaryStatistics()
 all.each{ stats.addValue(it as double) }

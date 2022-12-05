@@ -31,19 +31,22 @@ static main(args) {
 
     def spark = builder().config('spark.master', 'local[8]').appName('HousePrices').orCreate
     def file = HousePricesSpark.classLoader.getResource('kc_house_data.csv').file
-    //def file = '/path/to/kc_house_data.csv'
     int k = 5
-    Dataset<Row> ds = spark.read().format('csv').options('header': 'true', 'inferSchema': 'true').load(file)
+    Dataset<Row> ds = spark.read().format('csv')
+        .options('header': 'true', 'inferSchema': 'true')
+        .load(file)
     double[] splits = [80, 20]
     def (training, test) = ds.randomSplit(splits)
 
     String[] colNames = ds.columns().toList() - ['id', 'date', 'price']
-    def assembler = new VectorAssembler(inputCols: colNames, outputCol: 'features')
+    def assembler = new VectorAssembler(inputCols: colNames,
+                                        outputCol: 'features')
     Dataset<Row> dataset = assembler.transform(training)
     def lr = new LinearRegression(labelCol: 'price', maxIter: 10)
     def model = lr.fit(dataset)
     println 'Coefficients:'
-    println model.coefficients().values()[1..-1].collect { sprintf '%.2f', it }.join(', ')
+    println model.coefficients().values()[1..-1]
+        .collect { sprintf '%.2f', it }.join(', ')
     def testSummary = model.evaluate(assembler.transform(test))
     printf 'RMSE: %.2f%n', testSummary.rootMeanSquaredError
     printf 'r2: %.2f%n', testSummary.r2

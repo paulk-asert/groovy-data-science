@@ -31,15 +31,15 @@ table = table.drop(0, 1) // remove 'id' and 'date'
 var filtered = table.toList().findAll { it.apply('bedrooms') <= 30 }
 table = DataFrame.of(filtered)
 
-double[] price = table.column('price').toDoubleArray()
-var reg = OLS.fit(Formula.lhs('price'), table)
-var predictors = table.drop([0] as int[]) // remove 'price'
-double[] predicted = predictors.toArray().collect{ reg.predict(it) }
+var price = table.column('price').toDoubleArray()
+var model = OLS.fit(Formula.lhs('price'), table)
+var predicted = model.predict(table)
 double[][] data = [price, predicted].transpose()
 
 var from = [price.toList().min(), predicted.min()].min()
 var to = [price.toList().max(), predicted.max()].max()
-var ideal = LinePlot.of([[from, from], [to, to]] as double[][], DASH, RED)
+var pts = [[from, from], [to, to]]
+var ideal = LinePlot.of(pts as double[][], DASH, RED)
 
 ScatterPlot.of(data, BLUE).canvas().with {
     title = 'Actual vs predicted price'

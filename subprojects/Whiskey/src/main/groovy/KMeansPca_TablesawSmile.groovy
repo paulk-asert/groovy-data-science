@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import smile.clustering.KMeans
-import smile.projection.PCA
+import smile.feature.extraction.PCA
 import tech.tablesaw.api.*
 import tech.tablesaw.plotly.api.*
 
@@ -26,18 +26,17 @@ def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 def data = rows.as().doubleMatrix(*cols)
 
-def pca = PCA.fit(data)
 def dims = 4 // can be 2, 3 or 4
-pca.projection = dims
-def projected = pca.project(data)
+def pca = PCA.fit(data).getProjection(dims)
+def projected = pca.apply(data)
 def adj = [1, 1, 1, 5] // scaling factor to make graph pretty
 def clusters = KMeans.fit(data, 5)
 println clusters
 def labels = clusters.y.collect { 'Cluster ' + (it + 1) }
 rows = rows.addColumns(
-    *(0..<dims).collect { idx ->
-        DoubleColumn.create("PCA${idx+1}", (0..<data.size()).collect{
-            adj[idx] * (projected[it][idx] + adj[idx])
+    *(0..<dims).collect { i ->
+        DoubleColumn.create("PCA${i+1}", (0..<data.size()).collect{ j ->
+            adj[i] * (projected[j][i] + adj[i])
         })
     },
     StringColumn.create('Cluster', labels)

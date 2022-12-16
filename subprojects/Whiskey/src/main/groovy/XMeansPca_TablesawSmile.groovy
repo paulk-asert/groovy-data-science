@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 import smile.clustering.XMeans
-import smile.projection.PCA
+import smile.feature.extraction.PCA
 import tech.tablesaw.api.*
 import tech.tablesaw.plotly.api.*
 
@@ -26,10 +26,9 @@ def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 def data = rows.as().doubleMatrix(*cols)
 
-def pca = PCA.fit(data)
 def dims = 4 // can be 2, 3 or 4
-pca.projection = dims
-def projected = pca.project(data)
+def pca = PCA.fit(data).getProjection(dims)
+def projected = pca.apply(data)
 def adj = [1, 1, 1, 5]
 def kmax = 10
 def clusters = XMeans.fit(data, kmax)

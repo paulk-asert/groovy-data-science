@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 import smile.clustering.KMeans
-import smile.feature.Standardizer
-import smile.projection.PCA
+import smile.data.DataFrame
+import smile.feature.transform.Standardizer
+import smile.feature.extraction.PCA
 import tech.tablesaw.api.*
 import tech.tablesaw.plotly.api.*
 
@@ -23,22 +24,21 @@ def file = getClass().classLoader.getResource('beer.csv').file
 def helper = new TablesawUtil(file)
 def rows = Table.read().csv(file)
 
-String[] cols = ['alcohol','calories','sodium','cost']
-def data = rows.as().doubleMatrix(*cols)
-def scaler = Standardizer.fit(data)
-data = scaler.transform(data)
+String[] cols = ['alcohol', 'calories', 'sodium', 'cost']
+def df = DataFrame.of(rows.as().doubleMatrix(*cols), cols)
+def scaler = Standardizer.fit(df)
+def data = scaler.apply(df).toArray()
 
-def pca = PCA.fit(data)
 def dims = 4 // can be 2, 3 or 4
-pca.projection = dims
-def projected = pca.project(data)
+def pca = PCA.fit(data).getProjection(dims)
+def projected = pca.apply(data)
 def adj = [1, 1, 1, 5] // scaling factor to make graph pretty
 def clusters = KMeans.fit(data, 3)
 println clusters
 def labels = clusters.y.collect { 'Cluster ' + (it + 1) }
 rows = rows.addColumns(
     *(0..<dims).collect { idx ->
-        DoubleColumn.create("PCA${idx+1}", (0..<data.size()).collect{
+        DoubleColumn.create("PCA${idx+1}", (0..<df.size()).collect{
             adj[idx] * (projected[it][idx] + adj[idx])
         })
     },

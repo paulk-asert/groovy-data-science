@@ -25,24 +25,21 @@ import static java.awt.Color.RED
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static smile.plot.swing.Line.Style.DASH
 
-def file = new File(getClass().classLoader.getResource('kc_house_data.csv').file)
-def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
+var file = getClass().classLoader.getResource('kc_house_data.csv').file as File
+var table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
 table = table.drop(0, 1) // remove 'id' and 'date'
-table = table.stream().filter { it.apply('bedrooms') <= 30 }.collect(DataFrame.collect())
+var filtered = table.toList().findAll { it.apply('bedrooms') <= 30 }
+table = DataFrame.of(filtered)
 
-def price = table.column('price').toDoubleArray()
-def reg = OLS.fit(Formula.lhs('price'), table)
-println reg
-def coeffs = reg.coefficients()
-def predictors = table.drop((int[]) [0]) // remove 'price'
-def predicted = predictors.toArray().collect { double[] row ->
-    row.indices.collect { i ->
-        coeffs[i + 1] * row[i] }.sum() + coeffs[0] } as double[]
+var price = table.column('price').toDoubleArray()
+var reg = OLS.fit(Formula.lhs('price'), table)
+var predictors = table.drop([0] as int[]) // remove 'price'
+var predicted = predictors.toArray().collect{ reg.predict(it) } as double[]
 double[][] data = [price, predicted].transpose()
 
-def from = [price.toList().min(), predicted.min()].min()
-def to = [price.toList().max(), predicted.max()].max()
-def ideal = LinePlot.of([[from, from], [to, to]] as double[][], DASH, RED)
+var from = [price.toList().min(), predicted.min()].min()
+var to = [price.toList().max(), predicted.max()].max()
+var ideal = LinePlot.of([[from, from], [to, to]] as double[][], DASH, RED)
 
 ScatterPlot.of(data, BLUE).canvas().with {
     title = 'Actual vs predicted price'

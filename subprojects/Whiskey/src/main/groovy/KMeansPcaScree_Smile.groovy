@@ -18,7 +18,7 @@ import smile.io.Read
 import smile.plot.swing.PlotGrid
 import smile.plot.swing.ScatterPlot
 import smile.plot.swing.ScreePlot
-import smile.projection.PCA
+import smile.feature.extraction.PCA
 
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
@@ -30,10 +30,9 @@ String[] cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
 def data = table.select(cols).toArray()
 
 def p = 2 // number of dimensions in projection (2 or 3)
-def pca = PCA.fit(data)
-pca.projection = p
-def plots = [new ScreePlot(pca).canvas()]
-def projected = pca.project(data)
+def pca = PCA.fit(data).getProjection(p)
+def plots = [new ScreePlot(pca.varianceProportion()).canvas()]
+def projected = pca.apply(data)
 char mark = '#'
 String[] labels = (1..p).collect { "PCA$it" }
 

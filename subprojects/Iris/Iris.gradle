@@ -70,7 +70,7 @@ dependencies {
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-jsplot:$tablesawVersion"
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
-    implementation "com.github.haifengl:smile-core:$smileVersion"
+    implementation "com.github.haifengl:smile-core:$smile3Version"
     implementation "org.encog:encog-core:3.4"
     implementation("com.deepnetts:deepnetts-core:1.13.2") {
         exclude(group: 'org.apache.commons', module: 'commons-lang3')

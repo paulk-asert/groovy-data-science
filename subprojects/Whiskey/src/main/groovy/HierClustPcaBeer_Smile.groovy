@@ -15,14 +15,14 @@
  */
 import smile.clustering.HierarchicalClustering
 import smile.clustering.linkage.CompleteLinkage
-import smile.feature.Standardizer
+import smile.feature.transform.Standardizer
 import smile.io.Read
 import smile.plot.swing.Dendrogram
 import smile.plot.swing.Label
 import smile.plot.swing.Palette
 import smile.plot.swing.PlotGrid
 import smile.plot.swing.ScatterPlot
-import smile.projection.PCA
+import smile.feature.extraction.PCA
 
 import java.awt.Color
 import java.awt.Font
@@ -33,15 +33,14 @@ def file = new File(getClass().classLoader.getResource('beer.csv').file)
 def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
 
 String[] cols = ['alcohol','calories','sodium','cost']
-def data = table.select(cols).toArray()
-def scaler = Standardizer.fit(data)
-data = scaler.transform(data)
+def scaler = Standardizer.fit(table, cols)
+def scaled = scaler.apply(table)
 def distilleries = table.column('name').toStringArray()
 def ninetyDeg = 1.57 // radians
 def FOREST_GREEN = new Color(0X808000)
 
-def clusters = HierarchicalClustering.fit(CompleteLinkage.of(data))
-//println clusters.tree
+def clusters = HierarchicalClustering.fit(CompleteLinkage.of(scaled.toArray(cols)))
+//println clusters.tree()
 //println clusters.height
 def partitions = clusters.partition(3)
 
@@ -49,7 +48,7 @@ def partitions = clusters.partition(3)
 def colorMap = new LinkedHashSet(partitions.toList()).toList().reverse().indexed().collectEntries { k, v -> [v, Palette.COLORS[k]] }
 Font font = new Font("BitStream Vera Sans", Font.PLAIN, 12)
 
-def dendrogram = new Dendrogram(clusters.tree, clusters.height, FOREST_GREEN).canvas().tap {
+def dendrogram = new Dendrogram(clusters.tree(), clusters.height, FOREST_GREEN).canvas().tap {
     title = 'Beer Dendrogram'
     setAxisLabels('Names', 'Similarity')
     def lb = lowerBounds
@@ -59,12 +58,11 @@ def dendrogram = new Dendrogram(clusters.tree, clusters.height, FOREST_GREEN).ca
     }
 }.panel()
 
-def pca = PCA.fit(data)
-pca.projection = 2
-def projected = pca.project(data)
+def pca = PCA.fit(scaled, cols).getProjection(2)
+def projected = pca.apply(scaled)
 
 char mark = '#'
-def scatter = ScatterPlot.of(projected, partitions, mark).canvas().tap {
+def scatter = ScatterPlot.of(projected.toArray(), partitions, mark).canvas().tap {
     title = 'Clustered by dendrogram partitions'
     setAxisLabels('PCA1', 'PCA2')
 }.panel()

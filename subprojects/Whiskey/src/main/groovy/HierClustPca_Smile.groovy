@@ -21,7 +21,7 @@ import smile.plot.swing.Label
 import smile.plot.swing.Palette
 import smile.plot.swing.PlotGrid
 import smile.plot.swing.ScatterPlot
-import smile.projection.PCA
+import smile.feature.extraction.PCA
 
 import java.awt.Color
 import java.awt.Font
@@ -47,7 +47,7 @@ def partitions = clusters.partition(4)
 def colorMap = new LinkedHashSet(partitions.toList()).toList().reverse().indexed().collectEntries { k, v -> [v, Palette.COLORS[k]] }
 Font font = new Font("BitStream Vera Sans", Font.PLAIN, 12)
 
-def dendrogram = new Dendrogram(clusters.tree, clusters.height, FOREST_GREEN).canvas().tap {
+def dendrogram = new Dendrogram(clusters.tree(), clusters.height, FOREST_GREEN).canvas().tap {
     title = 'Whiskey Dendrogram'
     setAxisLabels('Distilleries', 'Similarity')
     def lb = lowerBounds
@@ -57,9 +57,8 @@ def dendrogram = new Dendrogram(clusters.tree, clusters.height, FOREST_GREEN).ca
     }
 }.panel()
 
-def pca = PCA.fit(data)
-pca.projection = 2
-def projected = pca.project(data)
+def pca = PCA.fit(data).getProjection(2)
+def projected = pca.apply(data)
 
 char mark = '#'
 def scatter = ScatterPlot.of(projected, partitions, mark).canvas().tap {

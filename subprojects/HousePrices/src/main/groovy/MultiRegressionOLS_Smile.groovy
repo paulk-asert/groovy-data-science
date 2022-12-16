@@ -31,10 +31,10 @@ table = table.drop(0, 1) // remove 'id' and 'date'
 var filtered = table.toList().findAll { it.apply('bedrooms') <= 30 }
 table = DataFrame.of(filtered)
 
-var price = table.column('price').toDoubleArray()
+double[] price = table.column('price').toDoubleArray()
 var reg = OLS.fit(Formula.lhs('price'), table)
 var predictors = table.drop([0] as int[]) // remove 'price'
-var predicted = predictors.toArray().collect{ reg.predict(it) } as double[]
+double[] predicted = predictors.toArray().collect{ reg.predict(it) }
 double[][] data = [price, predicted].transpose()
 
 var from = [price.toList().min(), predicted.min()].min()

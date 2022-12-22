@@ -27,7 +27,7 @@ dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "org.apache.groovy:groovy-test:$groovy4Version"
     implementation "org.apache.opennlp:opennlp-tools:$opennlp"
-    implementation "com.github.haifengl:smile-nlp:$smile3Version"
+    implementation "com.github.haifengl:smile-nlp:$smileVersion"
 //    implementation "com.datumbox:datumbox-framework-lib:0.8.3-SNAPSHOT"
     implementation 'com.datumbox:datumbox-framework-lib:0.8.2'
     implementation "org.apache.tika:tika-core:$tikaVersion"

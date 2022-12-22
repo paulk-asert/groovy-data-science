@@ -57,9 +57,8 @@ dependencies {
     implementation "org.encog:encog-core:3.4"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
-    implementation "com.github.haifengl:smile-core:$smile3Version"
-    implementation "com.github.haifengl:smile-io:$smileVersion"
-    implementation "com.github.haifengl:smile-plot:$smile3Version"
+    implementation "com.github.haifengl:smile-core:$smileVersion"
+    implementation "com.github.haifengl:smile-plot:$smileVersion"
     implementation "org.jfree:jfreechart:$jfreechartVersion"
     implementation "de.lmu.ifi.dbs.elki:elki:0.7.5"
     implementation("org.tribuo:tribuo-all:$tribuoVersion") {

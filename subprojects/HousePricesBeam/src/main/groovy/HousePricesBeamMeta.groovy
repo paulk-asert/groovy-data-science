@@ -38,51 +38,52 @@ import static org.apache.commons.math3.stat.StatUtils.sumSq
 import static smile.math.MathEx.dot
 
 static buildPipeline(Pipeline p, String filename) {
-    def features = [
+    var features = [
             'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_living15', 'lat',
             'sqft_above', 'grade', 'view', 'waterfront', 'floors'
     ]
 
-    def readCsvChunks = new DoFn<String, double[][]>() {
+    var readCsvChunks = new DoFn<String, double[][]>() {
         @ProcessElement
         void processElement(@Element String path, OutputReceiver<double[][]> receiver) throws IOException {
-            def chunkSize = 6000
-            def table = Read.csv(new File(path).toPath(), CSV.withFirstRecordAsHeader())
+            var chunkSize = 6000
+            var table = Read.csv(new File(path).toPath(), CSV.withFirstRecordAsHeader())
             table = table.select(*features)
-            table = table.stream().filter { it.apply('bedrooms') <= 30 }.collect(DataFrame.collect())
-            def idxs = 0..<table.nrows()
+            var filtered = table.toList().findAll { it.apply('bedrooms') <= 30 }
+            table = DataFrame.of(filtered)
+            var idxs = 0..<table.nrow()
             for (nextChunkIdxs in idxs.shuffled().collate(chunkSize)) {
-                def all = table.toArray().toList()
+                var all = table.toArray().toList()
                 receiver.output(all[nextChunkIdxs] as double[][])
             }
         }
     }
 
-    def fitModel = new DoFn<double[][], double[]>() {
+    var fitModel = new DoFn<double[][], double[]>() {
         @ProcessElement
         void processElement(@Element double[][] rows, OutputReceiver<double[]> receiver) throws IOException {
-            def model = OLS.fit(Formula.lhs('price'), DataFrame.of(rows, features as String[])).coefficients()
-            receiver.output(model)
+            var model = OLS.fit(Formula.lhs('price'), DataFrame.of(rows, *features))
+            receiver.output([model.intercept(), *model.coefficients()] as double[])
         }
     }
 
-    def evalModel = { double[][] chunk, double[] model ->
-        double intercept = model[0]
-        double[] coefficients = model[1..-1]
-        def predicted = chunk.collect { row -> intercept + dot(row[1..-1] as double[], coefficients) }
-        def residuals = chunk.toList().indexed().collect { idx, row -> predicted[idx] - row[0] }
-        def rmse = sqrt(sumSq(residuals as double[]) / chunk.size())
+    var evalModel = { double[][] chunk, double[] modelParams ->
+        double intercept = modelParams[0]
+        double[] coefficients = modelParams[1..-1]
+        var predicted = chunk.collect { row -> intercept + dot(row[1..-1] as double[], coefficients) }
+        var residuals = chunk.toList().indexed().collect { idx, row -> predicted[idx] - row[0] }
+        var rmse = sqrt(sumSq(residuals as double[]) / chunk.size())
         [rmse, residuals.average(), chunk.size()] as double[]
     }
 
-    def model2out = new DoFn<double[], String>() {
+    var model2out = new DoFn<double[], String>() {
         @ProcessElement
         void processElement(@Element double[] ds, OutputReceiver<String> out) {
             out.output("** intercept: ${ds[0]}, coeffs: ${ds[1..-1].join(', ')}".toString())
         }
     }
 
-    def stats2out = new DoFn<double[], String>() {
+    var stats2out = new DoFn<double[], String>() {
         @ProcessElement
         void processElement(@Element double[] ds, OutputReceiver<String> out) {
             out.output("** rmse: ${ds[0]}, mean: ${ds[1]}, count: ${ds[2]}".toString())
@@ -115,7 +116,7 @@ String.metaClass.rightShift = { PTransform arg -> [delegate, arg] }
 Pipeline.metaClass.or = { PTransform arg -> delegate.apply(arg) }
 
 getLogger(getClass().name).info 'Creating pipeline ...'
-def pipeline = Pipeline.create()
+var pipeline = Pipeline.create()
 getLogger('').level = SEVERE // quieten root logging
 
 buildPipeline(pipeline, getClass().classLoader.getResource('kc_house_data.csv').path)

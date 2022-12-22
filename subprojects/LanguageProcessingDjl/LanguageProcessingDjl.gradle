@@ -35,8 +35,7 @@ tasks.named('run').configure {
 dependencies {
     implementation "ai.djl:api:$djlVersion"
     implementation "org.apache.groovy:groovy:$groovy4Version"
-    implementation "com.github.haifengl:smile-plot:$smile3Version"
-    implementation "com.github.haifengl:smile-math:$smileVersion"
+    implementation "com.github.haifengl:smile-plot:$smileVersion"
     runtimeOnly "ai.djl.tensorflow:tensorflow-engine:$djlVersion"
     runtimeOnly "ai.djl.tensorflow:tensorflow-model-zoo:$djlVersion"
     //runtimeOnly "ai.djl.tensorflow:tensorflow-native-auto:2.4.1"

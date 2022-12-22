@@ -32,10 +32,8 @@ dependencies {
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
 //    runtime 'com.github.fommil.netlib:all:1.1.2'
-    implementation "com.github.haifengl:smile-core:$smile3Version"
-    implementation "com.github.haifengl:smile-math:$smileVersion"
-    implementation "com.github.haifengl:smile-io:$smileVersion"
-    implementation "com.github.haifengl:smile-plot:$smile3Version"
+    implementation "com.github.haifengl:smile-core:$smileVersion"
+    implementation "com.github.haifengl:smile-plot:$smileVersion"
     implementation "org.tribuo:tribuo-regression-libsvm:$tribuoVersion"
     implementation "org.tribuo:tribuo-regression-sgd:$tribuoVersion"
     implementation "org.tribuo:tribuo-regression-tree:$tribuoVersion"

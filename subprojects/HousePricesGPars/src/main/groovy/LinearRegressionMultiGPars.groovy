@@ -24,43 +24,46 @@ import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 import static org.apache.commons.math3.stat.StatUtils.sumSq
 import static smile.math.MathEx.dot
 
-def features = [
+var features = [
         'price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_living15', 'lat',
         'sqft_above', 'grade', 'view', 'waterfront', 'floors'
 ]
 
-def file = new File(getClass().classLoader.getResource('kc_house_data.csv').file)
-def table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
+var file = new File(getClass().classLoader.getResource('kc_house_data.csv').file)
+var table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
 table = table.select(*features)
-table = table.stream().filter { it.apply('bedrooms') <= 30 }.collect(DataFrame.collect())
+var filtered = table.toList().findAll { it.apply('bedrooms') <= 30 }
+table = DataFrame.of(filtered)
 println table.schema()
 println table.structure()
 
 GParsPool.withPool {
-    def trainChunkSize = 3000
-    def numTrainChunks = 8
-    def models = (0..<numTrainChunks).collectParallel {
-        def list = DataFrame.of(table.toArray().toList().shuffled().take(trainChunkSize) as double[][], *features)
-        OLS.fit(Formula.lhs('price'), list).coefficients()
+    var trainChunkSize = 3000
+    var numTrainChunks = 8
+    var models = (0..<numTrainChunks).collectParallel {
+        var list = DataFrame.of(table.toArray().toList().shuffled().take(trainChunkSize) as double[][], *features)
+        var model = OLS.fit(Formula.lhs('price'), list)
+        [model.intercept(), *model.coefficients()]
     }
-    models.each {
-        println "Intercept: ${it[0]}, Coefficients: ${it[1..-1]}"
+    models.eachWithIndex { m, i ->
+        println "Model for chunk $i:"
+        println "Intercept = ${m[0]}\nCoefficients = ${m[1..-1]}"
     }
-    def model = models.transpose()*.sum().collect { it / numTrainChunks }
-    println "Intercept: ${model[0]}"
-    println "Coefficients: ${model[1..-1].join(', ')}"
+    var model = models.transpose()*.sum().collect { it / numTrainChunks }
+    println 'Merged model:'
+    println "Intercept = ${model[0]}\nCoefficients = ${model[1..-1]}"
 
     double[] coefficients = model[1..-1]
     double intercept = model[0]
-    def stats = { chunk ->
-        def predicted = chunk.collect { row -> intercept + dot(row[1..-1] as double[], coefficients) }
-        def residuals = chunk.toList().indexed().collect { idx, row -> predicted[idx] - row[0] }
-        def rmse = sqrt(sumSq(residuals as double[]) / chunk.size())
+    var stats = { chunk ->
+        var predicted = chunk.collect { row -> intercept + dot(row[1..-1] as double[], coefficients) }
+        var residuals = chunk.toList().indexed().collect { idx, row -> predicted[idx] - row[0] }
+        var rmse = sqrt(sumSq(residuals as double[]) / chunk.size())
         [rmse, residuals.average(), chunk.size()]
     }
 //    println stats(data)
-    def evalChunkSize = 2000
-    def results = table.toArray().collate(evalChunkSize).collectParallel(stats)
+    var evalChunkSize = 2000
+    var results = table.toArray().collate(evalChunkSize).collectParallel(stats)
     println 'RMSE: ' + sqrt(results.collect { it[0] * it[0] * it[2] }.sum() / table.size())
     println 'mean: ' + results.collect { it[1] * it[2] }.sum() / table.size()
 }

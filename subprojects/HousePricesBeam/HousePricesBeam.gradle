@@ -27,8 +27,6 @@ dependencies {
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "com.github.haifengl:smile-core:$smileVersion"
-    implementation "com.github.haifengl:smile-math:$smileVersion"
-    implementation "com.github.haifengl:smile-io:$smileVersion"
     implementation 'org.apache.commons:commons-math3:3.6.1'
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"

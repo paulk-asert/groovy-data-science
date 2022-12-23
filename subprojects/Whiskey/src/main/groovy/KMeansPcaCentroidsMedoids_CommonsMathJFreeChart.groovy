@@ -30,7 +30,7 @@ import org.jfree.data.xy.DefaultXYZDataset
 import static JFreeChartUtil.bubbleRenderer
 import static JFreeChartUtil.chart
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
-import static org.apache.commons.math3.stat.StatUtils.sumSq
+import static org.apache.commons.math4.legacy.stat.StatUtils.sumSq
 
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def rows = CSV.withFirstRecordAsHeader().parse(new FileReader(file))
@@ -106,14 +106,14 @@ for (int i = 0; i < k; i++) {
 def xyz = new DefaultXYZDataset()
 def transformed = realMatrix.multiply(principalComponents)
 
-clusterPts.each{ _, v ->
+clusterPts.each{ num, v ->
     def (x, y, z) = [[], [], []]
     v.each { idx ->
         x << -transformed.getEntry(idx, 0)
         y << transformed.getEntry(idx, 1)
         z << -(transformed.getEntry(idx, 2))// - zmin)/(zmax - zmin)*2
     }
-    xyz.addSeries("Cluster ${k+1}:", [x, y, z] as double[][])
+    xyz.addSeries("Cluster ${num+1}:", [x, y, z] as double[][])
 }
 
 def xaxis = new NumberAxis(label: 'PCA1', autoRange: false, lowerBound: -3.5, upperBound: 7)

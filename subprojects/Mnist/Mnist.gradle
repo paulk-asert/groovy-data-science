@@ -38,6 +38,7 @@ dependencies {
         implementation 'org.groovyfx:groovyfx:8.0.0'
     }
     implementation "org.tribuo:tribuo-all:$tribuoVersion"
+    runtimeOnly "org.apache.commons:commons-math3:$commonsMath3Version"
 }
 
 tasks.withType(GroovyCompile).configureEach {

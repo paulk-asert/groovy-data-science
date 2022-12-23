@@ -35,7 +35,7 @@ dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation 'org.codehaus.gpars:gpars:1.2.1'
     implementation "com.github.haifengl:smile-core:$smileVersion"
-    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'org.apache.commons:commons-math4-legacy:4.0-beta1'
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
 }

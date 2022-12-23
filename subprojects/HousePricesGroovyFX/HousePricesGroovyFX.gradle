@@ -36,7 +36,8 @@ dependencies {
     // Using Groovy 3 because GroovyFX examples require it
     implementation "org.codehaus.groovy:groovy:$groovy3Version"
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
-    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'org.apache.commons:commons-statistics-distribution:1.0'
+    implementation 'org.apache.commons:commons-math4-legacy:4.0-beta1'
     implementation 'org.groovyfx:groovyfx:8.0.0'
 }
 

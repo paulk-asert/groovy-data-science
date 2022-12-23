@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.apache.commons.math3.stat.regression.SimpleRegression
+import org.apache.commons.math4.legacy.stat.regression.SimpleRegression
 import static groovyx.javafx.GroovyFX.start
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 

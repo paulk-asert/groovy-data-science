@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.apache.commons.math3.distribution.NormalDistribution
-import org.apache.commons.math3.random.EmpiricalDistribution
-import org.apache.commons.math3.stat.StatUtils
-import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression
+import org.apache.commons.statistics.distribution.NormalDistribution
+import org.apache.commons.math4.legacy.distribution.EmpiricalDistribution
+import org.apache.commons.math4.legacy.stat.StatUtils
+import org.apache.commons.math4.legacy.stat.regression.OLSMultipleLinearRegression
 
 import static groovyx.javafx.GroovyFX.start
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
@@ -52,8 +52,8 @@ if (showError) {
     residuals << maxError * -1 // make graph even around origin
     maxError = Math.abs(maxError)
     def step = maxError.toInteger() / 50
-    def dist = new EmpiricalDistribution(100).tap { load(residuals as double[]) }
-    def ndist = new NormalDistribution(0, dist.sampleStats.standardDeviation)
+    def dist = EmpiricalDistribution.from(100, residuals as double[])
+    def ndist = NormalDistribution.of(0, dist.sampleStats.standardDeviation)
     def bins = dist.binStats.indexed().collect { i, v -> [v.n ? v.mean.toInteger().toString() : (-maxError + i * step).toInteger().toString(), v.n] }
     def nbins = dist.binStats.indexed().collect { i, v -> def x = v.n ? v.mean.toInteger() : (-maxError + i * step).toInteger(); [x.toString(), ndist.probability(x, x + step)] }
     def scale = dist.binStats.max { it.n }.n / nbins.max { it[1] }[1]

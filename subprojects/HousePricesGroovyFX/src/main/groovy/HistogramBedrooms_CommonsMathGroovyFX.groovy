@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.apache.commons.math3.random.EmpiricalDistribution
-import org.apache.commons.math3.stat.descriptive.SummaryStatistics
+import org.apache.commons.math4.legacy.distribution.EmpiricalDistribution
+import org.apache.commons.math4.legacy.stat.descriptive.SummaryStatistics
 
 import static groovyx.javafx.GroovyFX.start
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
@@ -27,7 +27,7 @@ def stats = new SummaryStatistics()
 all.each{ stats.addValue(it as double) }
 println stats.summary
 
-def dist = new EmpiricalDistribution(all.max()).tap{ load(all as double[]) }
+def dist = EmpiricalDistribution.from(all.max(), all as double[])
 def bins = dist.binStats.withIndex().collectMany { v, i -> [i.toString(), v.n] }
 
 start {

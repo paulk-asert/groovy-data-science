@@ -16,11 +16,11 @@
 //@Grab('org.jfree:jfreechart:1.5.1')
 //@Grab('org.apache.commons:commons-math3:3.6.1')
 //@Grab('org.apache.commons:commons-csv:1.8')
-import org.apache.commons.math3.linear.EigenDecomposition
-import org.apache.commons.math3.linear.MatrixUtils
-import org.apache.commons.math3.ml.clustering.DoublePoint
-import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer
-import org.apache.commons.math3.stat.correlation.Covariance
+import org.apache.commons.math4.legacy.linear.EigenDecomposition
+import org.apache.commons.math4.legacy.linear.MatrixUtils
+import org.apache.commons.math4.legacy.ml.clustering.DoublePoint
+import org.apache.commons.math4.legacy.ml.clustering.KMeansPlusPlusClusterer
+import org.apache.commons.math4.legacy.stat.correlation.Covariance
 import org.jfree.chart.axis.NumberAxis
 import org.jfree.chart.plot.SpiderWebPlot
 import org.jfree.chart.plot.XYPlot
@@ -95,8 +95,9 @@ def covarianceMatrix = covariance.covarianceMatrix
 def ed = new EigenDecomposition(covarianceMatrix)
 double[] eigenValues = ed.realEigenvalues
 //def solver = ed.solver
-def principalComponents = MatrixUtils.createRealMatrix(eigenValues.length, clusterer.k)
-for (int i = 0; i < clusterer.k; i++) {
+def k = clusterer.numberOfClusters
+def principalComponents = MatrixUtils.createRealMatrix(eigenValues.length, k)
+for (int i = 0; i < k; i++) {
     for (int j = 0; j < eigenValues.length; j++) {
         principalComponents.setEntry(j, i, ed.getEigenvector(i).getEntry(j))
     }
@@ -105,7 +106,7 @@ for (int i = 0; i < clusterer.k; i++) {
 def xyz = new DefaultXYZDataset()
 def transformed = realMatrix.multiply(principalComponents)
 
-clusterPts.each{ k, v ->
+clusterPts.each{ _, v ->
     def (x, y, z) = [[], [], []]
     v.each { idx ->
         x << -transformed.getEntry(idx, 0)

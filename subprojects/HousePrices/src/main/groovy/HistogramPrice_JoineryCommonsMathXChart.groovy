@@ -15,7 +15,7 @@
  */
 // joinery has some neat capabilities but has a restrictive GPL3 license
 import joinery.DataFrame
-import org.apache.commons.math3.random.EmpiricalDistribution
+import org.apache.commons.math4.legacy.distribution.EmpiricalDistribution
 import org.knowm.xchart.CategoryChartBuilder
 import org.knowm.xchart.Histogram
 import org.knowm.xchart.SwingWrapper
@@ -23,7 +23,7 @@ import org.knowm.xchart.SwingWrapper
 def binCount = 50
 def is = getClass().classLoader.getResourceAsStream('kc_house_data.csv')
 def price = DataFrame.readCsv(is).select{ values -> values[3] < 30 }.retain("price")
-def dist = new EmpiricalDistribution(binCount).tap{ load(price.toArray(double[])) }
+def dist = EmpiricalDistribution.from(binCount, price.toArray(double[]))
 def hist1 = new DataFrame("idx", "price")
 dist.binStats.withIndex().each { v, i -> hist1.append([i, v.n]) }
 hist1 = hist1.retain("price")

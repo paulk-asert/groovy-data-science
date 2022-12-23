@@ -15,8 +15,8 @@
  */
 //@Grab('org.apache.commons:commons-math3:3.6.1')
 //@Grab('org.apache.commons:commons-csv:1.8')
-import org.apache.commons.math3.distribution.NormalDistribution
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics
+import org.apache.commons.statistics.distribution.NormalDistribution
+import org.apache.commons.math4.legacy.stat.descriptive.DescriptiveStatistics
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
 //def file = 'kc_house_data.csv' as File
@@ -36,7 +36,7 @@ def ds = new DescriptiveStatistics(values)
 println 'Num bedrooms divided by num bathrooms ' + ds
 double mean = ds.mean
 
-def dist = new NormalDistribution()
+def dist = NormalDistribution.of(0, 1)
 double variance = ds.populationVariance
 double sd = Math.sqrt(variance)
 for (int idx = 0; idx < ds.N; idx++) {

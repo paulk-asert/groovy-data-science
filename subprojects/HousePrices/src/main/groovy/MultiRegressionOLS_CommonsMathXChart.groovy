@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression
+import org.apache.commons.math4.legacy.stat.regression.OLSMultipleLinearRegression
 import org.knowm.xchart.SwingWrapper
 import org.knowm.xchart.XYChartBuilder
 
@@ -32,7 +32,7 @@ def reg = new OLSMultipleLinearRegression()
 reg.newSampleData(price as double[], features as double[][])
 def betas = reg.estimateRegressionParameters()
 def end = System.currentTimeMillis()
-println end - start
+println "Took ${end - start}ms"
 def predicted = features.collect{ row -> row.indices.collect{ i -> betas[i+1] * row[i] }.sum() + betas[0] }
 
 def chart = new XYChartBuilder().width(900).height(450).title("Actual vs predicted price").xAxisTitle("Actual").yAxisTitle("Predicted").build()

@@ -24,7 +24,8 @@ dependencies {
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     implementation "com.opencsv:opencsv:$opencsvVersion"
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
-    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'org.apache.commons:commons-math4-legacy:4.0-beta1'
+    implementation 'org.apache.commons:commons-statistics-distribution:1.0'
     implementation 'sh.joinery:joinery-dataframe:1.10'
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
     // https://web.archive.org/web/20140415021609/http://xeiam.com:80/xchart.jsp

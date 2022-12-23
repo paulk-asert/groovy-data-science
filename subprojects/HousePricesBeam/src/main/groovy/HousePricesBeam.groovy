@@ -32,7 +32,7 @@ import static java.util.logging.Level.INFO
 import static java.util.logging.Level.SEVERE
 import static java.util.logging.Logger.getLogger
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
-import static org.apache.commons.math3.stat.StatUtils.sumSq
+import static org.apache.commons.math4.legacy.stat.StatUtils.sumSq
 import static smile.math.MathEx.dot
 
 static buildPipeline(Pipeline p, String filename) {

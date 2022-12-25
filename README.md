@@ -85,14 +85,14 @@ All the details can be found in the [HousePrices subproject](subprojects/HousePr
 Options are available to run the examples on the command-line, in your favourite IDE, using Gitpod,
 or using a Jupyter/BeakerX notebook.
 
-| | Technologies/libraries covered |
-| --- | --- |
-| Data manipulation | [Tablesaw], [Joinery], [Apache Commons CSV], [OpenCSV] |
-| Regression, math | [Smile], [Apache Commons Math], [Weka], [Tribuo] |
-| Outlier detection | [Apache Commons Math], [Tribuo] |
-| Visualization | [GroovyFX], [XChart], [Tablesaw Plot.ly] |
-| Enterprise Integration | [Apache Camel] |
-| Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars] |
+| | Technologies/libraries covered                                                                            |
+| --- |-----------------------------------------------------------------------------------------------------------|
+| Data manipulation | [Tablesaw], [Joinery], [Apache Commons CSV], [OpenCSV]                                                    |
+| Regression, math | [Smile], [Apache Commons Math], [Hipparchus], [Weka], [Tribuo]                                                      |
+| Outlier detection | [Apache Commons Math], [Tribuo]                                                                           |
+| Visualization | [GroovyFX], [XChart], [Tablesaw Plot.ly]                                                                  |
+| Enterprise Integration | [Apache Camel]                                                                                            |
+| Scaling regression | [Apache Ignite], [Apache Spark], [Apache Beam], [GPars]                                                   |
 | Aspects covered | Reading csv, dataframes, visualization, exploration, errors, outliers, single and multi linear regression |
 
 ## Whiskey clustering with K-means and other algorithms
@@ -204,7 +204,7 @@ linear programming and constraint programming can be useful in numerous scenario
 
 * constraint programming is useful when problems can be expressed
 in terms of high-level constraints
-  
+
 Related libraries may cover both these topics and possibly other
 additional problems like scheduling, bin packing and graph algorithms.
 
@@ -220,9 +220,9 @@ health requirements for the diet.
 
 Details can be found in the related website: [groovy-constraint-programming/Diet](https://github.com/paulk-asert/groovy-constraint-programming/tree/master/subprojects/Diet)
 
-|                                            | Technologies/libraries covered                                                        |
-|--------------------------------------------|---------------------------------------------------------------------------------------|
-| Constraint-programming, Linear programming | [Apache Commons Math], [Choco], [JaCoP], [Ojalgo], [OptaPlanner], [OrTools], [SAS/OR] |
+|                                            | Technologies/libraries covered                                                            |
+|--------------------------------------------|-------------------------------------------------------------------------------------------|
+| Constraint-programming, Linear programming | [Apache Commons Math], [Hipparchus], [Choco], [JaCoP], [Ojalgo], [OptaPlanner], [OrTools], [SAS/OR] |
 
 ---
 
@@ -294,6 +294,7 @@ Details can be found in the related website: [groovy-constraint-programming/Monk
 [OpenCSV]: http://opencsv.sourceforge.net/
 [Apache Commons CSV]: https://commons.apache.org/proper/commons-csv/
 [Apache Commons Math]: https://commons.apache.org/proper/commons-math/
+[Hipparchus]: https://hipparchus.org/
 [Jenetics]: https://jenetics.io/
 [Clojure]: https://clojure.org/
 [Groovy]: https://groovy-lang.org/

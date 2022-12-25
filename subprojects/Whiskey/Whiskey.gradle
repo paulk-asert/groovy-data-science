@@ -53,6 +53,7 @@ dependencies {
             "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation "org.apache.commons:commons-math4-legacy:$commonsMath4Version"
+    implementation 'org.hipparchus:hipparchus-clustering:2.3'
     implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
     implementation "org.encog:encog-core:3.4"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import org.hipparchus.linear.EigenDecomposition
 import org.hipparchus.linear.MatrixUtils
 import org.hipparchus.clustering.DoublePoint
@@ -26,16 +27,16 @@ import org.jfree.data.xy.DefaultXYZDataset
 
 import static JFreeChartUtil.bubbleRenderer
 import static JFreeChartUtil.chart
-import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
+import static org.apache.commons.csv.CSVFormat.RFC4180
 import static org.hipparchus.stat.StatUtils.sumSq
 
-var file = getClass().classLoader.getResource('whiskey.csv').file
-var rows = CSV.withFirstRecordAsHeader().parse(new FileReader(file))
+var file = getClass().classLoader.getResource('whiskey.csv').file as File
+var builder = RFC4180.builder().setHeader().setSkipHeaderRecord(true).build()
+var rows = file.withReader {r -> builder.parse(r).records }
 
 var cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
-var clusterer = new KMeansPlusPlusClusterer(4)
 List<DoublePoint> data = []
 List<String> distilleries = []
 Map<Integer, List> clusterPts = [:]
@@ -43,6 +44,8 @@ rows.each{ row ->
     data << new DoublePoint(cols.collect{ col -> row[col] } as int[])
     distilleries << row.Distillery
 }
+
+var clusterer = new KMeansPlusPlusClusterer(4)
 var clusters = clusterer.cluster(data)
 println cols.join(', ')
 var centroids = new DefaultCategoryDataset()
@@ -71,18 +74,14 @@ var centroidChart = chart('Centroid spider plot', centroidPlot)
 var medoidPlot = new SpiderWebPlot(dataset: medoids)
 var medoidChart = chart('Medoid spider plot', medoidPlot)
 
-var pointsArray = data*.point as double[][]
-var mean = (0..<pointsArray[0].length).collect{col ->
-    (0..<pointsArray.length).collect{ row ->
-        pointsArray[row][col]
-    }.average()
-} as double[]
-(0..<pointsArray[0].length).collect{col ->
-    (0..<pointsArray.length).collect{ row ->
-        pointsArray[row][col] -= mean[col]
+var points = data*.point as double[][]
+var mean = points.transpose()*.average()
+(0..<points[0].length).collect{col ->
+    (0..<points.length).collect{ row ->
+        points[row][col] -= mean[col]
     }.average()
 }
-var realMatrix = MatrixUtils.createRealMatrix(pointsArray)
+var realMatrix = MatrixUtils.createRealMatrix(points)
 
 // calculate PCA by hand: create covariance matrix of points, then find eigen vectors
 // see https://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues
@@ -100,7 +99,7 @@ for (int i = 0; i < k; i++) {
 }
 
 var xyz = new DefaultXYZDataset()
-var transformed = realMatrix.multiply(principalComponents)
+var transformed = realMatrix * principalComponents
 
 clusterPts.each{ num, v ->
     def (x, y, z) = [[], [], []]

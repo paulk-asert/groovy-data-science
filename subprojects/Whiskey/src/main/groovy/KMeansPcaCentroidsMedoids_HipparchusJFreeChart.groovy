@@ -102,7 +102,7 @@ var xyz = new DefaultXYZDataset()
 var transformed = realMatrix * principalComponents
 
 clusterPts.each{ num, v ->
-    def (x, y, z) = [[], [], []]
+    var x = [], y = [], z = []
     v.each { idx ->
         x << -transformed.getEntry(idx, 0)
         y << transformed.getEntry(idx, 1)

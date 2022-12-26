@@ -76,10 +76,10 @@ var medoidChart = chart('Medoid spider plot', medoidPlot)
 
 var points = data*.point as double[][]
 var mean = points.transpose()*.average()
-(0..<points[0].length).collect{col ->
-    (0..<points.length).collect{ row ->
+for (col in 0..<points[0].length) {
+    for (row in 0..<points.length) {
         points[row][col] -= mean[col]
-    }.average()
+    }
 }
 var realMatrix = MatrixUtils.createRealMatrix(points)
 

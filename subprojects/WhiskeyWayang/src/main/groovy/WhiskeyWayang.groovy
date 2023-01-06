@@ -33,16 +33,18 @@ record Point(double[] pts) implements Serializable {
         new Point(line.split(',')[2..-1]*.toDouble() as double[]) }
 }
 
-record TaggedPointCounter(double[] pts, int cluster, long count)
-        implements Serializable {
+record TaggedPointCounter(double[] pts, int cluster, long count) implements Serializable {
+    TaggedPointCounter(List<Double> pts, int cluster, long count) {
+        this(pts as double[], cluster, count)
+    }
+
     TaggedPointCounter plus(TaggedPointCounter that) {
-        double[] newPts = pts.indices.collect{ pts[it] + that.pts[it] }
+        var newPts = pts.indices.collect{ pts[it] + that.pts[it] }
         new TaggedPointCounter(newPts, cluster, count + that.count)
     }
 
     TaggedPointCounter average() {
-        new TaggedPointCounter(pts.collect{ double d ->
-            d/count } as double[], cluster, 0)
+        new TaggedPointCounter(pts.collect{ double d -> d/count }, cluster, 0)
     }
 }
 
@@ -55,10 +57,10 @@ class SelectNearestCentroid implements
     }
 
     TaggedPointCounter apply(Point p) {
-        def minDistance = Double.POSITIVE_INFINITY
-        def nearestCentroidId = -1
+        var minDistance = Double.POSITIVE_INFINITY
+        var nearestCentroidId = -1
         for (c in centroids) {
-            def distance = sqrt((0..<p.pts.size()).collect{ p.pts[it] - c.pts[it] }.sum{ it ** 2 } as double)
+            var distance = sqrt((0..<p.pts.size()).collect{ p.pts[it] - c.pts[it] }.sum{ it ** 2 } as double)
             if (distance < minDistance) {
                 minDistance = distance
                 nearestCentroidId = c.cluster
@@ -77,36 +79,37 @@ class Average implements SerializableFunction<TaggedPointCounter, TaggedPointCou
 }
 
 class Plus implements SerializableBinaryOperator<TaggedPointCounter> {
-    TaggedPointCounter apply(TaggedPointCounter tpc1, TaggedPointCounter tpc2) { tpc1.plus(tpc2) }
+    TaggedPointCounter apply(TaggedPointCounter tpc1, TaggedPointCounter tpc2) { tpc1 + tpc2 }
 }
 
 int k = 5
 int iterations = 20
 
 // read in data from our file
-def url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file
-def pointsData = new File(url).readLines()[1..-1].collect{ Point.fromLine(it) }
-def dims = pointsData[0].pts.size()
+var url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file
+var pointsData = new File(url).readLines()[1..-1].collect{ Point.fromLine(it) }
+var dims = pointsData[0].pts.size()
 
 // create some random points as initial centroids
-def r = new Random()
-def initPts = (1..k).collect { (0..<dims).collect { r.nextGaussian() + 2 } as double[] }
+var r = new Random()
+var randomPoint = { (0..<dims).collect { r.nextGaussian() + 2 } as double[] }
+var initPts = (1..k).collect(randomPoint)
 
 // create planbuilder with Java and Spark enabled
-def configuration = new Configuration()
-def context = new WayangContext(configuration)
+var configuration = new Configuration()
+var context = new WayangContext(configuration)
     .withPlugin(Java.basicPlugin())
     .withPlugin(Spark.basicPlugin())
-def planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
+var planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
 
-def points = planBuilder
+var points = planBuilder
     .loadCollection(pointsData).withName('Load points')
 
-def initialCentroids = planBuilder
+var initialCentroids = planBuilder
     .loadCollection((0..<k).collect{ idx -> new TaggedPointCounter(initPts[idx], idx, 0) })
     .withName("Load random centroids")
 
-def finalCentroids = initialCentroids
+var finalCentroids = initialCentroids
     .repeat(iterations, currentCentroids ->
         points.map(new SelectNearestCentroid())
             .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")

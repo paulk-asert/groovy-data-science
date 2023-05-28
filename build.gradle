@@ -15,7 +15,7 @@
  */
 plugins {
     id 'org.kordamp.gradle.project' version '0.47.0'
-    id 'com.github.ben-manes.versions' version '0.44.0'
+    id 'com.github.ben-manes.versions' version '0.46.0'
     // uncomment when using JDK11+
 //    id 'com.autonomousapps.dependency-analysis' version '1.17.0'
 }

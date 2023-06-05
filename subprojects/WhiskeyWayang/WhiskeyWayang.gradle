@@ -35,9 +35,9 @@ tasks.named('run').configure {
 
 ext {
     wayangVersion = '0.6.0'
-    hadoopVersion = '3.3.4'
+    hadoopVersion = '3.3.5'
     scalaMajorVersion = '2.12'
-    sparkVersion = '3.3.1'
+    sparkVersion = '3.4.0'
 }
 
 dependencies {
@@ -53,9 +53,9 @@ dependencies {
         exclude(group: 'org.slf4j', module: '*')
         exclude(group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl')
     }
-    runtimeOnly "org.slf4j:slf4j-simple:1.7.36" // spark not yet compatible with 2.0.x
-    runtimeOnly 'org.apache.commons:commons-configuration2:2.8.0'
-    runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.4.0'
+    runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
+    runtimeOnly 'org.apache.commons:commons-configuration2:2.9.0'
+    runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.5.1'
     runtimeOnly 'com.google.re2j:re2j:1.7'
     runtimeOnly("org.apache.hadoop:hadoop-common:$hadoopVersion") {
         transitive = false

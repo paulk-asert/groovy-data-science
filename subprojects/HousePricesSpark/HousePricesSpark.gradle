@@ -24,7 +24,7 @@ repositories {
 ext {
     appName = 'HousePricesSpark'
     sparkVariant = '2.12'
-    sparkVersion = '3.3.1'
+    sparkVersion = '3.4.0'
 }
 
 application {

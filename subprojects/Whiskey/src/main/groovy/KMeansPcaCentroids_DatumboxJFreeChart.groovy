@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.jfree:jfreechart:1.5.1')
 //@Grab('com.datumbox:datumbox-framework-lib:0.8.2')
 import com.datumbox.framework.core.common.dataobjects.Dataframe
 import com.datumbox.framework.common.Configuration
 import com.datumbox.framework.core.machinelearning.MLBuilder
 import com.datumbox.framework.core.machinelearning.clustering.Kmeans
 import com.datumbox.framework.core.machinelearning.featureselection.PCA
-import org.jfree.chart.axis.NumberAxis
-import org.jfree.chart.plot.SpiderWebPlot
-import org.jfree.chart.plot.XYPlot
-import org.jfree.data.category.DefaultCategoryDataset
-import org.jfree.data.xy.DefaultXYZDataset
 
-import static JFreeChartUtil.bubbleRenderer
-import static JFreeChartUtil.chart
+import static JFreeChartUtil.*
 import static com.datumbox.framework.common.dataobjects.TypeInference.DataType.NUMERICAL
 import static com.datumbox.framework.common.dataobjects.TypeInference.DataType.CATEGORICAL
 import static com.datumbox.framework.core.machinelearning.clustering.Kmeans.TrainingParameters.Distance.EUCLIDIAN
@@ -53,7 +46,7 @@ Kmeans clusterer = MLBuilder.create(trainParams, config)
 clusterer.fit(df)
 clusterer.predict(df)
 def cl = clusterer.clusters
-def centroids = new DefaultCategoryDataset()
+def centroids = categoryDataset()
 println 'Centroids ' + cols.join(', ')
 cl.each { idx, v ->
     def ctrd = v.centroid.x
@@ -63,14 +56,14 @@ cl.each { idx, v ->
     }
 }
 
-def centroidChart = chart('Centroid spider plot', new SpiderWebPlot(dataset: centroids))
+def centroidChart = chart('Centroid spider plot', spiderWebPlot(dataset: centroids))
 
 def pcaParams = new PCA.TrainingParameters(whitened: true, maxDimensions: k)
 PCA featureSelector = MLBuilder.create(pcaParams, config)
 featureSelector.fit_transform(df)
 featureSelector.close()
 
-def xyz = new DefaultXYZDataset()
+def xyz = xyzDataset()
 def clusters = [:].withDefault{[]}
 def (xs, ys, zs) = [[:].withDefault{[]}, [:].withDefault{[]}, [:].withDefault{[]}]
 def zmin = df.entries().collect{it.value.x.get(2) }.min()
@@ -94,9 +87,9 @@ println clusters
         .sort{e -> e.key }
         .collect{ idx, v -> "$idx: $v" }.join('\n')
 
-def xaxis = new NumberAxis(label: 'PCA1', autoRange: false, lowerBound: -6, upperBound: 10)
-def yaxis = new NumberAxis(label: 'PCA2', autoRange: false, lowerBound: -9, upperBound: 0)
-def bubbleChart = chart('PCA bubble plot', new XYPlot(xyz, xaxis, yaxis, bubbleRenderer()))
+def xaxis = numberAxis(label: 'PCA1', autoRange: false, lowerBound: -6, upperBound: 10)
+def yaxis = numberAxis(label: 'PCA2', autoRange: false, lowerBound: -9, upperBound: 0)
+def bubbleChart = chart('PCA bubble plot', xyPlot(xyz, xaxis, yaxis, bubbleRenderer()))
 
 SwingUtil.show(centroidChart, bubbleChart,
         size: [600, 900],

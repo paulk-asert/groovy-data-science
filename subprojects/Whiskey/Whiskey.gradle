@@ -45,7 +45,7 @@ FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).eac
 
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
-    implementation "org.apache.groovy:groovy-swing:$groovy4Version"
+    implementation project(':ChartUtil')
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
     // If Weka is installed along with some optional packages, add the respective Jars to classpath
     // TODO can we get Weka library to autodownload these
@@ -60,7 +60,6 @@ dependencies {
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
     implementation "com.github.haifengl:smile-core:$smileVersion"
     implementation "com.github.haifengl:smile-plot:$smileVersion"
-    implementation "org.jfree:jfreechart:$jfreechartVersion"
     implementation "de.lmu.ifi.dbs.elki:elki:0.7.5"
     implementation("org.tribuo:tribuo-all:$tribuoVersion") {
         exclude(group: 'org.bytedeco', module: 'javacpp')

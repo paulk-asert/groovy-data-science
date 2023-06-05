@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//@Grab('org.jfree:jfreechart:1.5.1')
 //@Grab('nz.ac.waikato.cms.weka:weka-stable:3.8.5')
-import org.jfree.chart.axis.NumberAxis
-import org.jfree.chart.plot.XYPlot
-import org.jfree.data.xy.DefaultXYZDataset
 import weka.attributeSelection.PrincipalComponents
 import weka.clusterers.Cobweb
 import weka.core.converters.CSVLoader
 import weka.gui.graphvisualizer.GraphVisualizer
 
-import static JFreeChartUtil.bubbleRenderer
-import static JFreeChartUtil.chart
+import static JFreeChartUtil.*
 
 def file = getClass().classLoader.getResource('whiskey.csv').file as File
-//def file = 'src/main/resources/whiskey.csv'
 def cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
             'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 
@@ -62,7 +56,7 @@ instances.indices.each { idx ->
     z[cnum] << (transformed[idx].value(2) - zmin + 0.2)/(zmax - zmin) * 1.5
 }
 
-def xyz = new DefaultXYZDataset()
+def xyz = xyzDataset()
 clusters.each { k, v ->
     println "Cluster ${k+1}:"
     println v.join(', ')
@@ -73,9 +67,9 @@ def dotChart = new GraphVisualizer()
 dotChart.readDOT(new StringReader(clusterer.graph()))
 dotChart.layoutGraph()
 
-def xaxis = new NumberAxis(label: 'PCA1', autoRange: false, lowerBound: -5, upperBound: 10)
-def yaxis = new NumberAxis(label: 'PCA2', autoRange: false, lowerBound: -7, upperBound: 5)
-def bubbleChart = chart('PCA bubble plot', new XYPlot(xyz, xaxis, yaxis, bubbleRenderer(0.15f)))
+def xaxis = numberAxis(label: 'PCA1', autoRange: false, lowerBound: -5, upperBound: 10)
+def yaxis = numberAxis(label: 'PCA2', autoRange: false, lowerBound: -7, upperBound: 5)
+def bubbleChart = chart('PCA bubble plot', xyPlot(xyz, xaxis, yaxis, bubbleRenderer(0.15f)))
 
 SwingUtil.show(dotChart, size: [800, 400],
         title: 'Whiskey clusters: Weka=CSV,Cobweb,PCA JFreeChart=plots')

@@ -45,7 +45,7 @@ tasks.named('run').configure {
 
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
-//    implementation ':ChartUtil:'
+//    implementation project(':ChartUtil')
     implementation "org.apache.ignite:ignite-core:$igniteVersion"
     implementation "org.apache.ignite:ignite-ml:$igniteVersion"
     runtimeOnly "org.apache.ignite:ignite-spring:$igniteVersion"

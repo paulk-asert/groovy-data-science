@@ -75,12 +75,11 @@ Ignition.start(cfg).withCloseable { ignite ->
 //    var centroidPlot = spiderWebPlot(dataset: centroidDataset)
 //    var centroidChart = chart('Centroid spider plot', centroidPlot)
 //    var xyz = xyzDataset()
-
 //    def pca = PCA.fit(data).getProjection(3)
 
     var clusters = [:].withDefault{ [] }
 //    var projected = [:].withDefault{ [] }
-//    var observationsMap = [:].withDefault{ [:].withDefault{ [] as Set } }
+    var observationsMap = [:].withDefault{ [:].withDefault{ [] as Set } }
     dataCache.query(new ScanQuery<>()).withCloseable { observations ->
         observations.each { observation ->
             def (k, v) = observation.with{ [getKey(), getValue()] }
@@ -88,28 +87,33 @@ Ignition.start(cfg).withCloseable { ignite ->
             int prediction = mdl.predict(vector)
             clusters[prediction] += distilleries[k]
 //            projected[prediction] += pca.apply(v)
-//            v.eachWithIndex{ val, idx ->
-//                observationsMap[prediction][features[idx]] += val
-//            }
+            v.eachWithIndex{ val, idx ->
+                observationsMap[prediction][features[idx]] += val
+            }
         }
     }
+
 //    projected.keySet().sort().each { k ->
 //        xyz.addSeries("Cluster ${k + 1}:", projected[k].transpose() as double[][])
 //    }
-//    clusters.sort{ e -> e.key }.each{ k, v ->
-//        println "\nCluster ${k+1}: ${v.sort().join(', ')}"
-//        println "Distinguishing features: " + observationsMap[k]
-//            .collectEntries{ k1, v1 -> [k1, v1.with{ [it.min() as int, it.max() as int] } ] }
-//            .findAll{ k2, v2 -> v2[1] - v2[0] <= 2 }
-//            .collect{ k3, v3 -> "$k3=${v3[0] == v3[1] ? v3[0] : v3[0] + '..' + v3[1]}" }
-//            .join(', ')
-//    }
+
+    var threshold = 1 // or 2
+    clusters.sort{ e -> e.key }.each{ k, v ->
+        println "\nCluster ${k+1}: ${v.sort().join(', ')}"
+        println "Distinguishing features: " + observationsMap[k]
+            .collectEntries{ k1, v1 -> [k1, v1.with{ [it.min() as int, it.max() as int] } ] }
+            .findAll{ k2, v2 -> v2[1] - v2[0] <= threshold }
+            .collect{ k3, v3 -> "$k3=${v3[0] == v3[1] ? v3[0] : v3[0] + '..' + v3[1]}" }
+            .join(', ')
+    }
+
+//    var suffix1 = trainer.class.simpleName
+//    var suffix2 = trainer instanceof KMeansTrainer ? " $dist.class.simpleName" : ''
+//    var title = "Whiskey clusters with Apache Ignite ($suffix1$suffix2)"
 //    var xaxis = numberAxis(label: 'PCA1', autoRange: false, lowerBound: -3, upperBound: 7)
 //    var yaxis = numberAxis(label: 'PCA2', autoRange: false, lowerBound: -3, upperBound: 5)
 //    var bubbleChart = chart('PCA bubble plot', xyPlot(xyz, xaxis, yaxis, bubbleRenderer()))
-//    SwingUtil.showH(/*centroidChart,*/ bubbleChart, size: [400, 400],
-////        title: "Whiskey clusters with Apache Ignite (${dist.class.simpleName})")
-//        title: "Whiskey clusters with Apache Ignite (Gaussian Mixture)")
+//    SwingUtil.showH(centroidChart, bubbleChart, size: [800, 400], title: title)
 
     dataCache.destroy()
 }

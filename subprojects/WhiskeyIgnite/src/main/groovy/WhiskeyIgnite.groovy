@@ -23,20 +23,14 @@ import org.apache.ignite.configuration.IgniteConfiguration
 import org.apache.ignite.ml.clustering.kmeans.KMeansTrainer
 import org.apache.ignite.ml.dataset.feature.extractor.impl.DoubleArrayVectorizer
 import org.apache.ignite.ml.math.distances.*
-//import org.jfree.chart.axis.NumberAxis
-//import org.jfree.chart.plot.XYPlot
-//import org.jfree.data.xy.DefaultXYZDataset
-import smile.feature.extraction.PCA
+//import smile.feature.extraction.PCA
 
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi
 import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder
-//import org.jfree.chart.plot.SpiderWebPlot
-//import org.jfree.data.category.DefaultCategoryDataset
 
-//import static JFreeChartUtil.bubbleRenderer
+//import static JFreeChartUtil.*
 import static org.apache.commons.csv.CSVFormat.RFC4180
 import static org.apache.ignite.ml.dataset.feature.extractor.Vectorizer.LabelCoordinate.FIRST
-//import static JFreeChartUtil.chart
 
 var file = getClass().classLoader.getResource('whiskey.csv').file as File
 var rows = file.withReader {r -> RFC4180.parse(r).records*.toList() }
@@ -73,19 +67,19 @@ Ignition.start(cfg).withCloseable { ignite ->
     var cols = centroids.collect{ it*.get() }
     cols.each { c -> println c.collect(pretty).join(', ') }
 
-//    var centroidDataset = new DefaultCategoryDataset()
+//    var centroidDataset = categoryDataset()
 //    cols.eachWithIndex { nums, i ->
 //        nums.eachWithIndex { val, j -> centroidDataset.addValue(val, "Cluster ${i + 1}", features[j]) }
 //    }
 
-//    var centroidPlot = new SpiderWebPlot(dataset: centroidDataset)
+//    var centroidPlot = spiderWebPlot(dataset: centroidDataset)
 //    var centroidChart = chart('Centroid spider plot', centroidPlot)
-//    var xyz = new DefaultXYZDataset()
+//    var xyz = xyzDataset()
 
-    def pca = PCA.fit(data).getProjection(3)
+//    def pca = PCA.fit(data).getProjection(3)
 
     var clusters = [:].withDefault{ [] }
-    var projected = [:].withDefault{ [] }
+//    var projected = [:].withDefault{ [] }
 //    var observationsMap = [:].withDefault{ [:].withDefault{ [] as Set } }
     dataCache.query(new ScanQuery<>()).withCloseable { observations ->
         observations.each { observation ->
@@ -93,7 +87,7 @@ Ignition.start(cfg).withCloseable { ignite ->
             def vector = vectorizer.extractFeatures(k, v)
             int prediction = mdl.predict(vector)
             clusters[prediction] += distilleries[k]
-            projected[prediction] += pca.apply(v)
+//            projected[prediction] += pca.apply(v)
 //            v.eachWithIndex{ val, idx ->
 //                observationsMap[prediction][features[idx]] += val
 //            }
@@ -110,9 +104,9 @@ Ignition.start(cfg).withCloseable { ignite ->
 //            .collect{ k3, v3 -> "$k3=${v3[0] == v3[1] ? v3[0] : v3[0] + '..' + v3[1]}" }
 //            .join(', ')
 //    }
-//    var xaxis = new NumberAxis(label: 'PCA1', autoRange: false, lowerBound: -3, upperBound: 7)
-//    var yaxis = new NumberAxis(label: 'PCA2', autoRange: false, lowerBound: -3, upperBound: 5)
-//    var bubbleChart = chart('PCA bubble plot', new XYPlot(xyz, xaxis, yaxis, bubbleRenderer()))
+//    var xaxis = numberAxis(label: 'PCA1', autoRange: false, lowerBound: -3, upperBound: 7)
+//    var yaxis = numberAxis(label: 'PCA2', autoRange: false, lowerBound: -3, upperBound: 5)
+//    var bubbleChart = chart('PCA bubble plot', xyPlot(xyz, xaxis, yaxis, bubbleRenderer()))
 //    SwingUtil.showH(/*centroidChart,*/ bubbleChart, size: [400, 400],
 ////        title: "Whiskey clusters with Apache Ignite (${dist.class.simpleName})")
 //        title: "Whiskey clusters with Apache Ignite (Gaussian Mixture)")

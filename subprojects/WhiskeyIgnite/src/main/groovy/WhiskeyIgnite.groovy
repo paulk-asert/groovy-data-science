@@ -15,20 +15,34 @@
  */
 import org.apache.ignite.Ignition
 import org.apache.ignite.cache.affinity.rendezvous.RendezvousAffinityFunction
+import org.apache.ignite.cache.query.ScanQuery
 import org.apache.ignite.configuration.CacheConfiguration
 import org.apache.ignite.configuration.IgniteConfiguration
+
+//import org.apache.ignite.ml.clustering.gmm.GmmTrainer
 import org.apache.ignite.ml.clustering.kmeans.KMeansTrainer
 import org.apache.ignite.ml.dataset.feature.extractor.impl.DoubleArrayVectorizer
-import org.apache.ignite.ml.math.distances.EuclideanDistance
+import org.apache.ignite.ml.math.distances.*
+//import org.jfree.chart.axis.NumberAxis
+//import org.jfree.chart.plot.XYPlot
+//import org.jfree.data.xy.DefaultXYZDataset
+import smile.feature.extraction.PCA
+
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi
 import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder
+//import org.jfree.chart.plot.SpiderWebPlot
+//import org.jfree.data.category.DefaultCategoryDataset
 
+//import static JFreeChartUtil.bubbleRenderer
 import static org.apache.commons.csv.CSVFormat.RFC4180
 import static org.apache.ignite.ml.dataset.feature.extractor.Vectorizer.LabelCoordinate.FIRST
+//import static JFreeChartUtil.chart
 
 var file = getClass().classLoader.getResource('whiskey.csv').file as File
 var rows = file.withReader {r -> RFC4180.parse(r).records*.toList() }
 var data = rows[1..-1].collect{ it[2..-1]*.toDouble() } as double[][]
+var distilleries = rows[1..-1]*.get(1)
+var features = rows[0][2..-1]
 
 // configure to all run on local machine but could be a cluster (can be hidden in XML)
 var cfg = new IgniteConfiguration(
@@ -40,10 +54,9 @@ var cfg = new IgniteConfiguration(
         )
 )
 
-var features = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco',
-                     'Honey', 'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
 var pretty = this.&sprintf.curry('%.4f')
-var dist = new EuclideanDistance()
+//var dist = new ManhattanDistance()
+var dist = new EuclideanDistance() // or ManhattanDistance
 var vectorizer = new DoubleArrayVectorizer().labeled(FIRST)
 
 Ignition.start(cfg).withCloseable { ignite ->
@@ -52,10 +65,57 @@ Ignition.start(cfg).withCloseable { ignite ->
           name: "TEST_${UUID.randomUUID()}",
           affinity: new RendezvousAffinityFunction(false, 10)))
     data.indices.each { int i -> dataCache.put(i, data[i]) }
-    var trainer = new KMeansTrainer().withDistance(dist).withAmountOfClusters(5)
+    var trainer = new KMeansTrainer().withDistance(dist).withAmountOfClusters(3)
+//    var trainer = new GmmTrainer().withMaxCountOfClusters(5)
     var mdl = trainer.fit(ignite, dataCache, vectorizer)
     println ">>> KMeans centroids:\n${features.join(', ')}"
     var centroids = mdl.centers*.all()
-    centroids.each { c -> println c*.get().collect(pretty).join(', ') }
+    var cols = centroids.collect{ it*.get() }
+    cols.each { c -> println c.collect(pretty).join(', ') }
+
+//    var centroidDataset = new DefaultCategoryDataset()
+//    cols.eachWithIndex { nums, i ->
+//        nums.eachWithIndex { val, j -> centroidDataset.addValue(val, "Cluster ${i + 1}", features[j]) }
+//    }
+
+//    var centroidPlot = new SpiderWebPlot(dataset: centroidDataset)
+//    var centroidChart = chart('Centroid spider plot', centroidPlot)
+//    var xyz = new DefaultXYZDataset()
+
+    def pca = PCA.fit(data).getProjection(3)
+
+    var clusters = [:].withDefault{ [] }
+    var projected = [:].withDefault{ [] }
+//    var observationsMap = [:].withDefault{ [:].withDefault{ [] as Set } }
+    dataCache.query(new ScanQuery<>()).withCloseable { observations ->
+        observations.each { observation ->
+            def (k, v) = observation.with{ [getKey(), getValue()] }
+            def vector = vectorizer.extractFeatures(k, v)
+            int prediction = mdl.predict(vector)
+            clusters[prediction] += distilleries[k]
+            projected[prediction] += pca.apply(v)
+//            v.eachWithIndex{ val, idx ->
+//                observationsMap[prediction][features[idx]] += val
+//            }
+        }
+    }
+//    projected.keySet().sort().each { k ->
+//        xyz.addSeries("Cluster ${k + 1}:", projected[k].transpose() as double[][])
+//    }
+//    clusters.sort{ e -> e.key }.each{ k, v ->
+//        println "\nCluster ${k+1}: ${v.sort().join(', ')}"
+//        println "Distinguishing features: " + observationsMap[k]
+//            .collectEntries{ k1, v1 -> [k1, v1.with{ [it.min() as int, it.max() as int] } ] }
+//            .findAll{ k2, v2 -> v2[1] - v2[0] <= 2 }
+//            .collect{ k3, v3 -> "$k3=${v3[0] == v3[1] ? v3[0] : v3[0] + '..' + v3[1]}" }
+//            .join(', ')
+//    }
+//    var xaxis = new NumberAxis(label: 'PCA1', autoRange: false, lowerBound: -3, upperBound: 7)
+//    var yaxis = new NumberAxis(label: 'PCA2', autoRange: false, lowerBound: -3, upperBound: 5)
+//    var bubbleChart = chart('PCA bubble plot', new XYPlot(xyz, xaxis, yaxis, bubbleRenderer()))
+//    SwingUtil.showH(/*centroidChart,*/ bubbleChart, size: [400, 400],
+////        title: "Whiskey clusters with Apache Ignite (${dist.class.simpleName})")
+//        title: "Whiskey clusters with Apache Ignite (Gaussian Mixture)")
+
     dataCache.destroy()
 }

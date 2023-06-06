@@ -3,6 +3,9 @@
 This project looks at scaling up the [Whiskey](../Whiskey/)
 project using [Apache Ignite](https://ignite.apache.org/).
 
+Additional slides related to this example can be found
+[here](https://speakerdeck.com/paulk/whiskey-groovy-ignite).
+
 ![Clustering](../../docs/images/clustering_bottles.jpg)
 
 ## Ignite overview

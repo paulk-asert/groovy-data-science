@@ -30,7 +30,6 @@ import org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMultic
 
 //import static JFreeChartUtil.*
 import static org.apache.commons.csv.CSVFormat.RFC4180
-import static org.apache.ignite.ml.dataset.feature.extractor.Vectorizer.LabelCoordinate.FIRST
 
 var file = getClass().classLoader.getResource('whiskey.csv').file as File
 var rows = file.withReader {r -> RFC4180.parse(r).records*.toList() }
@@ -51,7 +50,7 @@ var cfg = new IgniteConfiguration(
 var pretty = this.&sprintf.curry('%.4f')
 //var dist = new ManhattanDistance()
 var dist = new EuclideanDistance() // or ManhattanDistance
-var vectorizer = new DoubleArrayVectorizer().labeled(FIRST)
+var vectorizer = new DoubleArrayVectorizer()
 
 Ignition.start(cfg).withCloseable { ignite ->
     println ">>> Ignite grid started for data: ${data.size()} rows X ${data[0].size()} cols"
@@ -59,7 +58,7 @@ Ignition.start(cfg).withCloseable { ignite ->
           name: "TEST_${UUID.randomUUID()}",
           affinity: new RendezvousAffinityFunction(false, 10)))
     data.indices.each { int i -> dataCache.put(i, data[i]) }
-    var trainer = new KMeansTrainer().withDistance(dist).withAmountOfClusters(3)
+    var trainer = new KMeansTrainer().withDistance(dist).withAmountOfClusters(5)
 //    var trainer = new GmmTrainer().withMaxCountOfClusters(5)
     var mdl = trainer.fit(ignite, dataCache, vectorizer)
     println ">>> KMeans centroids:\n${features.join(', ')}"

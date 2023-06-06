@@ -21,6 +21,9 @@ Groovy code examples can be found in the [src/main/groovy](src/main/groovy) dire
 
 You have several options for running the programs (see more details from the main [README](../../README.md#running-the-examples) in the root project):
 
+* You can run the main examples online using a Jupyter/Beakerx notebook:
+  [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/paulk-asert/groovy-data-science/master?filepath=subprojects%2FWhiskeyIgnite%2Fsrc%2Fmain%2Fnotebook%2FWhiskeyIgnite.ipynb)
+
 * If you have opened the repo in IntelliJ (or your favourite IDE) you should be able to execute the examples directly in the IDE.
 
 * From the command line, invoke the application using gradlew (use `./gradlew` on unix-like systems) with the run command.\

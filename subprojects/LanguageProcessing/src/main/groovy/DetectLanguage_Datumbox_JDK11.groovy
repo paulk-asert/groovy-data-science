@@ -58,8 +58,9 @@ println 'Classifying                   Predicted   Probability'
   'Willkommen in Berlin', 'Selamat Datang di Jakarta'
 ].each { txt ->
     def r = classifier.predict(txt)
-    def predicted = r.YPredicted.center(10)
-    def probability = sprintf '%6.2f',
-        r.YPredictedProbabilities.get(predicted)
-    println "${txt.padRight(30)}$predicted$probability"
+    def predicted = r.YPredicted
+    def probability = r.YPredictedProbabilities.get(predicted)
+    println txt.padRight(30) +
+        predicted.center(10) +
+        sprintf('%6.2f', probability)
 }

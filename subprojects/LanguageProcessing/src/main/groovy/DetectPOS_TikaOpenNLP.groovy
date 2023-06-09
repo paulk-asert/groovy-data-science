@@ -23,7 +23,7 @@ import org.apache.tika.parser.pdf.PDFParser
 import org.apache.tika.sax.BodyContentHandler
 
 // use a helper to cache models
-def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
+def helper = new ResourceHelper('https://opennlp.sourceforge.net/models-1.5')
 def tokenizer = SimpleTokenizer.INSTANCE
 
 def pdf = getClass().classLoader.getResource("PartsOfSpeech.pdf").file as File

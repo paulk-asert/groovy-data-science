@@ -31,7 +31,7 @@ Pharmacology at Washington University in St. Louis for 29 years.
 '''
 
 // use a helper to cache models
-def helper = new ResourceHelper('http://opennlp.sourceforge.net/models-1.5')
+def helper = new ResourceHelper('https://opennlp.sourceforge.net/models-1.5')
 
 def model = new SentenceModel(helper.load('en-sent'))
 def detector = new SentenceDetectorME(model)

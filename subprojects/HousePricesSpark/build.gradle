@@ -16,15 +16,10 @@
 apply plugin: 'groovy'
 apply plugin: 'application'
 
-repositories {
-    mavenCentral()
-//    mavenLocal()
-}
-
 ext {
     appName = 'HousePricesSpark'
     sparkVariant = '2.12'
-    sparkVersion = '3.4.0'
+    sparkVersion = '3.5.0'
 }
 
 application {

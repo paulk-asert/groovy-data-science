@@ -24,7 +24,7 @@ repositories {
 ext {
     appName = 'DetectEntities_SparkNLP'
     sparkVariant = '2.12'
-    sparkVersion = '3.3.1'
+    sparkVersion = '3.4.0'
 }
 
 application {
@@ -42,7 +42,7 @@ dependencies {
         exclude(group: 'org.apache.spark', module: 'spark-graphx_2.12')
         exclude(group: 'com.fasterxml.jackson', module: 'jackson-bom')
     }
-    implementation('com.johnsnowlabs.nlp:spark-nlp_2.12:4.2.4') {
+    implementation('com.johnsnowlabs.nlp:spark-nlp_2.12:4.4.3') {
         exclude(group: 'com.github.universal-automata', module: 'liblevenshtein')
         exclude(group: 'com.navigamez', module: 'greex')
     }

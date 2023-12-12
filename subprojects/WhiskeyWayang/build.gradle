@@ -18,6 +18,9 @@ apply plugin: 'application'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://repository.apache.org/content/repositories/orgapachewayang-1017'
+    }
 }
 
 ext.appName = 'WhiskeyWayang'
@@ -34,14 +37,14 @@ tasks.named('run').configure {
 }
 
 ext {
-    wayangVersion = '0.6.0'
+    wayangVersion = '0.7.1'
     hadoopVersion = '3.3.5'
     scalaMajorVersion = '2.12'
     sparkVersion = '3.4.0'
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.groovy:groovy:5.0.0-alpha-1"
     implementation "org.apache.wayang:wayang-api-scala-java_$scalaMajorVersion:$wayangVersion"
     implementation "org.apache.wayang:wayang-java:$wayangVersion"
     implementation("org.apache.wayang:wayang-spark_$scalaMajorVersion:$wayangVersion") {

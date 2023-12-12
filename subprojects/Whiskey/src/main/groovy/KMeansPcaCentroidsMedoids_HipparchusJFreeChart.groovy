@@ -15,6 +15,7 @@
  */
 import org.hipparchus.clustering.DoublePoint
 import org.hipparchus.clustering.KMeansPlusPlusClusterer
+import org.hipparchus.stat.projection.PCA
 
 import static JFreeChartUtil.*
 import static org.apache.commons.csv.CSVFormat.RFC4180

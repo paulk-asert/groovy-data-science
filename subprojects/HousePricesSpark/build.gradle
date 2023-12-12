@@ -18,7 +18,7 @@ apply plugin: 'application'
 
 ext {
     appName = 'HousePricesSpark'
-    sparkVariant = '2.12'
+    sparkVariant = '2.13'
     sparkVersion = '3.5.0'
 }
 

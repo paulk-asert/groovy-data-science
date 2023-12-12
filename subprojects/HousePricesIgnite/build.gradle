@@ -16,10 +16,6 @@
 apply plugin: 'groovy'
 apply plugin: 'application'
 
-repositories {
-    mavenCentral()
-}
-
 ext.appName = 'HousePricesIgnite'
 
 application {

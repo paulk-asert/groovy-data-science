@@ -13,55 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 plugins {
-    id 'org.kordamp.gradle.project' version '0.47.0'
-    id 'com.github.ben-manes.versions' version '0.47.0'
-    // uncomment when using JDK11+
-//    id 'com.autonomousapps.dependency-analysis' version '1.17.0'
-}
-
-config {
-    info {
-        name = 'groovy-data-science'
-        vendor = 'paulk-asert'
-        description = 'Examples using Groovy for Data Science'
-        links {
-            website      = 'https://github.com/paulk-asert/groovy-data-science'
-            issueTracker = 'https://github.com/paulk-asert/groovy-data-science/issues'
-            scm          = 'https://github.com/paulk-asert/groovy-data-science.git'
-        }
-    }
-
-    publishing { enabled = false }
-
-    buildInfo {
-        skipBuildRevision = true
-    }
-
-    licensing {
-        excludes = ['*/rt-*', '*/training.*.txt', 'weights', '*.pdf',
-                    '*.xlsx', '*.csv', '*_source.txt', '*/work/*', 'dummy.txt']
-        licenses {
-            license {
-                id = 'Apache-2.0'
-            }
-        }
-    }
+    id 'com.github.ben-manes.versions' version '0.50.0'
 }
 
 ext.UNSTABLE = /^([0-9,.-]+[.-](alpha|beta|rc)[.\d-]*)|20030203.000550$/
 // ignore non-stable releases
-allprojects {
-    tasks.named("dependencyUpdates").configure {
-        gradleReleaseChannel = 'current'
-        outputFormatter = 'plain'
-        rejectVersionIf {
-            !(it.currentVersion.toLowerCase() ==~ UNSTABLE) && it.candidate.version.toLowerCase() ==~ UNSTABLE
-        }
+tasks.named("dependencyUpdates").configure {
+    gradleReleaseChannel = 'current'
+    outputFormatter = 'plain'
+    rejectVersionIf {
+        !(it.currentVersion.toLowerCase() ==~ UNSTABLE) && it.candidate.version.toLowerCase() ==~ UNSTABLE
     }
-    config {
-        coverage {
-            jacoco { enabled = false }
-        }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
     }
 }

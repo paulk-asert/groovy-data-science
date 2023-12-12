@@ -15,6 +15,7 @@
  */
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import java.text.SimpleDateFormat
 
 var url = getClass().classLoader.getResource('Scented_all.xlsx')
 var table = []
@@ -34,7 +35,8 @@ url.withInputStream { ins ->
     }
 }
 
-var start2020 = Date.parse('dd-MMM-yyyy', '01-Jan-2020')
+var sdf = new SimpleDateFormat('dd-MMM-yyyy', Locale.US)
+var start2020 = sdf.parse('01-Jan-2020')
 println GQL {
     from row in table
     where row.Date > start2020

@@ -15,10 +15,6 @@
  */
 apply plugin: 'groovy'
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
@@ -51,19 +47,20 @@ tasks.register('versionInfo') {
     }
 }
 
-tasks.register('checkJdk17Compatibility') {
-    doLast {
-        assert JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17), "JDK17+ is required but found ${JavaVersion.current()}!"
-    }
+def runall = tasks.register('runAll') {
+    group 'Application'
 }
 
 FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
-    tasks.register("run$name", JavaExec) {
+    if (name.endsWith('JDK17') && !JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) return
+    def subtask = tasks.register("run$name", JavaExec) {
         group 'Application'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name
         dependsOn versionInfo
-        if (name.endsWith('JDK17')) dependsOn checkJdk17Compatibility
+    }
+    runall.configure {
+        dependsOn subtask
     }
 }

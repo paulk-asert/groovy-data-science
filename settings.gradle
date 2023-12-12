@@ -17,15 +17,36 @@ buildscript {
     repositories {
         gradlePluginPortal()
     }
-    dependencies {
-        classpath 'org.kordamp.gradle:settings-gradle-plugin:0.47.0'
-    }
 }
 
 rootProject.name = 'groovy-data-science'
 
-apply plugin: 'org.kordamp.gradle.settings'
+def subprojects = [
+    'Candles',
+    'ChartUtil',
+    'DeepLearningMxnet',
+    'HousePrices',
+    'HousePricesBeam',
+    'HousePricesCamel',
+    'HousePricesGPars',
+    'HousePricesGroovyFX',
+    'HousePricesIgnite',
+    'HousePricesSpark',
+    'Iris',
+    'IrisGraalVM',
+    'LanguageProcessing',
+    'LanguageProcessingDjl',
+    'LanguageProcessingNLPCraft',
+    'LanguageProcessingSparkNLP',
+    'Mnist',
+    'Whiskey',
+    'WhiskeyIgnite',
+    'WhiskeySpark',
+    'WhiskeyWayang'
+]
 
-projects {
-    directories = ['docs', 'subprojects']
+include(subprojects as String[])
+
+rootProject.children.each { prj ->
+    prj.projectDir = new File("$rootDir/subprojects/$prj.name")
 }

@@ -16,10 +16,6 @@
 apply plugin: 'groovy'
 apply plugin: 'application'
 
-repositories {
-    mavenCentral()
-}
-
 // Camel's API didn't change but the minimum JDK version did with 3.14.x being needed for JDK8
 ext.camel = JavaVersion.current().isJava8() ? camelLegacyVersion : camelVersion
 ext.appName = 'ExploreOutlier_ApacheCamelCSV'

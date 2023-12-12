@@ -17,11 +17,9 @@ apply plugin: 'groovy'
 apply plugin: 'application'
 
 repositories {
-    mavenCentral()
 //    maven {
 //        url 'https://repository.apache.org/content/groups/snapshots'
 //    }
-//    mavenLocal()
 }
 
 ext.appName = 'ObjectDetect'

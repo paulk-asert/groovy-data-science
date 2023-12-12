@@ -17,10 +17,6 @@ import static JavaFXUtil.checkForJavaFX
 
 apply plugin: 'groovy'
 
-repositories {
-    mavenCentral()
-}
-
 tasks.register('versionInfo') {
     doLast {
         File javaHome = new File(System.getProperty('java.home'))

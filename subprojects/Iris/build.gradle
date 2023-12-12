@@ -37,7 +37,6 @@ if (JavaVersion.current().java11Compatible) {
 }
 
 repositories {
-    mavenCentral()
     maven { url 'https://jitpack.io' } // JSATFX
 }
 

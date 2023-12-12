@@ -15,32 +15,11 @@
  */
 apply plugin: 'groovy'
 
-repositories {
-    mavenCentral()
-}
-
 tasks.register('installWekaPackages', JavaExec) {
     group 'Setup'
     description "Install Weka optional packages"
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'InstallWekaPackages'
-}
-
-tasks.register('checkJdk11Compatibility') {
-    doLast {
-        assert JavaVersion.current().isJava11Compatible(), "JDK11+ is required but found ${JavaVersion.current()}!"
-    }
-}
-
-FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).each { name ->
-    tasks.register("run$name", JavaExec) {
-        dependsOn compileGroovy
-        if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)
-        group 'Application'
-        description "Run ${name}.groovy as a JVM application/Groovy script"
-        classpath = sourceSets.main.runtimeClasspath
-        mainClass = name
-    }
 }
 
 dependencies {
@@ -50,7 +29,7 @@ dependencies {
     // If Weka is installed along with some optional packages, add the respective Jars to classpath
     // TODO can we get Weka library to autodownload these
     implementation files(['SelfOrganizingMap', 'LVQ', 'GenClustPlusPlus', 'XMeans', 'cascadeKMeans'].collect{
-            "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
+        "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation "org.apache.commons:commons-math4-legacy:$commonsMath4Version"
     implementation 'org.hipparchus:hipparchus-clustering:3.0'
@@ -71,4 +50,22 @@ dependencies {
     // used by tribuo and smile
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
     runtimeOnly "org.bytedeco:arpack-ng-platform:$arpackNgPlatformVersion"
+}
+
+def runall = tasks.register('runAll') {
+    group 'Application'
+}
+
+FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).each { name ->
+    def subtask = tasks.register("run$name", JavaExec) {
+        if (name.contains('Datumbox') && !JavaVersion.current().isJava11Compatible()) return
+        dependsOn compileGroovy
+        group 'Application'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = name
+    }
+    runall.configure {
+        dependsOn subtask
+    }
 }

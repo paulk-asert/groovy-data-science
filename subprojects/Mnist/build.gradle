@@ -17,11 +17,6 @@ import static JavaFXUtil.checkForJavaFX
 
 apply plugin: 'groovy'
 
-repositories {
-//    mavenLocal()
-    mavenCentral()
-}
-
 tasks.register('checkJdk8Compatibility') {
     doLast {
         assert JavaVersion.current().isJava8(), "JDK8 is required but found ${JavaVersion.current()}!"

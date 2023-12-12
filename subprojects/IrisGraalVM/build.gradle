@@ -2,10 +2,6 @@ plugins {
     id 'groovy'
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation("com.deepnetts:deepnetts-core:1.13.2") {

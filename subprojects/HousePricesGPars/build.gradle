@@ -17,20 +17,6 @@ apply plugin: 'groovy'
 
 sourceCompatibility = 1.8
 
-FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
-    tasks.register("run$name", JavaExec) {
-        dependsOn compileGroovy
-        group 'Application'
-        description "Run ${name}.groovy as a JVM application/Groovy script"
-        classpath = sourceSets.main.runtimeClasspath
-        mainClass = name
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation 'org.codehaus.gpars:gpars:1.2.1'
@@ -38,4 +24,21 @@ dependencies {
     implementation "org.apache.commons:commons-math4-legacy:$commonsMath4Version"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
+}
+
+def runall = tasks.register('runAll') {
+    group 'Application'
+}
+
+FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
+    def subtask = tasks.register("run$name", JavaExec) {
+        dependsOn compileGroovy
+        group 'Application'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = name
+    }
+    runall.configure {
+        dependsOn subtask
+    }
 }

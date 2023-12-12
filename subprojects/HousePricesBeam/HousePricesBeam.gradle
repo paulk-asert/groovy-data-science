@@ -17,10 +17,6 @@ apply plugin: 'groovy'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation "org.apache.beam:beam-sdks-java-core:$beamVersion"
     implementation "org.apache.beam:beam-runners-direct-java:$beamVersion"

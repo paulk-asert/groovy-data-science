@@ -42,24 +42,16 @@ dependencies {
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
 }
 
-tasks.register('checkJdk11Compatibility') {
-    doLast {
-        assert JavaVersion.current().isJava11Compatible(), "JDK11+ is required but found ${JavaVersion.current()}!"
-    }
+def runall = tasks.register('runAll') {
+    group 'Application'
 }
 
-tasks.register('checkJdk8Exactly') {
-    doLast {
-        assert JavaVersion.current().isJava8(), "JDK8 is required but found ${JavaVersion.current()}!"
-    }
-}
-
-FileUtil.baseNames(sourceSets.main.allSource.files, ['ResourceHelper']).each { name ->
-    tasks.register("run$name", JavaExec) {
+FileUtil.baseNames(sourceSets.main.allSource.files, ['ResourceHelper','OutputTransforms']).each { name ->
+    if (name.endsWith('JDK11') && !JavaVersion.current().isJava11Compatible()) return
+    if (name.endsWith('JDK8only') && !JavaVersion.current().isJava8()) return
+    def subtask = tasks.register("run$name", JavaExec) {
         group 'Application'
         dependsOn compileGroovy
-        if (name.endsWith('JDK11')) dependsOn(checkJdk11Compatibility)
-        if (name.endsWith('JDK8only')) dependsOn(checkJdk8Exactly)
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name
@@ -67,6 +59,11 @@ FileUtil.baseNames(sourceSets.main.allSource.files, ['ResourceHelper']).each { n
             File javaHome = new File(System.getProperty('java.home'))
             logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
             if (name.contains('OpenNLP')) logger.lifecycle "Using OpenNLP version $opennlp"
+        }
+    }
+    if (name != 'DetectLanguageWithFail') {
+        runall.configure {
+            dependsOn subtask
         }
     }
 }

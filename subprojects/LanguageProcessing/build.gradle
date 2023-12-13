@@ -21,7 +21,8 @@ repositories {
 //    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
-ext.opennlp = JavaVersion.current().isJava8() ? opennlpLegacyVersion : opennlpVersion
+ext.opennlp = JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17) ? opennlpLatestVersion :
+    JavaVersion.current().isJava11Compatible() ? opennlpJdk11Version : opennlpJdk8Version
 
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"

@@ -20,7 +20,13 @@ sourceCompatibility = 1.8
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation 'org.codehaus.gpars:gpars:1.2.1'
-    implementation "com.github.haifengl:smile-core:$smileVersion"
+    implementation("com.github.haifengl:smile-base:$smileVersion") {
+        transitive = false
+    }
+    implementation("com.github.haifengl:smile-core:$smileVersion") {
+        transitive = false
+    }
+    implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation "org.apache.commons:commons-math4-legacy:$commonsMath4Version"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"

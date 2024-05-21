@@ -30,7 +30,8 @@ var features = [
 ]
 
 var file = new File(getClass().classLoader.getResource('kc_house_data.csv').file)
-var table = Read.csv(file.toPath(), CSV.withFirstRecordAsHeader())
+var format = CSV.builder().setHeader().setSkipHeaderRecord(true).build()
+var table = Read.csv(file.toPath(), format)
 table = table.select(*features)
 var filtered = table.toList().findAll { it.apply('bedrooms') <= 30 }
 table = DataFrame.of(filtered)

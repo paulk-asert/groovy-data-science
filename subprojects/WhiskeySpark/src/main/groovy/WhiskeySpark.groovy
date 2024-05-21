@@ -28,10 +28,9 @@ import org.apache.spark.sql.Row
 import static org.apache.spark.sql.SparkSession.builder
 
 static main(args) {
-
     def spark = builder().config('spark.master', 'local[8]').appName('Whiskey').orCreate
+    spark.sparkContext().logLevel = 'WARN'
     def file = WhiskeySpark.classLoader.getResource('whiskey.csv').file
-    //def file = '/path/to/whiskey.csv'
     int k = 5
     Dataset<Row> rows = spark.read().format('com.databricks.spark.csv')
             .options('header': 'true', 'inferSchema': 'true').load(file)
@@ -41,10 +40,11 @@ static main(args) {
     Dataset<Row> dataset = assembler.transform(rows)
     def clusterer = new KMeans(k: k, seed: 1L)
     def model = clusterer.fit(dataset)
-    println 'Cluster centers:'
+    println '\nCluster centers:'
     model.clusterCenters().each { println it.values().collect { sprintf '%.2f', it }.join(', ') }
+    println()
+    spark.sparkContext().logLevel = 'INFO'
     spark.stop()
-
 }
 /*
 Cluster centers:

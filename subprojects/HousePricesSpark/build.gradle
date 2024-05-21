@@ -38,8 +38,8 @@ dependencies {
     runtimeOnly "org.apache.spark:spark-core_$sparkVariant:$sparkVersion"
 }
 
-task copyToLib(type: Copy) {
-    into "$buildDir/deps"
+tasks.register('copyToLib', Copy) {
+    into layout.buildDirectory.dir('deps')
     from configurations.runtimeClasspath
 }
 

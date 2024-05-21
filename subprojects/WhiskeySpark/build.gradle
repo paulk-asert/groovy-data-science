@@ -19,7 +19,7 @@ apply plugin: 'application'
 ext {
     appName = 'WhiskeySpark'
     sparkVariant = '2.13'
-    sparkVersion = '3.5.0'
+    sparkVersion = '3.5.1'
 }
 
 application {

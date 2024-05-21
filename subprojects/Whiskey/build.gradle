@@ -22,6 +22,8 @@ tasks.register('installWekaPackages', JavaExec) {
     mainClass = 'InstallWekaPackages'
 }
 
+ext.sv = JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17) ? smileVersion : smilePreviousVersion
+
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation project(':ChartUtil')
@@ -32,13 +34,20 @@ dependencies {
         "${System.getProperty('user.home')}/wekafiles/packages/${it}/${it}.jar"})
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation "org.apache.commons:commons-math4-legacy:$commonsMath4Version"
-    implementation 'org.hipparchus:hipparchus-clustering:3.0'
+    implementation 'org.hipparchus:hipparchus-clustering:3.1'
     implementation "org.slf4j:slf4j-jdk14:$slf4jVersion"
     implementation "org.encog:encog-core:3.4"
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
-    implementation "com.github.haifengl:smile-core:$smileVersion"
-    implementation "com.github.haifengl:smile-plot:$smileVersion"
+    implementation("com.github.haifengl:smile-core:$sv") {
+        transitive = false
+    }
+    implementation("com.github.haifengl:smile-base:$sv") {
+        transitive = false
+    }
+    implementation("com.github.haifengl:smile-plot:$sv") {
+        transitive = false
+    }
     implementation "de.lmu.ifi.dbs.elki:elki:0.7.5"
     implementation("org.tribuo:tribuo-all:$tribuoVersion") {
         exclude(group: 'org.bytedeco', module: 'javacpp')
@@ -50,6 +59,8 @@ dependencies {
     // used by tribuo and smile
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
     runtimeOnly "org.bytedeco:arpack-ng-platform:$arpackNgPlatformVersion"
+    // used by smile
+    runtimeOnly 'org.swinglabs:swingx:1.6.1'
 }
 
 def runall = tasks.register('runAll') {
@@ -58,6 +69,7 @@ def runall = tasks.register('runAll') {
 
 FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).each { name ->
     def subtask = tasks.register("run$name", JavaExec) {
+        if (name.endsWith('JDK17') && !JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)) return
         if (name.contains('Datumbox') && !JavaVersion.current().isJava11Compatible()) return
         dependsOn compileGroovy
         group 'Application'

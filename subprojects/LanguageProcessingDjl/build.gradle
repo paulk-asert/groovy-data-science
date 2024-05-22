@@ -32,10 +32,20 @@ tasks.named('run').configure {
     description = "Run $appName as a JVM application/Groovy script"
 }
 
+ext.sv = JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17) ? smileVersion : smilePreviousVersion
+
 dependencies {
     implementation "ai.djl:api:$djlVersion"
     implementation "org.apache.groovy:groovy:$groovy4Version"
-    implementation "com.github.haifengl:smile-plot:$smileVersion"
+    implementation("com.github.haifengl:smile-core:$sv") {
+        transitive = false
+    }
+    implementation("com.github.haifengl:smile-base:$sv") {
+        transitive = false
+    }
+    implementation("com.github.haifengl:smile-plot:$sv") {
+        transitive = false
+    }
     runtimeOnly "ai.djl.tensorflow:tensorflow-engine:$djlVersion"
     runtimeOnly "ai.djl.tensorflow:tensorflow-model-zoo:$djlVersion"
     //runtimeOnly "ai.djl.tensorflow:tensorflow-native-auto:2.10.1"
@@ -47,4 +57,6 @@ dependencies {
         runtimeOnly "ai.djl.tensorflow:tensorflow-native-cpu:2.10.1:linux-x86_64"
     }
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
+    // used by smile-plot
+    runtimeOnly 'org.swinglabs:swingx:1.6.1'
 }

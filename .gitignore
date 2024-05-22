@@ -25,6 +25,7 @@ bin/
 work/
 .jqwik-database
 .ipynb_checkpoints/
+/subprojects/Iris/logs/
 /subprojects/IrisGraalVM/conf/
 /subprojects/IrisGraalVM/iris
 /subprojects/IrisGraalVM/iris.build_artifacts.txt

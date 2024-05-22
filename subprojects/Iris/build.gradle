@@ -69,7 +69,12 @@ dependencies {
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-jsplot:$tablesawVersion"
     implementation "org.knowm.xchart:xchart:$knowmXchartVersion"
-    implementation "com.github.haifengl:smile-core:$smileVersion"
+    implementation("com.github.haifengl:smile-core:$smileVersion") {
+        transitive = false
+    }
+    implementation("com.github.haifengl:smile-base:$smileVersion") {
+        transitive = false
+    }
     implementation "org.encog:encog-core:3.4"
     implementation("com.deepnetts:deepnetts-core:1.13.2") {
         exclude(group: 'org.apache.commons', module: 'commons-lang3')
@@ -113,13 +118,20 @@ tasks.register('checkJavaFXCompatibility') {
     }
 }
 
+def runall = tasks.register('runAll') {
+    group 'Application'
+}
+
 FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).each { name ->
-    tasks.register("run$name", JavaExec) {
+    def subtask = tasks.register("run$name", JavaExec) {
         group 'Application'
         if (name.contains('Datumbox')) dependsOn(checkJdk11Compatibility)
         if (name.contains('JavaFX') && !JavaVersion.current().java11Compatible) dependsOn(checkJavaFXCompatibility)
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name
+    }
+    runall.configure {
+        dependsOn subtask
     }
 }

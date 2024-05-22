@@ -16,11 +16,12 @@
 apply plugin: 'groovy'
 apply plugin: 'application'
 
-//repositories {
+repositories {
+    mavenCentral()
 //    maven {
 //        url 'https://repository.apache.org/content/repositories/orgapachewayang-1017'
 //    }
-//}
+}
 
 ext.appName = 'WhiskeyWayang'
 
@@ -37,13 +38,13 @@ tasks.named('run').configure {
 
 ext {
     wayangVersion = '0.7.1'
-    hadoopVersion = '3.3.6'
+    hadoopVersion = '3.4.0'
     scalaMajorVersion = '2.12'
-    sparkVersion = '3.5.0'
+    sparkVersion = '3.5.1'
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy:5.0.0-alpha-3"
+    implementation "org.apache.groovy:groovy:5.0.0-alpha-8"
     implementation "org.apache.wayang:wayang-api-scala-java_$scalaMajorVersion:$wayangVersion"
     implementation "org.apache.wayang:wayang-java:$wayangVersion"
     implementation("org.apache.wayang:wayang-spark_$scalaMajorVersion:$wayangVersion") {
@@ -56,8 +57,8 @@ dependencies {
         exclude(group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl')
     }
     runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
-    runtimeOnly 'org.apache.commons:commons-configuration2:2.9.0'
-    runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.5.1'
+    runtimeOnly 'org.apache.commons:commons-configuration2:2.10.1'
+    runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.6.2'
     runtimeOnly 'com.google.re2j:re2j:1.7'
     runtimeOnly("org.apache.hadoop:hadoop-common:$hadoopVersion") {
         transitive = false

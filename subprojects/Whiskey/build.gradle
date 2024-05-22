@@ -59,7 +59,7 @@ dependencies {
     // used by tribuo and smile
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
     runtimeOnly "org.bytedeco:arpack-ng-platform:$arpackNgPlatformVersion"
-    // used by smile
+    // used by smile-plot
     runtimeOnly 'org.swinglabs:swingx:1.6.1'
 }
 

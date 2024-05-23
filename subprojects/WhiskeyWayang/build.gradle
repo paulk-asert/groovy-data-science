@@ -18,6 +18,7 @@ apply plugin: 'application'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 //    maven {
 //        url 'https://repository.apache.org/content/repositories/orgapachewayang-1017'
 //    }
@@ -47,6 +48,10 @@ dependencies {
     implementation "org.apache.groovy:groovy:5.0.0-alpha-8"
     implementation "org.apache.wayang:wayang-api-scala-java_$scalaMajorVersion:$wayangVersion"
     implementation "org.apache.wayang:wayang-java:$wayangVersion"
+    implementation("org.apache.wayang:wayang-ml4all:$wayangVersion") {
+        exclude(group: 'org.apache.spark', module: 'spark-graphx_2.12')
+        exclude(group: 'org.apache.spark', module: 'spark-mllib_2.12')
+    }
     implementation("org.apache.wayang:wayang-spark_$scalaMajorVersion:$wayangVersion") {
         transitive = false
     }

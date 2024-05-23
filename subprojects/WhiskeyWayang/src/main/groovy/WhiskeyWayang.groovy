@@ -30,7 +30,7 @@ import static java.lang.Math.sqrt
 
 record Point(double[] pts) implements Serializable {
     static Point fromLine(String line) {
-        new Point(line.split(',')[2..-1]*.toDouble() as double[]) }
+        new Point(line.split(',')[2..-1] as double[]) }
 }
 
 record TaggedPointCounter(double[] pts, int cluster, long count) implements Serializable {
@@ -44,7 +44,7 @@ record TaggedPointCounter(double[] pts, int cluster, long count) implements Seri
     }
 
     TaggedPointCounter average() {
-        new TaggedPointCounter(pts.collect{ double d -> d/count }, cluster, 0)
+        new TaggedPointCounter(pts.collect{ double d -> d/count }, cluster, count)
     }
 }
 
@@ -119,5 +119,14 @@ var finalCentroids = initialCentroids
 
 println 'Centroids:'
 finalCentroids.each { c ->
-    println "Cluster$c.cluster: ${c.pts.collect{ sprintf('%.3f', it) }.join(', ')}"
+    var pts = c.pts.collect{ sprintf '%.2f', it }.join(', ')
+    println "Cluster$c.cluster ($c.count points): $pts"
 }
+/*
+Centroids:
+Cluster0 (24 points): 2.79, 2.42, 1.46, 0.04, 0.00, 1.88, 1.67, 1.96, 1.92, 2.08, 2.17, 1.71
+Cluster1 (6 points): 3.67, 1.50, 3.67, 3.33, 0.67, 0.17, 1.67, 0.50, 1.17, 1.33, 1.17, 0.17
+Cluster2 (15 points): 1.80, 1.93, 1.93, 1.13, 0.20, 1.20, 1.33, 0.80, 1.60, 1.80, 1.00, 1.13
+Cluster3 (2 points): 2.00, 1.50, 2.50, 0.50, 0.00, 0.00, 2.50, 0.50, 0.00, 1.00, 2.00, 2.00
+Cluster4 (39 points): 1.49, 2.51, 1.05, 0.21, 0.08, 1.10, 1.13, 0.54, 1.26, 1.74, 1.97, 2.13
+*/

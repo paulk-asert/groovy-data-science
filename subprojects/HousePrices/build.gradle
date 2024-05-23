@@ -15,6 +15,8 @@
  */
 apply plugin: 'groovy'
 
+ext.sv = JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17) ? smileVersion : smilePreviousVersion
+
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy4Version"
     implementation "nz.ac.waikato.cms.weka:weka-dev:$wekaVersion"
@@ -29,8 +31,15 @@ dependencies {
     implementation "tech.tablesaw:tablesaw-core:$tablesawVersion"
     implementation "tech.tablesaw:tablesaw-aggregate:$tablesawVersion"
 //    runtime 'com.github.fommil.netlib:all:1.1.2'
-    implementation "com.github.haifengl:smile-core:$smileVersion"
-    implementation "com.github.haifengl:smile-plot:$smileVersion"
+    implementation("com.github.haifengl:smile-core:$sv") {
+        transitive = false
+    }
+    implementation("com.github.haifengl:smile-base:$sv") {
+        transitive = false
+    }
+    implementation("com.github.haifengl:smile-plot:$sv") {
+        transitive = false
+    }
     implementation "org.tribuo:tribuo-regression-libsvm:$tribuoVersion"
     implementation "org.tribuo:tribuo-regression-sgd:$tribuoVersion"
     implementation "org.tribuo:tribuo-regression-tree:$tribuoVersion"
@@ -38,6 +47,8 @@ dependencies {
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:$jacksonVersion"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
     runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
+    // used by smile-plot
+    runtimeOnly 'org.swinglabs:swingx:1.6.1'
 }
 
 tasks.register('versionInfo') {

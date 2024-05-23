@@ -57,8 +57,8 @@ class WhiskeyFlink {
 
         var clusters = [:].withDefault{ [] }
         outputTable.execute().collect().each { row ->
-            var features = (DenseVector) row.getField(kmeans.featuresCol)
-            int clusterId = (Integer) row.getField(kmeans.predictionCol)
+            var features = row.getField(kmeans.featuresCol)
+            var clusterId = row.getField(kmeans.predictionCol)
             clusters[clusterId] << features
         }
         clusters.each { k, v ->

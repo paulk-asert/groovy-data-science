@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
+
 import groovy.transform.CompileStatic
 import org.apache.flink.api.common.eventtime.WatermarkStrategy
+import org.apache.flink.api.common.functions.FilterFunction
 import org.apache.flink.api.common.functions.FlatMapFunction
 import org.apache.flink.connector.file.src.FileSource
 import org.apache.flink.connector.file.src.reader.TextLineInputFormat
 import org.apache.flink.core.fs.Path
 import org.apache.flink.ml.clustering.kmeans.KMeans
-import org.apache.flink.ml.clustering.kmeans.KMeansModelData
 import org.apache.flink.ml.linalg.DenseVector
 import org.apache.flink.ml.linalg.Vectors
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment
-import org.apache.flink.types.Row
-import org.apache.flink.util.CloseableIterator
 import org.apache.flink.util.Collector
 
 @CompileStatic
 class WhiskeyFlink {
     static FlatMapFunction<String, DenseVector> splitAndChop = (String s, Collector out) ->
         out.collect(Vectors.dense(s.split(',')[2..-1] as double[]))
-    static headerSkipped = false
+    static firstRow = true
+    static FilterFunction skipHeader = _ -> { var keep = !firstRow; firstRow = false; keep }
 
     static void main(args) {
         var file = WhiskeyFlink.classLoader.getResource('whiskey.csv').file
@@ -44,26 +44,21 @@ class WhiskeyFlink {
         var source = FileSource.forRecordStreamFormat(new TextLineInputFormat(), new Path(file)).build()
         var stream = eEnv
             .fromSource(source, WatermarkStrategy.noWatermarks(), "csvfile")
-            .filter(s -> { var saved = headerSkipped; headerSkipped = true; saved })
+            .filter(skipHeader)
             .flatMap(splitAndChop)
 
-        var inputTable = tEnv.fromDataStream(stream).limit(1, 86).as("features")
-
+        var inputTable = tEnv.fromDataStream(stream).as("features")
         var kmeans = new KMeans(k: 3, seed: 1L)
-
         var kmeansModel = kmeans.fit(inputTable)
-
         var outputTable = kmeansModel.transform(inputTable)[0]
-
-        var clusters = [:].withDefault{ [] }
+        var clusters = [:].withDefault { [] }
         outputTable.execute().collect().each { row ->
             var features = row.getField(kmeans.featuresCol)
             var clusterId = row.getField(kmeans.predictionCol)
             clusters[clusterId] << features
         }
         clusters.each { k, v ->
-            println "Cluster ID: $k"
-            println "Features list:\n${v.join('\n')}"
+            println "Cluster $k has ${v.size()} members:\n${v.join('\n')}"
         }
     }
 }

@@ -15,7 +15,6 @@
  */
 import static org.apache.commons.csv.CSVFormat.RFC4180 as CSV
 
-//def file = 'whiskey.csv' as File
 def file = getClass().classLoader.getResource('whiskey.csv').file
 def parser = CSV.builder().setHeader().setSkipHeaderRecord(true).build()
 def records = parser.parse(new FileReader(file))

@@ -31,11 +31,10 @@ tasks.named('run').configure {
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy:$groovy4Version"
+    implementation "org.apache.groovy:groovy:$groovy5Version"
     implementation "org.apache.spark:spark-mllib_$sparkVariant:$sparkVersion"
     implementation "org.apache.spark:spark-sql_$sparkVariant:$sparkVersion"
     implementation "com.fasterxml.jackson:jackson-bom:$jacksonVersion"
-    runtimeOnly "org.apache.spark:spark-core_$sparkVariant:$sparkVersion"
 }
 
 tasks.register('versionInfo') {

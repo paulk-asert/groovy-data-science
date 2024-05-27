@@ -24,27 +24,25 @@ import static org.apache.commons.csv.CSVFormat.RFC4180
 import static org.apache.commons.math4.legacy.stat.StatUtils.sumSq
 
 var file = getClass().classLoader.getResource('whiskey.csv').file as File
-var builder = RFC4180.builder().setHeader().setSkipHeaderRecord(true).build()
-var rows = file.withReader { r -> builder.parse(r).records }
-
-var cols = ['Body', 'Sweetness', 'Smoky', 'Medicinal', 'Tobacco', 'Honey',
-            'Spicy', 'Winey', 'Nutty', 'Malty', 'Fruity', 'Floral']
+var builder = RFC4180.builder().build()
+var records = file.withReader { r -> builder.parse(r).records*.toList() }
+var features = records[0][2..-1]
+var data = records[1..-1].collect{ new DoublePoint(it[2..-1] as int[]) }
+var distilleries = records[1..-1]*.get(1)
 
 var clusterer = new KMeansPlusPlusClusterer(4)
-List<String> distilleries = rows*.Distillery
-List<DoublePoint> data = rows.collect { new DoublePoint(cols.collect { col -> it[col] } as int[]) }
 Map<Integer, List> clusterPts = [:]
 var clusters = clusterer.cluster(data)
-println cols.join(', ')
+println features.join(', ')
 var centroids = categoryDataset()
 clusters.eachWithIndex { ctrd, num ->
     var cpt = ctrd.center.point
     clusterPts[num] = ctrd.points.collect { pt -> data.point.findIndexOf { it == pt.point } }
     println cpt.collect { sprintf '%.3f', it }.join(', ')
-    cpt.eachWithIndex { val, idx -> centroids.addValue(val, "Cluster ${num + 1}", cols[idx]) }
+    cpt.eachWithIndex { val, idx -> centroids.addValue(val, "Cluster ${num + 1}", features[idx]) }
 }
 
-println "\n${cols.join(', ')}, Medoid"
+println "\n${features.join(', ')}, Medoid"
 var medoids = categoryDataset()
 clusters.eachWithIndex { ctrd, num ->
     var cpt = ctrd.center.point
@@ -53,7 +51,7 @@ clusters.eachWithIndex { ctrd, num ->
     }
     var medoidIdx = data.findIndexOf { row -> row.point == closest.point }
     println data[medoidIdx].point.collect { sprintf '%.3f', it }.join(', ') + ", ${distilleries[medoidIdx]}"
-    data[medoidIdx].point.eachWithIndex { val, idx -> medoids.addValue(val, distilleries[medoidIdx], cols[idx]) }
+    data[medoidIdx].point.eachWithIndex { val, idx -> medoids.addValue(val, distilleries[medoidIdx], features[idx]) }
 }
 
 var centroidPlot = spiderWebPlot(dataset: centroids)

@@ -14,27 +14,13 @@
  * limitations under the License.
  */
 apply plugin: 'groovy'
-apply plugin: 'application'
 
 repositories {
+//    mavenLocal()
     mavenCentral()
-    mavenLocal()
 //    maven {
 //        url 'https://repository.apache.org/content/repositories/orgapachewayang-1017'
 //    }
-}
-
-ext.appName = 'WhiskeyWayang'
-
-application {
-    mainClass = appName
-    if (JavaVersion.current().java11Compatible) {
-        applicationDefaultJvmArgs = ['--add-exports=java.base/sun.nio.ch=ALL-UNNAMED']
-    }
-}
-
-tasks.named('run').configure {
-    description = "Run $appName as a JVM application/Groovy script"
 }
 
 ext {
@@ -45,7 +31,7 @@ ext {
 }
 
 dependencies {
-    implementation "org.apache.groovy:groovy:5.0.0-alpha-8"
+    implementation "org.apache.groovy:groovy:$groovy5Version"
     implementation "org.apache.wayang:wayang-api-scala-java_$scalaMajorVersion:$wayangVersion"
     implementation "org.apache.wayang:wayang-java:$wayangVersion"
     implementation("org.apache.wayang:wayang-ml4all:$wayangVersion") {
@@ -85,4 +71,23 @@ tasks.register('versionInfo') {
     }
 }
 
-run.dependsOn versionInfo
+def runAll = tasks.register('runAll') {
+    group 'Application'
+    dependsOn versionInfo
+}
+
+FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
+    def subtask = tasks.register("run$name", JavaExec) {
+        dependsOn compileGroovy
+        group 'Application'
+        description "Run ${name}.groovy as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = name
+        if (JavaVersion.current().java11Compatible) {
+            jvmArgs ['--add-exports=java.base/sun.nio.ch=ALL-UNNAMED']
+        }
+    }
+    runAll.configure {
+        dependsOn subtask
+    }
+}

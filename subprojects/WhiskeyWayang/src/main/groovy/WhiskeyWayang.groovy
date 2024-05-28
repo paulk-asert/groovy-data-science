@@ -18,7 +18,6 @@
 // https://github.com/apache/incubator-wayang/blob/main/README.md#k-means
 
 import org.apache.wayang.api.JavaPlanBuilder
-import org.apache.wayang.core.api.Configuration
 import org.apache.wayang.core.api.WayangContext
 import org.apache.wayang.core.function.ExecutionContext
 import org.apache.wayang.core.function.FunctionDescriptor.ExtendedSerializableFunction
@@ -33,57 +32,51 @@ record Point(double[] pts) implements Serializable {
         new Point(line.split(',')[2..-1] as double[]) }
 }
 
-record TaggedPointCounter(double[] pts, int cluster, long count) implements Serializable {
-    TaggedPointCounter(List<Double> pts, int cluster, long count) {
+record PointGrouping(double[] pts, int cluster, long count) implements Serializable {
+    PointGrouping(List<Double> pts, int cluster, long count) {
         this(pts as double[], cluster, count)
     }
 
-    TaggedPointCounter plus(TaggedPointCounter that) {
+    PointGrouping plus(PointGrouping that) {
         var newPts = pts.indices.collect{ pts[it] + that.pts[it] }
-        new TaggedPointCounter(newPts, cluster, count + that.count)
+        new PointGrouping(newPts, cluster, count + that.count)
     }
 
-    TaggedPointCounter average() {
-        new TaggedPointCounter(pts.collect{ double d -> d/count }, cluster, count)
+    PointGrouping average() {
+        new PointGrouping(pts.collect{ double d -> d/count }, cluster, count)
     }
 }
 
-class SelectNearestCentroid implements
-        ExtendedSerializableFunction<Point, TaggedPointCounter> {
-    Iterable<TaggedPointCounter> centroids
+class SelectNearestCentroid implements ExtendedSerializableFunction<Point, PointGrouping> {
+    Iterable<PointGrouping> centroids
 
     void open(ExecutionContext context) {
-        centroids = context.getBroadcast("centroids")
+        centroids = context.getBroadcast('centroids')
     }
 
-    TaggedPointCounter apply(Point p) {
+    PointGrouping apply(Point p) {
         var minDistance = Double.POSITIVE_INFINITY
         var nearestCentroidId = -1
         for (c in centroids) {
-            var distance = sqrt((0..<p.pts.size()).collect{ p.pts[it] - c.pts[it] }.sum{ it ** 2 } as double)
+            var distance = sqrt(p.pts.indices.collect{ p.pts[it] - c.pts[it] }.sum{ it ** 2 } as double)
             if (distance < minDistance) {
                 minDistance = distance
                 nearestCentroidId = c.cluster
             }
         }
-        new TaggedPointCounter(p.pts, nearestCentroidId, 1)
+        new PointGrouping(p.pts, nearestCentroidId, 1)
     }
 }
 
-class Cluster implements SerializableFunction<TaggedPointCounter, Integer> {
-    Integer apply(TaggedPointCounter tpc) { tpc.cluster() }
+class PipelineOps {
+    public static SerializableFunction<PointGrouping, Integer> cluster = tpc -> tpc.cluster
+    public static SerializableFunction<PointGrouping, PointGrouping> average = tpc -> tpc.average()
+    public static SerializableBinaryOperator<PointGrouping> plus = (tpc1, tpc2) -> tpc1 + tpc2
 }
-
-class Average implements SerializableFunction<TaggedPointCounter, TaggedPointCounter> {
-    TaggedPointCounter apply(TaggedPointCounter tpc) { tpc.average() }
-}
-
-class Plus implements SerializableBinaryOperator<TaggedPointCounter> {
-    TaggedPointCounter apply(TaggedPointCounter tpc1, TaggedPointCounter tpc2) { tpc1 + tpc2 }
-}
+import static PipelineOps.*
 
 int k = 5
-int iterations = 20
+int iterations = 10
 
 // read in data from our file
 var url = WhiskeyWayang.classLoader.getResource('whiskey.csv').file
@@ -95,9 +88,7 @@ var r = new Random()
 var randomPoint = { (0..<dims).collect { r.nextGaussian() + 2 } as double[] }
 var initPts = (1..k).collect(randomPoint)
 
-// create planbuilder with Java and Spark enabled
-var configuration = new Configuration()
-var context = new WayangContext(configuration)
+var context = new WayangContext()
     .withPlugin(Java.basicPlugin())
     .withPlugin(Spark.basicPlugin())
 var planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
@@ -106,27 +97,26 @@ var points = planBuilder
     .loadCollection(pointsData).withName('Load points')
 
 var initialCentroids = planBuilder
-    .loadCollection((0..<k).collect{ idx -> new TaggedPointCounter(initPts[idx], idx, 0) })
-    .withName("Load random centroids")
+    .loadCollection((0..<k).collect{ idx -> new PointGrouping(initPts[idx], idx, 0) })
+    .withName('Load random centroids')
 
-var finalCentroids = initialCentroids
-    .repeat(iterations, currentCentroids ->
-        points.map(new SelectNearestCentroid())
-            .withBroadcast(currentCentroids, "centroids").withName("Find nearest centroid")
-            .reduceByKey(new Cluster(), new Plus()).withName("Add up points")
-            .map(new Average()).withName("Average points")
-            .withOutputClass(TaggedPointCounter)).withName("Loop").collect()
+var finalCentroids = initialCentroids.repeat(iterations, currentCentroids ->
+    points.map(new SelectNearestCentroid())
+        .withBroadcast(currentCentroids, 'centroids').withName('Find nearest centroid')
+        .reduceByKey(cluster, plus).withName('Aggregate points')
+        .map(average).withName('Average points')
+        .withOutputClass(PointGrouping)
+).withName('Loop')
 
 println 'Centroids:'
-finalCentroids.each { c ->
-    var pts = c.pts.collect{ sprintf '%.2f', it }.join(', ')
+finalCentroids.forEach { c ->
+    var pts = c.pts.collect { sprintf '%.2f', it }.join(', ')
     println "Cluster$c.cluster ($c.count points): $pts"
 }
 /*
 Centroids:
-Cluster0 (24 points): 2.79, 2.42, 1.46, 0.04, 0.00, 1.88, 1.67, 1.96, 1.92, 2.08, 2.17, 1.71
-Cluster1 (6 points): 3.67, 1.50, 3.67, 3.33, 0.67, 0.17, 1.67, 0.50, 1.17, 1.33, 1.17, 0.17
-Cluster2 (15 points): 1.80, 1.93, 1.93, 1.13, 0.20, 1.20, 1.33, 0.80, 1.60, 1.80, 1.00, 1.13
-Cluster3 (2 points): 2.00, 1.50, 2.50, 0.50, 0.00, 0.00, 2.50, 0.50, 0.00, 1.00, 2.00, 2.00
-Cluster4 (39 points): 1.49, 2.51, 1.05, 0.21, 0.08, 1.10, 1.13, 0.54, 1.26, 1.74, 1.97, 2.13
+Cluster0 (20 points): 2.00, 2.50, 1.55, 0.35, 0.20, 1.15, 1.55, 0.95, 0.90, 1.80, 1.35, 1.35
+Cluster2 (21 points): 2.81, 2.43, 1.52, 0.05, 0.00, 1.90, 1.67, 2.05, 2.10, 2.10, 2.19, 1.76
+Cluster3 (34 points): 1.38, 2.32, 1.09, 0.26, 0.03, 1.15, 1.09, 0.47, 1.38, 1.74, 2.03, 2.24
+Cluster4 (11 points): 2.91, 1.55, 2.91, 2.73, 0.45, 0.45, 1.45, 0.55, 1.55, 1.45, 1.18, 0.55
 */

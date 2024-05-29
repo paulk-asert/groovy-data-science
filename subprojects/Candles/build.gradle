@@ -15,7 +15,7 @@
  */
 apply plugin: 'groovy'
 
-def runall = tasks.register('runAll') {
+def runAll = tasks.register('runAll') {
     group 'Application'
 }
 
@@ -27,7 +27,7 @@ FileUtil.baseNames(sourceSets.main.allSource.files, ['TablesawHelper']).each { n
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name
     }
-    runall.configure {
+    runAll.configure {
         dependsOn subtask
     }
 }

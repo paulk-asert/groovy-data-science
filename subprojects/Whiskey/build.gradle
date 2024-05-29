@@ -63,7 +63,7 @@ dependencies {
     runtimeOnly 'org.swinglabs:swingx:1.6.1'
 }
 
-def runall = tasks.register('runAll') {
+def runAll = tasks.register('runAll') {
     group 'Application'
 }
 
@@ -77,7 +77,7 @@ FileUtil.baseNames(sourceSets.main.allSource.files, ['InstallWekaPackages']).eac
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name
     }
-    runall.configure {
+    runAll.configure {
         dependsOn subtask
     }
 }

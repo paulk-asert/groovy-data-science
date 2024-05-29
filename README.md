@@ -118,7 +118,7 @@ or using a Jupyter/BeakerX notebook.
 | Data manipulation | [Tablesaw], [Datumbox], [Apache Commons CSV], [Tribuo]                                                                                       |
 | Clustering | [Smile], [Apache Commons Math], [Datumbox], [Weka], [Encog], [Elki], [Tribuo]                                                                |
 | Visualization | [XChart], [Tablesaw Plot.ly], [Smile visualization], [JFreeChart]                                                                            |
-| Scaling clustering | [Apache Ignite], [Apache Spark], [Apache Wayang]                                                                                             |
+| Scaling clustering | [Apache Ignite], [Apache Spark], [Apache Wayang], [Apache Flink], [Apache Beam]                                                             |
 | Main aspects/algorithms covered | Reading csv, dataframes, visualization, exploration, KMeans, PCA, hierarchical clustering, centroids                                         |
 | Other aspects/algorithms covered | XMeans, GMeans, cascade KMeans, Cobweb, Learning Vector Quantization (LVQ), GenClustPlusPlus, SelfOrganizingMap (SOM), integration, outliers |
 
@@ -168,7 +168,7 @@ This example looks at using neural networks for digit recognition.
 ![Running Gui.groovy](docs/images/mnist_gui.png)
 
 More details can be found in the [Mnist](subprojects/Mnist/) subproject.
-It contains examples using hand-written neural networks with
+It contains examples using handwritten neural networks with
 [Apache Commons Math] used for matrix calculations
 and multilayer perceptron examples using [Eclipse DeepLearning4J].
 There is also a logistic regression example using [Tribuo].
@@ -285,6 +285,7 @@ Details can be found in the related website: [groovy-constraint-programming/Monk
 [Apache MXNet]: https://mxnet.apache.org/
 [GPars]: http://gpars.org/
 [Apache Beam]: https://beam.apache.org/
+[Apache Flink]: https://flink.apache.org/
 [Apache NLPCraft]: https://nlpcraft.apache.org/
 [Tablesaw Plot.ly]: https://jtablesaw.github.io/tablesaw/userguide/Introduction_to_Plotting.html "Tablesaw Plot.ly support"
 [Smile visualization]: http://haifengl.github.io/visualization.html

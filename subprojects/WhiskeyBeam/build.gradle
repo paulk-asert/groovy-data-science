@@ -22,26 +22,34 @@ dependencies {
     implementation "org.apache.beam:beam-runners-direct-java:$beamVersion"
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
     implementation "org.apache.groovy:groovy:$groovy4Version"
-//    implementation("com.github.haifengl:smile-core:$smileVersion") {
-//        transitive = false
-//    }
-//    implementation("com.github.haifengl:smile-base:$smileVersion") {
-//        transitive = false
-//    }
     implementation "org.apache.commons:commons-csv:$commonsCsvVersion"
     implementation "org.apache.commons:commons-math4-legacy:$commonsMath4Version"
     runtimeOnly "org.slf4j:slf4j-jdk14:$slf4jVersion"
-//    runtimeOnly "org.bytedeco:openblas-platform:$openblasPlatformVersion"
+}
+
+tasks.register('versionInfo') {
+    doLast {
+        File javaHome = new File(System.getProperty('java.home'))
+        logger.lifecycle "Using Java from $javaHome (version ${System.getProperty('java.version')})"
+    }
+}
+
+def runAll = tasks.register('runAll') {
+    group 'Application'
+    dependsOn versionInfo
 }
 
 FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
     if (name.startsWith('Whiskey')) {
-        tasks.register("run$name", JavaExec) {
+        def subtask = tasks.register("run$name", JavaExec) {
             dependsOn compileGroovy
             group 'Application'
             description "Run ${name}.groovy as a JVM application/Groovy script"
             classpath = sourceSets.main.runtimeClasspath
             mainClass = name
+        }
+        runAll.configure {
+            dependsOn subtask
         }
     }
 }

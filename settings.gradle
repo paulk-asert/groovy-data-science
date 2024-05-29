@@ -40,6 +40,7 @@ def subprojects = [
     'LanguageProcessingSparkNLP',
     'Mnist',
     'Whiskey',
+    'WhiskeyBeam',
     'WhiskeyFlink',
     'WhiskeyIgnite',
     'WhiskeySpark',

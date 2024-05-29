@@ -16,7 +16,7 @@
 apply plugin: 'groovy'
 
 repositories {
-//    mavenLocal()
+    mavenLocal() // until next wayang release of ml4all, build latest version and install locally
     mavenCentral()
 //    maven {
 //        url 'https://repository.apache.org/content/repositories/orgapachewayang-1017'

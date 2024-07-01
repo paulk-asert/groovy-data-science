@@ -62,7 +62,9 @@ table = table.addColumns(StringColumn.create('Result', predictions.indexed().col
     actual == predicted ? predicted : "$predicted/$actual".toString() }))
 
 def title = 'Petal width vs length with predicted[/actual] class'
-helper.show(ScatterPlot.create(title, table, 'Petal width', 'Petal length', 'Result'), 'KNNClassification')
+helper.show(ScatterPlot.create(title, table, 'Petal width', 'Petal length', 'Result'), 'KNNClassification_petal')
+title = 'Sepal width vs length with predicted[/actual] class'
+helper.show(ScatterPlot.create(title, table, 'Sepal width', 'Sepal length', 'Result'), 'KNNClassification_sepal')
 
 // use cross validation to get accuracy
 CrossValidation.classification(10, featureCols, classes, (x, y) -> KNN.fit(x, y, 3)).with {

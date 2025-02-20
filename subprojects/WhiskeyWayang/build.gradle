@@ -16,29 +16,30 @@
 apply plugin: 'groovy'
 
 repositories {
-    mavenLocal() // until next wayang release of ml4all, build latest version and install locally
+//    mavenLocal() // until next wayang release of ml4all, build latest version and install locally
     mavenCentral()
 //    maven {
-//        url 'https://repository.apache.org/content/repositories/orgapachewayang-1017'
+//        url 'https://repository.apache.org/content/repositories/orgapachewayang-1025'
 //    }
 }
 
 ext {
-    wayangVersion = '0.7.1'
+    wayangVersion = '1.0.0'
     hadoopVersion = '3.4.0'
     scalaMajorVersion = '2.12'
-    sparkVersion = '3.5.1'
+    sparkVersion = '3.5.4'
 }
 
 dependencies {
     implementation "org.apache.groovy:groovy:$groovy5Version"
-    implementation "org.apache.wayang:wayang-api-scala-java_$scalaMajorVersion:$wayangVersion"
+    implementation "org.apache.wayang:wayang-api-scala-java:$wayangVersion"
     implementation "org.apache.wayang:wayang-java:$wayangVersion"
     implementation("org.apache.wayang:wayang-ml4all:$wayangVersion") {
         exclude(group: 'org.apache.spark', module: 'spark-graphx_2.12')
         exclude(group: 'org.apache.spark', module: 'spark-mllib_2.12')
+        exclude(group: 'org.apache.hadoop')
     }
-    implementation("org.apache.wayang:wayang-spark_$scalaMajorVersion:$wayangVersion") {
+    implementation("org.apache.wayang:wayang-spark:$wayangVersion") {
         transitive = false
     }
     implementation "com.fasterxml.jackson:jackson-bom:$jacksonVersion"
@@ -83,8 +84,8 @@ FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name
-        if (JavaVersion.current().java11Compatible) {
-            jvmArgs ['--add-exports=java.base/sun.nio.ch=ALL-UNNAMED']
+        if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_11)) {
+            jvmArgs '--add-exports=java.base/sun.nio.ch=ALL-UNNAMED'
         }
     }
     runAll.configure {

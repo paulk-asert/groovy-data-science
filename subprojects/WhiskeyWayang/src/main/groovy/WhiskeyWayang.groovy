@@ -57,7 +57,9 @@ class SelectNearestCentroid implements ExtendedSerializableFunction<Point, Point
         var minDistance = Double.POSITIVE_INFINITY
         var nearestCentroidId = -1
         for (c in centroids) {
-            var distance = sqrt(p.pts.indices.collect{ p.pts[it] - c.pts[it] }.sum{ it ** 2 } as double)
+            var distance = sqrt(p.pts.indices
+                .collect{ p.pts[it] - c.pts[it] }
+                .sum{ it ** 2 } as double)
             if (distance < minDistance) {
                 minDistance = distance
                 nearestCentroidId = c.cluster
@@ -90,7 +92,7 @@ var randomPoint = { (0..<dims).collect { r.nextGaussian() + 2 } as double[] }
 var initPts = (1..k).collect(randomPoint)
 
 var context = new WayangContext()
-    .withPlugin(Java.basicPlugin())
+//    .withPlugin(Java.basicPlugin())
     .withPlugin(Spark.basicPlugin())
 var planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
 
@@ -111,7 +113,7 @@ var finalCentroids = initialCentroids.repeat(iterations, currentCentroids ->
 
 println 'Centroids:'
 finalCentroids.each { c ->
-    println "Cluster $c.cluster: ${c.pts.collect { sprintf '%.2f', it }.join(', ')}"
+    println "Cluster $c.cluster: ${c.pts.collect('%.2f'::formatted).join(', ')}"
 }
 
 println()
@@ -120,7 +122,7 @@ var allocations = pointsData.withIndex()
     .collect{ pt, idx -> [allocator.apply(pt).cluster, distilleries[idx]] }
     .groupBy{ cluster, ds -> "Cluster $cluster" }
     .collectValues{ v -> v.collect{ it[1] } }
-    .sort{ e1, e2 -> e1.key <=> e2.key }
+    .sort{ it.key }
 allocations.each{ c, ds -> println "$c (${ds.size()} members): ${ds.join(', ')}" }
 /*
 Centroids:

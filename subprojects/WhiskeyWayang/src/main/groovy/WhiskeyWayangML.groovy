@@ -65,7 +65,7 @@ var plan = new ML4allPlan(
 
 var model = plan.execute('file:' + url, context)
 model.getByKey("centers").eachWithIndex { center, idx ->
-    var pts = center.collect { sprintf '%.2f', it }.join(', ')
+    var pts = center.collect('%.2f'::formatted).join(', ')
     println "Cluster$idx: $pts"
 }
 

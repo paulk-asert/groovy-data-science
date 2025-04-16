@@ -268,7 +268,7 @@ Details can be found in the related website: [groovy-constraint-programming/Monk
 [Elki]: https://elki-project.github.io/
 [Encog]: https://github.com/jeffheaton/encog-java-core
 [Jupyter/BeakerX]: http://beakerx.com/ "Jupyter/BeakerX notebooks"
-[Tablesaw]: https://tablesaw.tech/
+[Tablesaw]: https://jtablesaw.github.io/tablesaw/
 [Tribuo]: https://tribuo.org/
 [Joinery]: https://cardillo.github.io/joinery
 [Apache OpenNLP]: https://opennlp.apache.org/

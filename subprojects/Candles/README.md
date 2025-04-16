@@ -32,7 +32,7 @@ Those interested may wish to look at the original
 
 Groovy code examples can be found in the [src/main/groovy](src/main/groovy) directory.
 
-The example uses the [Tablesaw](https://tablesaw.tech/) dataframe and visualization library.
+The example uses the [Tablesaw](https://jtablesaw.github.io/tablesaw/) dataframe and visualization library.
 Instead of following the lead of the original example which uses a `geom_smooth` plotting
 capability within the used R library, I rolled my own monthly average ratings and plotted that
 along with the daily average ratings for scented:

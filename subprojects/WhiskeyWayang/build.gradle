@@ -24,10 +24,10 @@ repositories {
 }
 
 ext {
-    wayangVersion = '1.0.0'
-    hadoopVersion = '3.4.0'
+    wayangVersion = '1.1.0'
+    hadoopVersion = '3.4.1'
     scalaMajorVersion = '2.12'
-    sparkVersion = '3.5.4'
+    sparkVersion = '3.5.6'
 }
 
 dependencies {

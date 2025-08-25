@@ -73,14 +73,14 @@ tasks.register('versionInfo') {
 }
 
 def runAll = tasks.register('runAll') {
-    group 'Application'
+    group = 'Application'
     dependsOn versionInfo
 }
 
 FileUtil.baseNames(sourceSets.main.allSource.files).each { name ->
     def subtask = tasks.register("run$name", JavaExec) {
         dependsOn compileGroovy
-        group 'Application'
+        group = 'Application'
         description "Run ${name}.groovy as a JVM application/Groovy script"
         classpath = sourceSets.main.runtimeClasspath
         mainClass = name

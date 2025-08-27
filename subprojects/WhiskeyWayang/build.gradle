@@ -48,7 +48,7 @@ dependencies {
         exclude(group: 'org.slf4j', module: '*')
         exclude(group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl')
     }
-    runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
+//    runtimeOnly "org.slf4j:slf4j-simple:$slf4jVersion"
     runtimeOnly 'org.apache.commons:commons-configuration2:2.10.1'
     runtimeOnly 'com.fasterxml.woodstox:woodstox-core:6.6.2'
     runtimeOnly 'com.google.re2j:re2j:1.7'
@@ -67,7 +67,7 @@ tasks.register('versionInfo') {
         if (!JavaVersion.current().isJava8() && !JavaVersion.current().isJava11()) {
             logger.lifecycle "WARNING! Apache Wayang automates selection of the data processing platform."
             logger.lifecycle "WARNING! The current application nominates either a Java or Spark platform."
-            logger.lifecycle "WARNING! The application may fail if Spark is selected and the JDK is not 8 or 11!"
+            logger.lifecycle "WARNING! The application may fail if Spark is selected and the JDK version is not compatible with the Spark version!"
         }
     }
 }

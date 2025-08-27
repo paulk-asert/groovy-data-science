@@ -92,7 +92,7 @@ var randomPoint = { (0..<dims).collect { r.nextGaussian() + 2 } as double[] }
 var initPts = (1..k).collect(randomPoint)
 
 var context = new WayangContext()
-//    .withPlugin(Java.basicPlugin())
+    .withPlugin(Java.basicPlugin()) // comment out this line to force Spark
     .withPlugin(Spark.basicPlugin())
 var planBuilder = new JavaPlanBuilder(context, "KMeans ($url, k=$k, iterations=$iterations)")
 

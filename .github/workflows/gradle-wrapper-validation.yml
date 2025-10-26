@@ -14,12 +14,26 @@
 # limitations under the License.
 
 name: "Validate Gradle Wrapper"
-on: [push, pull_request]
+
+on:
+  push:
+    paths:
+      - 'gradlew'
+      - 'gradlew.bat'
+      - 'gradle/wrapper/'
+  pull_request:
+    paths:
+      - 'gradlew'
+      - 'gradlew.bat'
+      - 'gradle/wrapper/'
+
+permissions:
+  contents: read
 
 jobs:
   validation:
     name: "Validation"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: gradle/wrapper-validation-action@e2c57acffb2c9aa5a8dc6eda2bbae0b6e495bd4c
+      - uses: actions/checkout@v5
+      - uses: gradle/wrapper-validation-action@v3
